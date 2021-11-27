@@ -1,26 +1,54 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <div v-if="!connected">
+      <header />
+      <router-view />
+      <footer />
+    </div>
+
+    <Navigation v-else>
+      <template v-slot:page>
+        <router-view :key="$route.fullPath" />
+      </template>
+    </Navigation>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: arial;
+  background-color: #02070d;
+  font-size: 15px;
 }
 </style>
+
+<script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Navigation from "./components/Navigation";
+export default {
+  name: "Login",
+  data() {
+    return {
+      connected: false,
+    };
+  },
+  components: {
+    header,
+    footer,
+    nav,
+  },
+  beforeMount() {
+    const userStorage = JSON.parse(sessionStorage.getItem("userToken"));
+    if (userStorage != null) {
+      this.connected = true;
+    } else {
+      this.connected = false;
+    }
+  },
+};
+</script>
