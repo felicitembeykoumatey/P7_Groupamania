@@ -1,15 +1,15 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Login from "../views/Login.vue";
-import Signup from "../views/Signup.vue";
-import Activity from "../views/Activity.vue";
-import Post from "../views/EditPost.vue";
-import Comment from "../views/EditComment.vue";
-import AllUser from "../views/AllUser.vue";
-import User from "../views/User.vue";
-import Param from "../views/Param.vue";
+import vue from "vue";
+import vueRouter from "vue-router";
+import login from "../views/login.vue";
+import signup from "../views/signup.vue";
+import activity from "../views/activity.vue";
+import post from "../views/editPost.vue";
+import comment from "../views/editComment.vue";
+import allUser from "../views/allUser.vue";
+import user from "../views/user.vue";
+import param from "../views/param.vue";
 
-Vue.use(VueRouter);
+vue.use(vueRouter);
 
 const routes = [
   {
@@ -18,48 +18,48 @@ const routes = [
     component: Login,
   },
   {
-    path: "/Login",
+    path: "/login",
     name: "Login",
-    component: Login,
+    component: login,
   },
   {
     path: "/Signup",
     name: "Signup",
-    component: Signup,
+    component: signup,
   },
   {
-    path: "/Activity",
-    name: "Activity",
-    component: Activity,
+    path: "/activity",
+    name: "activity",
+    component: activity,
   },
   {
-    path: "/Post/:id",
-    name: "Post",
-    component: Post,
+    path: "/post/:id",
+    name: "post",
+    component: post,
   },
   {
-    path: "/Comment/:id",
-    name: "Comment",
-    component: Comment,
+    path: "/comment/:id",
+    name: "comment",
+    component: comment,
   },
   {
-    path: "/User",
-    name: "AllUser",
-    component: AllUser,
+    path: "/user",
+    name: "allUser",
+    component: allUser,
   },
   {
-    path: "/User/:id",
-    name: "User",
-    component: User,
+    path: "/user/:id",
+    name: "user",
+    component: user,
   },
   {
-    path: "/Parametre/:id",
-    name: "Parametre",
-    component: Param,
+    path: "/parametre/:id",
+    name: "parametre",
+    component: param,
   },
 ];
 
-const router = new VueRouter({
+const router = new vueRouter({
   routes,
   mode: "history",
 });

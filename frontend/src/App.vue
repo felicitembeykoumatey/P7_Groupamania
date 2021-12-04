@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+    </div>
     <div v-if="!connected">
       <header />
       <router-view />
@@ -27,9 +30,10 @@ body {
 </style>
 
 <script>
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Navigation from "./components/Navigation";
+import header from "./components/header";
+import nav from "./components/nav";
+import footer from "./components/footer";
+
 export default {
   name: "Login",
   data() {
