@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-  const CommentModel = sequelize.define(
-    "commentModel",
+  const Comment = sequelize.define(
+    "comment",
     {
       content: {
         type: Sequelize.TEXT,
@@ -16,5 +16,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return CommentModel;
+  return Comment;
 };
