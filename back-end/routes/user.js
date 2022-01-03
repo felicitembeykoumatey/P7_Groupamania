@@ -1,15 +1,14 @@
-const express = require('express');
+//Importation express pour créer le routeur//
+const express = require ('express');
+//Création du routeur//
 const router = express.Router();
+// middeleware limiter //
+const limiter = require('../middleware/limiter');
+// controllers user//
+const userCtrl = require("../controllers/user");
 
-const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
-
-const userCtrl = require('../controllers/user');
-
-router.get('/', auth, userCtrl.getAllUsers);
-router.get('/:id', auth, userCtrl.getOneUserParam);
-router.put('/user/:id', auth, multer, userCtrl.modifyParam);
-router.put('/password/:id', auth, userCtrl.modifyPassword);
-router.delete('/:id', auth, userCtrl.deleteUser);
+//Création des routes  inscription et connexion //
+router.post('/signup', limiter, userCtrl.signup);
+router.post('/login', userCtrl.login);
 
 module.exports = router;

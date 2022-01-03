@@ -1,11 +1,13 @@
   const express = require('express');
+  //Importation du package body-parser
+  const bodyParser = require('body-parser');
 const path = require('path');
 const helmet = require("helmet");
 const userRoutes = require('./routes/user');
-const commentRoutes = require('./routes/comment');
-const paramsRoutes = require('./routes/params');
-const postRoutes = require('./routes/post');
+
 const app = express();
+
+
 app.use(helmet());
 
 app.use((req, res, next) => {
@@ -14,11 +16,12 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-
+// App requiert BodyParser //
+app.use(bodyParser.json()); 
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
-app.use('/api/post', postRoutes);
-app.use('/api/comment', commentRoutes);
-app.use('/api/params', paramsRoutes);
+
+
+
 module.exports = app;  
