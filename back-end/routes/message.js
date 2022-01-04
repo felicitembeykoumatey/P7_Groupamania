@@ -1,8 +1,8 @@
-const express = require ('expresss');
+const express = require ('express');
 const router = express.Router();
 const auth = require ('../middleware/auth');
-const multer = require('../middleware/multer-config');
-const messageCtrl = require('../controllers/message');
+const multer = require ('../middleware/multer-config');
+const messageCtrl = require ('../controllers/message')
 
 // création route
 

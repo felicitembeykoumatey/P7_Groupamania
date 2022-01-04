@@ -1,9 +1,7 @@
-
 //Déclaration constances
 const http = require('http');
 const app = require ('./app');
 const express = require('express');
-
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
