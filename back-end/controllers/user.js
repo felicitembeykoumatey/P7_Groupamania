@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt'); // Récupérer bycrypt
 const passwordValidator = require('password-validator');
 const jwt = require('jsonwebtoken'); // Récupérer de JWT
-const xss = require('xss');
+//const xss = require('xss');
 const dataBase = require('../database');
 const db = require ('../models')
 const User = db.user;
