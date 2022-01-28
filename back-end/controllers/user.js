@@ -3,7 +3,7 @@ const passwordValidator = require('password-validator');
 const jwt = require('jsonwebtoken'); // Récupérer de JWT
 //const xss = require('xss');
 const dataBase = require('../database');
-const db = require ('../models')
+const db = require ('../models/user')
 const User = db.user;
 const schemaPassValid = new passwordValidator();
 
