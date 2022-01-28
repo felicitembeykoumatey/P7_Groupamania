@@ -12,7 +12,7 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000'); // port 3000 ou port défini par l'environnement
+const port = normalizePort(process.env.PORT || '3001'); // port 3000 ou port défini par l'environnement
 app.set('port', port); // Assigner le port à l'application express//
 
 
