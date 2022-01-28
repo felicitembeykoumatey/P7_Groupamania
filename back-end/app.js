@@ -1,7 +1,8 @@
   // Déclarations des constances//
   const express = require('express'); ///Importer express ///
  const app = express(); // création d'une application express//
-const { Sequelize } = require('sequelize');// Récupérer sequelize
+const sequelize = require('./dataBase');
+//const { Sequelize } = require('sequelize');// Récupérer sequelize
   const bodyParser = require('body-parser'); // Récupérer le bodyParser//
 
  const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
