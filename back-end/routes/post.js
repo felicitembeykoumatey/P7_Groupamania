@@ -11,10 +11,10 @@ const postCtrollers = require('../controllers/post');
 // Création des routes POST GET PUT DELETE///
 router.post('/', auth, multer, postCtrollers.createPost);
 router.get('/', auth, postCtrollers.getAllPost);
-router.get('/user/:userId', auth, postCtrl.getAllPostFromOneUser);
-router.get('/:id', auth, postCtrl.getOnePost);
-router.put('/:id', auth, multer, postCtrl.modifyPost);
-router.delete('/:id', auth, postCtrl.deletePost);
+router.get('/user/:userId', auth, postCtrollers.getAllPostFromOneUser);
+router.get('/:id', auth, postCtrollers.getOnePost);
+router.put('/:id', auth, multer, postCtrollers.modifyPost);
+router.delete('/:id', auth, postCtrollers.deletePost);
 
 
 module.exports = router;
