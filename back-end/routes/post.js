@@ -6,7 +6,7 @@ const auth = require('../middleware/auth'); // authentification
 const multer = require("../middleware/multer-config"); // chargé package multer  pour la  gestion des fichiers ( images des différents formats)
 
 //Chargé le fichier controllers 
-const postCtrollers = require('../controllers/post');
+const postCtrollers = require('../controllers/postCtlr');
 
 // Création des routes POST GET PUT DELETE///
 router.post('/', auth, multer, postCtrollers.createPost);

@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 
 // Chargé fichier commentary du dossier controllers
-const commentaryCtrl = require('../controllers/commentary');
+const commentaryCtrl = require('../controllers/commentaryCtlr');
 
 // Création des routes GET POST PUT DELETE
 

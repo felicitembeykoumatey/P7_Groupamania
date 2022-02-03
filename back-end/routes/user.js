@@ -4,10 +4,11 @@ const express = require ('express');
 const router = express.Router();
 //authentification //
 //const auth = require ('../middleware/auth');
-// middeleware limiter //
-const limiter = require ('../middleware/limiter');
+
+const limiter = require ('../middleware/limiter');// middeleware limiter //
 // controllers user//
-const userCtrl = require ('../controllers/user');// Réécupérer le controleur pour "user"
+const userCtrl = require ('../controllers/userCtlr');// Réécupérer le controleur pour "user"
+console.log("userCtrl");
 
 /**ROUTES**/
 //Création des routes  inscription et connexion //

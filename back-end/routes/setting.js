@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
 //Controllers 
-const settingCtrl = require('../controllers/setting');
+const settingCtrl = require('../controllers/settingCtlr');
 
 router.get('/', auth, settingCtrl.getAllUsers);
 router.get('/:id', auth, settingCtrl.getOneUserSetting);

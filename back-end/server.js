@@ -1,6 +1,6 @@
 const http = require('http'); // récupérer le package http de node.js
 const app = require('./app'); // récupérer l'application express
-
+const db = require('./database');
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -16,7 +16,7 @@ const port = normalizePort(process.env.PORT || '3000'); // port 3000 ou port dé
 app.set('port', port); // Assigner le port à l'application express//
 
 
-//** ErrorHandler **//
+// ErrorHandler 
 // Fonction "errorHandler" recherche et gère les différentes erreurs///
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
