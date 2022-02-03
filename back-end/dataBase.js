@@ -18,7 +18,7 @@ const sequelize = new Sequelize(`${process.env.DB_BDD}`, `${process.env.DB_USER}
     host: "localhost",// Par défaut, l'hôte est 'localhost' 
     dialect: "mysql" // base de données mysql
 });    
-
+sequelize.sync()
 const db = {};
 
 
