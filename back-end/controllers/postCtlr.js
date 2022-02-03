@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');// Récupérer de JWT
-const xss = require('xss'); // xss dépendance chargée pour proteger contre les failles , piratages.
-const db = require("../models/post");
-const Post = db.posts;
-const User = db.users;
+const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
+const Post = require("../models/post");
+console.log("Post:"+Post);
+//const Post = db.posts;
+//const User = db.users;
+const db = require('../database');
+
 
 //  Exportation des posts crées.
 exports.createPost = (req, res, next) => {

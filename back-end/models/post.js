@@ -1,6 +1,11 @@
-module.exports = (sequelize, Sequelize) => {
-  const Post = sequelize.define('post', {
-    content: {
+// Inclure Sequelize module.
+const Sequelize = require('sequelize')
+const sequelize = require('../database')
+
+
+const Post = sequelize.define('post', {
+
+  content: {
       type: Sequelize.TEXT,
       allowNull: false
     },
@@ -13,7 +18,9 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     timestamps: false
-  });
-  
-  return Post;
-};
+ 
+});
+
+
+//Exportation de l'utilisateur, en utilisant cette constante
+module.exports = Post

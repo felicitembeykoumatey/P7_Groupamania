@@ -2,10 +2,9 @@ const bcrypt = require('bcrypt'); // Récupérer bycrypt
 const passwordValidator = require('password-validator');
 const jwt = require('jsonwebtoken'); // Récupérer de JWT
 const xss = require('xss');
-const dataBase = require('../database');
+const db = require('../database');
 const User= require ('../models/user');// on a besoin de notre modèle
-    console.log("User:"+User);
-console.log(User);
+ 
 
 const schemaPassValid = new passwordValidator();
 //const maskData = require('maskdata');
@@ -34,13 +33,9 @@ exports.signup = (req, res, next) => {
         sex: xss(req.body.sex),
         roleId : 1
       };
-      console.log("hash");
-      console.log("coucou");
-      console.log(user);
-      // user crée
-      //User.create(user)
-
-        //.then(data => {
+     
+      // Création d'utlisateur
+  
           User.create(user)
           .then((data ) =>  res.status(201).json({ message: 'Utilisateur créé !' }))
 
@@ -51,38 +46,40 @@ exports.signup = (req, res, next) => {
           })
         );
     })
-  //.catch(error => res.status(500).json({ error : 'impossible' }));
   
     .catch(error => res.status(500).json({ message :'impossible de créer votre compte', error : error.message }));
   
 };
 
-
-
-
 //Requête login (se connecter)
-exports.login = (req, res, next) => {
-  db.User.findOne({ email: maskData.maskEmail2(req.body.email)})
+exports.login = (req, res, ) => {
+
+  const loginEmail = xss(req.body.email) 
+  const loginPassword = req.body.password
+  //db.User.findOne({ email: maskdata.maskEmail2(req.body.email)})
+  User.findAll({where:{email: loginEmail}})
     .then(user => {
-      if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+      if (!user) { 
+        return res.status(401).json({ message: 'Utilisateur non trouvé !', error : error.message  });
       }
-      bcrypt.compare(req.body.password, user.password)
+    
+        bcrypt.compare(loginPassword, user[0].password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }
-          res.status(200).json({  // Si comparaison ok, on renvoit un objet JSON contenant //
-            userId: user._id,
-            token: jwt.sign( //Un token - Fonction sign de JsonWebToken//
-              { userId: user._id },  // 1er argument : données à encoder //
-              'RANDOM_TOKEN_SECRET', // 2ème : clé secréte encodage //
+          } res.status(200).json({
+            userId: user[0].id,
+            roleId: user[0].roleId,
+            sex: user[0].sex,
+            image:user[0].image,
+            token: jwt.sign(
+              { userId: user[0].id, roleId: user[0].roleId },
+              'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' }
             )
-            
           });
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error : error.message  }));
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({ error : error.message  }));
 };
