@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken'); // Récupérer de JWT
 const xss = require('xss');
 const dataBase = require('../database');
 const User= require ('../models/user');// on a besoin de notre modèle
-
+    console.log("User:"+User);
 console.log(User);
 
 const schemaPassValid = new passwordValidator();
@@ -28,7 +28,7 @@ exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = {
-        username: xss(req.body.username),
+        username: (req.body.username),
         email: xss(req.body.email),
         password: hash,
         sex: xss(req.body.sex),
@@ -41,13 +41,13 @@ exports.signup = (req, res, next) => {
       //User.create(user)
 
         //.then(data => {
-          User.save()
-          .then(( ) =>  res.status(201).json({ message: 'Utilisateur créé !' }))
+          User.create(user)
+          .then((data ) =>  res.status(201).json({ message: 'Utilisateur créé !' }))
 
-          
+      
         .catch((error) =>
           res.status(400).json({
-            message: "l'adresse mail existe déjà",
+            message: "l'adresse mail existe déjà", error : error.message 
           })
         );
     })
@@ -56,6 +56,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ message :'impossible de créer votre compte', error : error.message }));
   
 };
+
 
 
 
