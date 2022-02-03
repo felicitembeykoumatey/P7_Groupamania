@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Mbeyfeli1990*",
+    "database": "sequelize-groupomania",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Mbeyfeli1990*",
+    "database": "sequelize-groupomania",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Mbeyfeli1990*",
+    "database": "sequelize-groupomania",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
