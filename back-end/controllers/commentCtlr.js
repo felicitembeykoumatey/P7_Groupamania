@@ -1,6 +1,6 @@
 const xss = require('xss');
 const jwt = require('jsonwebtoken');
-const db = require('../models/commentary');
+const db = require('../models/comment');
 const Comment = db.comments;
 
 //Obtenir un seul commentair de l'auteur
