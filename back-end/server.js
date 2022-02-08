@@ -38,7 +38,8 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app); // création du serveur (passage de l'application express au serveur)
+// création du serveur (passage de l'application express au serveur)
+const server = http.createServer(app); 
 
 server.on('error', errorHandler);
 

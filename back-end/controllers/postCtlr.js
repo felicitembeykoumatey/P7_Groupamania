@@ -58,7 +58,7 @@ exports.getAllPost = (req, res, next) => {
     );
 };
 
-// Exportation de la requete get de tous les post d'un utilisateur
+// Exportation de la requête get de tous les post d'un utilisateur
 
 
 exports.getAllPostFromOneUser = (req, res, next) => {
@@ -88,7 +88,7 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     .catch(
       (error) => {
         res.status(400).json({
-          error: error
+          error: error.message
         });
       }
     );
