@@ -8,7 +8,7 @@ const path = require('path'); // Récupèrer l'élément de node.js permettant d
 const helmet = require("helmet"); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
 const userRoutes = require('./routes/user'); //Récupèrer route User.
 const postRoutes = require ('./routes/post'); // Récupèrer route post.
-const commentRoutes = require ('./routes/comment'); // Récupérer route commentaire.
+//const commentRoutes = require ('./routes/comment'); // Récupérer route commentaire.
 
 
 //Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING 
