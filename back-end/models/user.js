@@ -29,7 +29,16 @@ const User = sequelize.define('user', {
   // horodatage valeur date et heure
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
-})
+});
+User.associate  = function (models) {
+  User.hasMany(models.Message,{
+    foreignKey : 'userId',
+    as:'posts',
+  });
+};
+
+  
+
 
 //Exportation de l'utilisateur, en utilisant cette constante
-module.exports = User
+module.exports = User;
