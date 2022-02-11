@@ -2,7 +2,6 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../database')
 
-
 const Post = sequelize.define('post', {
 
   content: {
@@ -21,6 +20,13 @@ const Post = sequelize.define('post', {
  
 });
 
+Post.associate = function(models){
+  Message.belongsTo(models.User, {
+    foreignKey:'userId',
+    as:'user',
+    onDelete: 'CASCADE',
+  });
+}
 
 //Exportation de l'utilisateur, en utilisant cette constante
 module.exports = Post
