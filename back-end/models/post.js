@@ -1,6 +1,10 @@
-module.exports = (sequelize, Sequelize) => {
-  const Post = sequelize.define('post', {
-    content: {
+// Inclure Sequelize module.
+const Sequelize = require('sequelize')
+const sequelize = require('../database')
+
+const Post = sequelize.define('post', {
+
+  content: {
       type: Sequelize.TEXT,
       allowNull: false
     },
@@ -13,7 +17,16 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     timestamps: false
+ 
+});
+
+Post.associate = function(models){
+  Message.belongsTo(models.User, {
+    foreignKey:'userId',
+    as:'user',
+    onDelete: 'CASCADE',
   });
-  
-  return Post;
-};
+}
+
+//Exportation de l'utilisateur, en utilisant cette constante
+module.exports = Post

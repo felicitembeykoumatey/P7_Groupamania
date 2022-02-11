@@ -1,29 +1,36 @@
 const jwt = require('jsonwebtoken');// Récupérer de JWT
-const xss = require('xss'); // xss dépendance chargée pour proteger contre les failles , piratages.
-const db = require("../models/post");
-const Post = db.posts;
-const User = db.users;
+const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
+const Post = require("../models/post");
+//console.log("Post:"+Post);
+//const Post = db.posts;
+//const User = db.users;
+const db = require('../database');
 
+// pour fonctionner avec postman, on a besoin du token créer dans login, est necessaire dans le post pour les autorisatoins
 //  Exportation des posts crées.
-exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.content);
-  
+
+exports.createPost = async (req, res, next) => {
+ 
+//on ne peut pas convertir un string (valeur de "content", sur postman, = "test") en string
+  //const postObject = JSON.parse(req.body.content);
+  const postObject = req.body.content;
+
+if (req.file) {
+    postImages = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  }
   const post = {
-    content: xss(postObject.text),
-    image : "",
+    //content: xss(postObject.text),
+    content: postObject,
+    image :  postImages,
     userId: xss(postObject.userid)
   };
-  
-  if (req.file) {
-    post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  }
   
   // Création post
   Post.create(post)
     .then(data => {
       res.status(201).json({ message: 'Post créé !' }) // response ok
     })
-    .catch(error => res.status(500).json({ error })); // message : gestion d'erreur
+    .catch(error => res.status(500).json({  error : error.message  })); // message : gestion d'erreur
 };
 
 // Exportation requête get de tous les posts
@@ -54,8 +61,8 @@ exports.getAllPost = (req, res, next) => {
     );
 };
 
-// Exportation de la requete get de tous les post d'un utilisateur
 
+// Exportation de la requête get de tous les post d'un utilisateur
 
 exports.getAllPostFromOneUser = (req, res, next) => {
   const id = req.params.userId;
@@ -84,7 +91,7 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     .catch(
       (error) => {
         res.status(400).json({
-          error: error
+          error: error.message
         });
       }
     );
@@ -119,8 +126,6 @@ exports.getOnePost = (req, res, next) => {
 
 
 //  Modification des posts
-
-
 exports.modifyPost = (req, res, next) => {
   //init info
   const token = req.headers.authorization.split(' ')[1];
@@ -130,12 +135,12 @@ exports.modifyPost = (req, res, next) => {
   const post = {};
   
   if (req.body.content) {
-    const postObject = JSON.parse(req.body.content);
+    const postObject = req.body.content;
     post.content = xss(postObject.text)
   }
   
   if (req.file) {
-    post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    postImage = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   }
   
   
