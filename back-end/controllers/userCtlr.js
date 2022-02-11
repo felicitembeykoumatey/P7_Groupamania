@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt'); // Récupérer bycrypt
 const passwordValidator = require('password-validator');
 const jwt = require('jsonwebtoken'); // Récupérer de JWT
 const xss = require('xss');
-const db = require('../database');
+//const db = require('../database'); 
 const User= require ('../models/user');// on a besoin de notre modèle
  
 
