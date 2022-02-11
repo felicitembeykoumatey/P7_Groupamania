@@ -28,7 +28,7 @@ app.use(express.json());
 // CHEMIN D'ACCES DES ENDPOINTS 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // cette requête sert le dossier statique /image dont l'adresse est déterminé par la méthode path.join (avec __dirname = nom du dossier dans lequel on va se trouver auquel on va ajouter "images"
 app.use('/', userRoutes); //CHEMIN ROUTE UTILISATEUR
-app.use('/api/auth', postRoutes); // CHEMIN ROUTE POST
+app.use('/api/post', postRoutes); // CHEMIN ROUTE POST
 
 
 // Exporter le server.
