@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt'); // Récupérer bycrypt
 const passwordValidator = require('password-validator');
 const jwt = require('jsonwebtoken'); // Récupérer de JWT
 const xss = require('xss');
-//const db = require('../database'); 
+//const db = require('../database');
 const User= require ('../models/user');// on a besoin de notre modèle
- 
+
 
 const schemaPassValid = new passwordValidator();
 //const maskData = require('maskdata');
@@ -33,16 +33,16 @@ exports.signup = (req, res, next) => {
         sex: xss(req.body.sex),
         roleId : 1
       };
-     
+      
       // Création d'utlisateur
-  
-          User.create(user)
-          .then((data ) =>  res.status(201).json({ message: 'Utilisateur créé !' }))
-
+      
+      User.create(user)
+        .then((data ) =>  res.status(201).json({ message: 'Utilisateur créé !' }))
+      
       
         .catch((error) =>
           res.status(400).json({
-            message: "l'adresse mail existe déjà", error : error.message 
+            message: "l'adresse mail existe déjà", error : error.message
           })
         );
     })
@@ -53,17 +53,17 @@ exports.signup = (req, res, next) => {
 
 //Requête login (se connecter)
 exports.login = (req, res, ) => {
-
-  const loginEmail = xss(req.body.email) 
+  
+  const loginEmail = xss(req.body.email)
   const loginPassword = req.body.password
-  //db.User.findOne({ email: maskdata.maskEmail2(req.body.email)})
+
   User.findAll({where:{email: loginEmail}})
     .then(user => {
-      if (!user) { 
+      if (!user) {
         return res.status(401).json({ message: 'Utilisateur non trouvé !', error : error.message  });
       }
-    
-        bcrypt.compare(loginPassword, user[0].password)
+      
+      bcrypt.compare(loginPassword, user[0].password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
