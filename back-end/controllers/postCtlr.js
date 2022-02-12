@@ -1,21 +1,17 @@
 const jwt = require('jsonwebtoken');// Récupérer de JWT
 const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
-const Post = require("../models/post");
-//console.log("Post:"+Post);
-//const Post = db.posts;
-//const User = db.users;
+const Post = require("../models/post");//Schema post.
 const db = require('../database');
 
 // pour fonctionner avec postman, on a besoin du token créer dans login, est necessaire dans le post pour les autorisatoins
 //  Exportation des posts crées.
-
 exports.createPost = async (req, res, next) => {
- 
-//on ne peut pas convertir un string (valeur de "content", sur postman, = "test") en string
+  
+  //Attention => on ne peut pas convertir un string (valeur de "content", sur postman, = "test") en string
   //const postObject = JSON.parse(req.body.content);
   const postObject = req.body.content;
-
-if (req.file) {
+  
+  if (req.file) {
     postImages = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   }
   const post = {
@@ -28,7 +24,7 @@ if (req.file) {
   // Création post
   Post.create(post)
     .then(data => {
-      res.status(201).json({ message: 'Post créé !' }) // response ok
+      res.status(201).json({ message: 'Post créé !' }) // reponse ok !
     })
     .catch(error => res.status(500).json({  error : error.message  })); // message : gestion d'erreur
 };
@@ -38,15 +34,15 @@ exports.getAllPost = (req, res, next) => {
   Post.findAll({
     include: [
       {
-        model : Comment,
-        as: 'comments',
+        model :Post,
+        as: 'posts',
         include : [ "user"]
       },
       "user"
     ],
     order: [
       ['date', 'DESC'],
-      ['comments','date', 'ASC']
+      ['posts','date', 'ASC']
     ]
   })
     .then((posts) => {
@@ -55,12 +51,11 @@ exports.getAllPost = (req, res, next) => {
     .catch(
       (error) => {
         res.status(400).json({
-          error: error
+         error : error.message 
         });
       }
     );
 };
-
 
 // Exportation de la requête get de tous les post d'un utilisateur
 
@@ -73,8 +68,8 @@ exports.getAllPostFromOneUser = (req, res, next) => {
         as: 'posts',
         include: [
           {
-            model : Comment,
-            as: 'comments',
+            model : Post,
+            as: 'posts',
             include : [ "user"]
           },
         ],
@@ -82,7 +77,7 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     ],
     order: [
       ['posts', 'date', 'DESC'],
-      ['posts', 'comments','date', 'ASC']
+      ['posts', 'posts','date', 'ASC']
     ]
   })
     .then((post) => {
@@ -97,20 +92,20 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     );
 };
 
-//Exportation de laa requête get d'un post//
+//Exportation de la requête get d'un post//
 // utilisation methode sequelize " findByPk " pour obtenir une seule entrée de la table à l'aide de la clé primaire fournie
 exports.getOnePost = (req, res, next) => {
   const id = req.params.id;
   Post.findByPk(id, {
     include: [
       {
-        model : Comment,
-        as: 'comments',
+        model : Post,
+        as: 'Posts',
         include : [ "user"]
       },
       "user"
     ],
-    order: [['comments','date', 'ASC']]
+    order: [['Posts','date', 'ASC']]
   })
     .then((post) => {
       res.status(200).json(post);
@@ -118,12 +113,11 @@ exports.getOnePost = (req, res, next) => {
     .catch(
       (error) => {
         res.status(400).json({
-          error: error
+          error : error.message 
         });
       }
     );
 };
-
 
 //  Modification des posts
 exports.modifyPost = (req, res, next) => {
@@ -142,7 +136,6 @@ exports.modifyPost = (req, res, next) => {
   if (req.file) {
     postImage = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   }
-  
   
   Post.findByPk(id, { include: "user" })
     .then((oldpost) => {
@@ -202,7 +195,6 @@ exports.modifyPost = (req, res, next) => {
       }
     );
 };
-
 
 // Suppressions des posts
 
