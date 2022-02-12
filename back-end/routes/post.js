@@ -10,8 +10,10 @@ const postCtrollers = require('../controllers/postCtlr');//Chargé le fichier co
 
 //Création d'un post
 router.post('/', auth, multer, postCtrollers.createPost);
+
 //Récupérer Tous les posts 
 router.get('/', auth, postCtrollers.getAllPost);
+
 //Récupérer un post par id d'un utilisateur
 router.get('/:id', auth, postCtrollers.getOnePost);
 //Récupérer Tous les posts d'un utilisateur
