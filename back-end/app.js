@@ -2,12 +2,12 @@
 const express = require('express'); ///Importer express.
 const app = express(); // Création d'une application express.
 
-const bodyParser = require('body-parser'); // Récupérer le bodyParser.
-
+//const bodyParser = require('body-parser'); // Récupérer le bodyParser.
 const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
 const helmet = require("helmet"); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
 const userRoutes = require('./routes/user'); //Récupèrer route User.
 const postRoutes = require ('./routes/post'); // Récupèrer route post.
+
 //const commentRoutes = require ('./routes/comment'); // Récupérer route commentaire.
 
 
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 //HELMET protége notre application de certaines vulnaribilités.
 app.use(helmet());
 // Body Parser 
-app.use(bodyParser.json()); // .json méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON
+//app.use(bodyParser.json()); // .json méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON
 app.use(express.json());
 
 // CHEMIN D'ACCES DES ENDPOINTS 
