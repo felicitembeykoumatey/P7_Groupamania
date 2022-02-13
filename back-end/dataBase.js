@@ -18,10 +18,13 @@ const sequelize = new Sequelize(`${process.env.DB_BDD}`, `${process.env.DB_USER}
 });    
 sequelize.sync() //ajouter  "sequelize.sync" qui me permet de créer une table.
 
+
+
+
 // Vérification de la connexion à database grâce à la fonction authenticate.
 sequelize.authenticate()
   .then(() => console.log('La connexion a été établie avec succès.'))
   .catch(error => console.log({ message :'impossible de se connecter', error : error.message }));// afficher message d'erreur.
 
 
-  module.exports = sequelize;
+  module.exports = sequelize; // on exporte pour utiliser notre connexion depuis les autres fichiers.
