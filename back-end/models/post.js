@@ -29,4 +29,4 @@ Post.associate = function(models){
 }
 
 //Exportation de l'utilisateur, en utilisant cette constante
-module.exports = Post
+module.exports = Post;

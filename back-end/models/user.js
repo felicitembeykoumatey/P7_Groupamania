@@ -2,8 +2,9 @@
 const Sequelize = require('sequelize')
 // Importation de l'objet séquentiel,
 // connexion à la base de données géré par Sequelize.
-const sequelize = require('../database')
 
+const sequelize = require('../database')
+const posts = require("./post");
 const User = sequelize.define('user', {
   
   username: {
@@ -30,14 +31,12 @@ const User = sequelize.define('user', {
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 });
-User.associate  = function (models) {
-  User.hasMany(models.Message,{
-    foreignKey : 'userId',
-    as:'posts',
-  });
-};
+  User.hasMany(posts,{
+   foreignKey : 'userId',
+   as:'posts',
+  })
 
-  
+
 
 
 //Exportation de l'utilisateur, en utilisant cette constante
