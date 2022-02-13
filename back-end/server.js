@@ -1,52 +1,15 @@
 const http = require('http'); // récupérer le package http de node.js
 const app = require('./app'); // récupérer l'application express
-const db = require('./database');
-const normalizePort = val => {
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
-  return false;
-};
-const port = normalizePort(process.env.PORT || '3000'); // port 3000 ou port défini par l'environnement
-app.set('port', port); // Assigner le port à l'application express//
-
-
-// ErrorHandler 
-// Fonction "errorHandler" recherche et gère les différentes erreurs///
-const errorHandler = error => {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
- const address = server.address();
- const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges.');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use.');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-};
+const db = require('./database'); // Charger le fichier database.
 
 // création du serveur (passage de l'application express au serveur)
-const server = http.createServer(app); 
+const server = http.createServer(app);
 
-server.on('error', errorHandler);
 
-server.on('listening', () => {
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  console.log('Listening on ' + bind);
-});
+// configuration du serveur sur le port (3000).
+server.listen(process.env.PORT || 3000); 
 
-server.listen(port); // configuration du serveur sur le port (3000)
+//REMARQUE : Pas besoin d'installer et charger le package normalize-port. 
+//Je n'ai pas besoin de cette fonction normalizePort car je fournie moi même  le port à la variable d'environnement.
+//Le port sera toujours un nombre.Alors que cette fonction exécute parseInt qui convertit essentiellement la valeur en entier, si possible
+// Elle vérifie si la valeur n'est pas un nombre et si c'est une valeur de port valide.
