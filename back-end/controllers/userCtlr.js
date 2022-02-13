@@ -71,7 +71,7 @@ exports.login = (req, res, ) => {
             userId: user[0].id,
             roleId: user[0].roleId,
             sex: user[0].sex,
-            image:user[0].image,
+            //image:user[0].image,
             token: jwt.sign(
               { userId: user[0].id, roleId: user[0].roleId },
               'RANDOM_TOKEN_SECRET',
