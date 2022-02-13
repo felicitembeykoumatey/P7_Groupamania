@@ -24,17 +24,16 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING(1),
     allowNull: false
   },
-  myDate: { type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW },
   
   // horodatage valeur date et heure
-  createdAt: Sequelize.DATE,
+  date: { type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW },
   updatedAt: Sequelize.DATE,
 });
-  User.hasMany(posts,{
-   foreignKey : 'userId',
-   as:'posts',
-  })
+User.hasMany(posts,{
+  foreignKey : 'userId',
+  as:'posts',
+})
 
 
 
