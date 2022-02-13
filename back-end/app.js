@@ -2,7 +2,28 @@
 const express = require('express'); ///Importer express.
 const app = express(); // Création d'une application express.
 const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
-const helmet = require("helmet"); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
+const helmet = require('helmet'); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
+const multer = require('multer'); //Charger multer en utilisant la méthode require().
+
+const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk avec la methode diskStorage()
+    destination: (req, file, cb) =>{
+        cb(null, "./images");
+    },
+    filename:(req, file, cb) => {
+        cb(null, Date.now()+ '--'+file.originalname);
+    },
+})
+const upload = multer({storage: fileStorageEngine});
+app.post("/single", upload.single ("image"), (req, res) => { 
+    console.log(req.file);
+    res.send("Téléchargement succès")
+})
+
+app.post("/multiple", upload.array("images", 3), (req, res) => {
+  console.log(req.files);
+  res.send("Tous les fichiers ont été téléchargés avec succès");
+});
+
 
 //Charger des routes
 const userRoutes = require('./routes/user'); //Récupèrer route user.
@@ -22,7 +43,7 @@ app.use(helmet());
 app.use(express.json());
 
 // CHEMIN D'ACCES DES ENDPOINTS 
-app.use('/images', express.static(path.join(__dirname, 'images'))); // cette requête sert le dossier statique /image dont l'adresse est déterminé par la méthode path.join (avec __dirname = nom du dossier dans lequel on va se trouver auquel on va ajouter "images"
+app.use('/images', express.static(path.join(__dirname, 'images'))); // cette requête sert le dossier statique et  l'adresse est déterminée par la méthode path.join (avec __dirname = nom du dossier dans lequel on va se trouver, auquel on va ajouter "images"
 app.use('/', userRoutes); //CHEMIN ROUTE UTILISATEUR
 app.use('/api/post', postRoutes); // CHEMIN ROUTE POST
 
