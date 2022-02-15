@@ -1,7 +1,7 @@
 <template> 
   <div id="app">
     <img id="logo" alt="Groupomania logo" src="./assets/logo.png">
-    <HelloWorld msg="Bienvenu(e) sur le réseau social"/>
+    <HelloWorld msg="Bienvenu(e) sur votre réseau social d'entreprise !"/>
   </div>
 </template>
 
