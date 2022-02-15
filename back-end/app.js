@@ -3,6 +3,7 @@ const express = require('express'); ///Importer express.
 const app = express(); // Création d'une application express.
 const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
 const helmet = require('helmet'); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
+
 const multer = require('multer'); //Charger multer en utilisant la méthode require().
 
 const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk avec la methode diskStorage()
@@ -10,17 +11,17 @@ const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk ave
         cb(null, "./images");
     },
     filename:(req, file, cb) => {
-        cb(null, Date.now()+ '--'+file.originalname);
+        cb(null, Date.now()+ '--'+ file.originalname);
     },
 })
 const upload = multer({storage: fileStorageEngine});
 app.post("/single", upload.single ("image"), (req, res) => { 
-    console.log(req.file);
+   
     res.send("Téléchargement succès")
 })
 
 app.post("/multiple", upload.array("images", 3), (req, res) => {
-  console.log(req.files);
+ 
   res.send("Tous les fichiers ont été téléchargés avec succès");
 });
 

@@ -21,7 +21,7 @@ const Post = sequelize.define('post', {
 });
 
 Post.associate = function(models){
-  Message.belongsTo(models.User, {
+  Post.belongsTo(models.User, {
     foreignKey:'userId',
     as:'user',
     onDelete: 'CASCADE',
