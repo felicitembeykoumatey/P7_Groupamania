@@ -3,6 +3,11 @@
     <img id="logo" alt="Groupomania logo" src="./assets/logo.png">
     <HelloWorld msg="Bienvenu(e) sur votre réseau social d'entreprise !"/>
   </div>
+  <nav> 
+  <router-link to ="/">S'inscrire</router-link>
+  
+  <router-link to ="/">Se connecter</router-link>
+  </nav>
 </template>
 
 <script>
@@ -22,7 +27,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #5346c7;
   margin-top: 60px;
 }
 #logo{

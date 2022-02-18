@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+// Importation router 
 
-createApp(App).mount('#app')
+import router from './router';
+createApp(App).use(router).mount('#app') // On branche notre routeur aevc APP.use(router)
