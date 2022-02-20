@@ -3,7 +3,6 @@ const express = require('express'); ///Importer express.
 const app = express(); // Création d'une application express.
 const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
 const helmet = require('helmet'); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
-
 const multer = require('multer'); //Charger multer en utilisant la méthode require().
 
 const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk avec la methode diskStorage()
