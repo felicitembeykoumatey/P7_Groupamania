@@ -7,22 +7,38 @@ const app = require("../app");
 const dotenv = require("dotenv");
 const result = dotenv.config(); // Récupérer variables d'environnement.
 
-const  { sequelize }  = require('../database'); // importation sequelize database
+const  { sequelize }  = require('../models/database'); // importation sequelize database
 
-const db = require ('../models/post'); // Chargé fichier models post
+const Post = require ('../models/post'); // Chargé fichier models post
 
 // Création Post
 exports.createPost = (req, res, next) => {
-  const postObject = (req.body.post);
+  //const postObject = (req.body.post);
   // postObject._id;
-  const post = new Post ({
-    ...postObject,
+  console.log("req.body")
+  console.log(req.body)
+  console.log(req.body.title)
+  const post = {
+    title: req.body.title,
+    content: req.body.content,
+    imageUrl: req.file ?`${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null,
+    user_id: req.body.userId
+
+   /* ...postObject,
+    user_id: xss(postObject.userid),
     content : xss(postObject.text),
-    image: `${req.protocol}://${req.get("host")}/images/${
+    image: `${req.protocol}://${req.get("host")}/images/${ 
       req.file.filename
     }`,
-  });
+  };  
   post.save()
     .then(() => res.status(201).json ({message:"Post enregistré!"}))
-    .catch((error) => res.status(400).json({error: error.message}));
+    .catch((error) => res.status(400).json({error: error.message}));*/
+
+
 };
+console.log(post)
+Post.create(post)
+.then(() => res.status(201).json ({message:"Post crée!"}))
+    .catch((error) => res.status(400).json({error: error.message}))
+}

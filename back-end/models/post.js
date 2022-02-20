@@ -1,6 +1,6 @@
 // Inclure Sequelize module.
 const Sequelize = require('sequelize')
-const sequelize = require('../database')
+const sequelize = require('./database')
 
 const Post = sequelize.define('post', {
 
@@ -8,8 +8,8 @@ const Post = sequelize.define('post', {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    image: {
-      type: Sequelize.STRING(191)
+    imageUrl: {
+      type: Sequelize.TEXT
     },
     date: {
       type: Sequelize.DATE,
@@ -20,13 +20,13 @@ const Post = sequelize.define('post', {
  
 });
 
-Post.associate = function(models){
+/*/Post.associate = function(models){
   Post.belongsTo(models.User, {
     foreignKey:'userId',
     as:'user',
     onDelete: 'CASCADE',
   });
-}
+}*/
 
 //Exportation de l'utilisateur, en utilisant cette constante
 module.exports = Post;

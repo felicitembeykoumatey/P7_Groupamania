@@ -6,7 +6,6 @@ const Sequelize = require("sequelize"); //Récupérer sequelize.
 // Importation pour utilisation des variables d'environnements.
 const dotenv = require("dotenv");
 const result = dotenv.config(); // Récupérer variables d'environnement.
-
 const path = require("path"); // Permettre de charger différents fichiers dans différents dossiers.
 
  ////Connecter l'API à ma base des données => Création d'un nouvel objet sequelize.
@@ -17,7 +16,6 @@ const sequelize = new Sequelize(`${process.env.DB_BDD}`, `${process.env.DB_USER}
     dialect: "mysql" // base de données mysql.
 });    
 sequelize.sync() //ajouter  "sequelize.sync" qui me permet de créer une table.
-
 
 
 
