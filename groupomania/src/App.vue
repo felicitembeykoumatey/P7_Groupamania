@@ -1,7 +1,7 @@
 <template> 
   <div id="app">
     <img id="logo" alt="Groupomania logo" src="./assets/logo.png">
-    <HelloWorld msg="Bienvenu(e) sur votre réseau social d'entreprise !"/>
+   
   </div>
   <nav> 
   <router-link to ="/">S'inscrire</router-link>
@@ -10,16 +10,7 @@
   </nav>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
 <style>
 #app {
@@ -27,10 +18,16 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #5346c7;
+  color: #4a1c93;
   margin-top: 60px;
 }
 #logo{
   width:190px;
+}
+a{
+  text-decoration: none; 
+  color:   #0510bf;
+   font-weight: bold;
+ font-size: medium;
 }
 </style>

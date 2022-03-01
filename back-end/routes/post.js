@@ -9,6 +9,9 @@ const postCtrollers = require('../controllers/postCtlr');//Chargé le fichier co
 // Création des routes  GET POST PUT DELETE
 
 //Création d'un post (text, image, file.txt)
-router.post('/', auth, multer, postCtrollers.createPost);
-
+router.post('/post', auth, multer, postCtrollers.create);
+router.get('/', auth, postCtrollers.findAllPost);
+router.get('/:id', auth, postCtrollers.findAllPostFromOneUser);
+router.put('/:id', auth, multer, postCtrollers.modifyPost);
+router.delete('/:id', auth, postCtrollers.deletePost);
 module.exports = router;

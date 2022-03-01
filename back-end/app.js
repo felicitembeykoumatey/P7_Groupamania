@@ -28,6 +28,7 @@ app.post("/multiple", upload.array("images", 3), (req, res) => {
 //Charger des routes
 const userRoutes = require('./routes/user'); //Récupèrer route user.
 const postRoutes = require ('./routes/post'); // Récupèrer route post.
+const commentRoutes = require('./routes/comment'); // Recupérer route comment.
 
 //Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING 
 app.use((req, res, next) => {
@@ -45,7 +46,8 @@ app.use(express.json());
 // CHEMIN D'ACCES DES ENDPOINTS 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // cette requête sert le dossier statique et  l'adresse est déterminée par la méthode path.join (avec __dirname = nom du dossier dans lequel on va se trouver, auquel on va ajouter "images"
 app.use('/', userRoutes); //CHEMIN ROUTE UTILISATEUR
-app.use('/api/post', postRoutes); // CHEMIN ROUTE POST
+app.use('/', commentRoutes); // CHEMIN ROUTE COMMENT
+app.use('/', postRoutes); // CHEMIN ROUTE POST
 
 
 // Exporter l'application express.

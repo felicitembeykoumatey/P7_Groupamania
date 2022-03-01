@@ -5,13 +5,13 @@ const routes = [
   {
     name: Signup,
     path:'/Signup',
-    component: Signup,
+    component: Signup
     
   },
   {
     name: Login,
     path:'/Login',
-    component: Login,
+    component: Login
   }
 ];
 
