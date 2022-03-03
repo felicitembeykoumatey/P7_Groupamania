@@ -2,24 +2,24 @@
   <v-app>
     <v-content>
       <v-main>
-        <headerTop></headerTop>
-         <cartePost></cartePost>
-        <footerBottom></footerBottom>
+        <HeaderPage></HeaderPage>
+         <CartePost></CartePost>
+        <FooterPage></FooterPage>
       </v-main>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import headerTop from './components/headerTop.vue'
-import footerBottom from './components/footerBottom.vue'
-import cartePost from './components/cartePost.vue'
+import HeaderPage from './components/HeaderPage.vue'
+import FooterPage from './components/FooterPage.vue'
+import CartePost from './components/CartePost.vue'
 export default{
   name:'app',
   components: {
-    'headerTop' : headerTop,
-    'footerBottom': footerBottom,
-    'cartePost':cartePost
+    'HeaderPage' : HeaderPage,
+    'FooterPage': FooterPage,
+    'CartePost':CartePost
   },
 }
 

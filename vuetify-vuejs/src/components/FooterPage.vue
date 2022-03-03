@@ -39,6 +39,6 @@
 
 <script>
   export default {
-    name: "footerBottom",
+    name: "FooterPage",
   };
 </script>

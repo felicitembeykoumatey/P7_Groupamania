@@ -47,6 +47,6 @@
 </template>
 <script>
   export default {
-    name: "cartePost",
+    name: "CartePost",
   };
 </script>
