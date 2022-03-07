@@ -31,11 +31,11 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 //db.users = require("./user")(sequelize,Sequelize); //faire comme pour ./post (avec module.exports)
-db.users = require("./user")(sequelize,Sequelize);
-db.posts = require("./post")(sequelize,Sequelize);
-db.comments = require("./comment")(sequelize,Sequelize);
-db.likes = require("./like")(sequelize,Sequelize); 
-db.categories = require("./categorie")(sequelize,Sequelize); 
+db.users = require("./users")(sequelize,Sequelize);
+db.posts = require("./posts")(sequelize,Sequelize);
+db.comments = require("./comments")(sequelize,Sequelize);
+db.likes = require("./likes")(sequelize,Sequelize); 
+db.categories = require("./categories")(sequelize,Sequelize); 
 
 //ASSOCIATION TABLES 
 
@@ -72,7 +72,8 @@ db.categories.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });// Si on s
     foreignKey: 'categories_idcategories',
    as: 'categorie',
    });
-//Table comment et user
+
+//Table comment et user 
 db.users.hasMany(db.comments, { as: "comments", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 // un utilisateur a plusieurs commentaires
  db.comments.belongsTo(db.users, { //Commentaire a un utilisateur

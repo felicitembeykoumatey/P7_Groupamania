@@ -26,9 +26,9 @@ app.post("/multiple", upload.array("images", 3), (req, res) => {
 
 
 //Charger des routes
-const userRoutes = require('./routes/user'); //Récupèrer route user.
-const postRoutes = require ('./routes/post'); // Récupèrer route post.
-const commentRoutes = require('./routes/comment'); // Recupérer route comment.
+const userRoutes = require('./routes/users'); //Récupèrer route user.
+const postRoutes = require ('./routes/posts'); // Récupèrer route post.
+const commentRoutes = require('./routes/comments'); // Recupérer route comment.
 
 //Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING 
 app.use((req, res, next) => {
