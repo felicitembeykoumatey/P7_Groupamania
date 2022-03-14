@@ -4,7 +4,6 @@ const db = require('../models/database');
 const Comment = db.comments;
 
 //Créer un commentaire
-
 exports.create =  (req, res,next) =>{
     const comment = {
         userId : req.body.userId,

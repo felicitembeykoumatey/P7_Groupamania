@@ -4,7 +4,7 @@ const app = express(); // Création d'une application express.
 const path = require('path'); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
 const helmet = require('helmet'); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
 const multer = require('multer'); //Charger multer en utilisant la méthode require().
-
+const auth = require('./middleware/auth'); // authentification
 const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk avec la methode diskStorage()
     destination: (req, file, cb) =>{
         cb(null, "./images");
@@ -29,7 +29,7 @@ app.post("/multiple", upload.array("images", 3), (req, res) => {
 const userRoutes = require('./routes/users'); //Récupèrer route user.
 const postRoutes = require ('./routes/posts'); // Récupèrer route post.
 const commentRoutes = require('./routes/comments'); // Recupérer route comment.
-
+const likeRoutes = require('./routes/likes'); //Recupérer route like.
 //Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');//droit d'accéder à notre api = tout le monde grâce à ce symbole 
@@ -48,7 +48,7 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // cette req
 app.use('/', userRoutes); //CHEMIN ROUTE UTILISATEUR
 app.use('/', commentRoutes); // CHEMIN ROUTE COMMENT
 app.use('/', postRoutes); // CHEMIN ROUTE POST
-
+app.use('/api/likes', auth, likeRoutes); // CHEMIN ROUTE LIKE
 
 // Exporter l'application express.
 module.exports = app;  // export de l'application express (pour le serveur node.js).

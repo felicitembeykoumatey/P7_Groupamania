@@ -1,0 +1,148 @@
+/*Corps de la page*/
+html {
+  min-width: auto;
+}
+body{
+  background-color: #66b4ff ;
+  font-family: "Roboto", sans-serif;
+}
+input[type=text], input[type=password] {
+   display: inline-block;
+    width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+} 
+
+button {
+  background-color: #04AA6D;
+    width: 100%;
+  color: #FFFF;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+
+} 
+
+button:hover {
+  opacity: 0.8;
+} 
+
+form,
+.content{
+   display: block;
+   width: 25%;
+   margin: 10px 10px 15px 10px;
+  border: 3px solid #f1f1f1;
+}
+
+
+img.avatar {
+  width: 50%;
+  border-radius: 50%;
+} 
+
+.content{
+  background-color:#FFFF;
+}
+.logo{
+  display:flex;
+  width: 10%;
+  padding: 2px;
+  
+}
+
+.title-login{
+  color:#000;
+  margin: 10px 12px 15px 10px; 
+  padding: 10px 12px 12px 10px; 
+}
+.wrapper{
+  display: flex;
+  justify-content: center;
+
+}
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+} 
+
+.container {
+  padding: 16px;
+} 
+
+.title-page{
+  margin: 10px 12px 10px 15px;
+  padding: 10px 15px 15px 14px;
+  font-size: large; 
+  text-align: center;
+
+}
+span .pass-link{
+   
+  float: right;
+  padding-top: 16px;
+
+}
+.signup-link{
+  margin: 5px 0 10px 15px;
+}
+
+
+
+/*Pieds de la page*/
+
+
+.copyright{
+ display:flex;
+  width: 40%;
+ 
+}
+
+
+/*médias quéries*/
+/*Mobile*/
+
+@media screen and (min-width:375px) {
+
+  form {
+  width: 90%;
+}
+/*Pieds de la page*/
+
+.copyright{
+
+  width: 98%;
+ 
+}
+}
+/*Tablette*/
+@media screen and (min-width: 768px) {
+  form {
+  width: 60%;
+}
+.signup-box{
+  height: 620px;
+margin: auto;
+background-color: #ffff;
+border-radius: 3px;
+}
+}
+
+/*Desktops*/
+@media screen and (min-width: 992px) {
+
+  form {
+  width: 45%;
+}
+}
+
+@media screen and (min-width:1440px) {
+
+  form {
+  width: 40%;
+}
+}
+

@@ -1,17 +1,12 @@
+<!--HTML-->
 <template> 
   <div id="app">
-    <img id="logo" alt="Groupomania logo" src="./assets/logo.png">
-   
+    <img src="./assets/icon-left-font-monochrome-black.svg" id="logo" alt="Groupomania logo" >
   </div>
-  <nav> 
-  <router-link to ="/">S'inscrire</router-link>
-  
-  <router-link to ="/">Se connecter</router-link>
-  </nav>
 </template>
 
 
-
+<!--css-->
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -22,7 +17,9 @@
   margin-top: 60px;
 }
 #logo{
-  width:190px;
+ display:flex;
+  width: 10%;
+  padding: 2px;
 }
 a{
   text-decoration: none; 
@@ -31,3 +28,4 @@ a{
  font-size: medium;
 }
 </style>
+

@@ -1,16 +1,9 @@
-  <!--Script => Javascript-->
-<script>
-export default {
-    name: "Header",
-}
-</script>
-
-  <!--Template => HTML-->
+ <!--HTML-->
 <template>
     <header>
         <nav>
             <div>
-                <img src="../assets/logo.png"> 
+                <img src="../assets/icon-left-font-monochrome-black.svg"> 
                 <h1>Groupomania, réseau social d'entreprise</h1>
             </div>
             <div id="liens">
@@ -21,9 +14,9 @@ export default {
     </header>
 </template>
 
-  <!--Styles => CSS-->
+  <!--CSS-->
 
-  <style scoped lang="scss">
+  <style scoped lang="css">
 
 header{
     padding: 30px;
@@ -51,7 +44,7 @@ h1{
     color:#0715de;
 }
 
-#lien {
+#liens {
     text-align: right;
 }
 
@@ -63,3 +56,10 @@ h1{
 
 
   </style>
+
+    <!--Javascript-->
+<script>
+export default {
+    name: "Header",
+}
+</script>

@@ -6,9 +6,9 @@ const sequelize = require('./database')
 module.exports = (sequelize, Sequelize) =>{
   const Like = sequelize.define('like', {
    }, {
-      freezeTableName: true,
-      timestamps: true,
-      updatedAt: false,
+     idUser: sequelize.INTEGER,
+     idPost: sequelize.INTEGER,
+     likes:sequelize.INTEGER
     });
   return Like;
 };

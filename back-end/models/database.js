@@ -50,8 +50,9 @@ db.users.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });  // un utilisa
   
 
 //Tables intermédiaires likes 
-db.users.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 // un utilisateur a plusieurs likes
+db.users.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
+
  db.likes.belongsTo(db.users, { // like a un utilisateur
     foreignKey: 'users_id',
     as: 'user',
@@ -59,7 +60,7 @@ db.users.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on suppri
 
 //Tables intermédiaires likes
 db.posts.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
-// un utilisateur a plusieurs likes
+//posts a plusieurs likes
  db.likes.belongsTo(db.posts, { // like a un utilisateur
     foreignKey: 'posts_id',
    as: 'post',
