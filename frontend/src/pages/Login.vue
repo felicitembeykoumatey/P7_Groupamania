@@ -14,22 +14,27 @@
 		
 			<input type="email" name="email" id="email" placeholder="Email" autofocus required v-model="email">
                </div>
+
+               <!-- Mot de passe -->
                <div class="form-group">
-                <!-- Mot de passe -->
-               
-               <input type="password" placeholder="Enter mot de passe" name="passeword" required>
+              
+               <input type="password" placeholder="Mot-de-passe" name="passeword" v-model="dataLogin.password"/>
                   </div>
-                  <div class="my-3">
+                  <div class="btn">
                         <!-- Bouton connexion -->
-                <button type="submit">Se connecter</button>
+               <router-link class="redirection-userProfile" to="/userProfile"> <button v-on:click="userLogin" type="submit" class="btn-connexion" value="Connecté">Se connecter</button>
+                </router-link>
                 </div>
                  <label><input type="checkbox" checked="checked" name="remember"> Souviens-toi de moi.</label>
          
-  <h3 class="psw-forgot"><a href="#" > Mot de passe oublié?</a></h3>
            
                             <!-- Inscription-->
-                            <h3 class="signup-link"> Pas de compte? <a href="./views/signup.html"> S'inscrire</a>
-                            </h3>
+            <p>
+          <small>
+           Pas de compte?
+            <router-link class="redirection-singup" to="/signup">S'inscrire</router-link>
+          </small>
+        </p>
               
 
 
@@ -38,7 +43,43 @@
 </main>
 </template>
 <script>
+
+import axios from "axios";
+import Footer from '@/components/Footer.vue';
+
 export default {
+name:"Login",
+components: Footer,
+data(){
+      return{
+            dataLogin:{
+                  email:null,
+                  passeword: null,
+            },
+      };
+},
+  
+ methods: {
+userLogin(){
+
+    if (
+        this.dataLogin.email ==null ||
+        this.dataLogin.password ==null 
+      )
+{
+      this.msg="Erreur de saisie"
+}
+
+axios.post("http://localhost:3000/login", this.dataLogin)
+.then(res =>{
+      localStorage.setItem('token', res.data.token)
+      document.location.href="http://localhost:8080/userProfile";
+})
+.catch(error=> res.status(400).json({ error: error.message }));
+      
+}
+
+ }
 
 };
 </script>
