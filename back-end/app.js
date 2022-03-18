@@ -50,5 +50,15 @@ app.use('/', commentRoutes); // CHEMIN ROUTE COMMENT
 app.use('/', postRoutes); // CHEMIN ROUTE POST
 app.use('/api/likes', auth, likeRoutes); // CHEMIN ROUTE LIKE
 
+ //Temps de maintiens de session de connexion
+//par exemple server.setTimeout=300000; c'est en seconde 300000 equivaut à 300 secondes, donc 5 minutes
+//1 second = 1000 milliseconds.
+
+app.use(function(req, res, next){ 
+  res.setTimeout(300000);
+  next();
+})
+
+
 // Exporter l'application express.
 module.exports = app;  // export de l'application express (pour le serveur node.js).

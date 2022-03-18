@@ -4,11 +4,9 @@
     <!--Informations d'utilisateur--> 
         <aside>
 
-         <!--Est-ce Administrateur ou simple utilisateur? -->
+        
             <section class="description_user">
                <h2> {{ user.username }} </h2><br>
-               <p v-if="posts.isAdmin==true" ><span> Profil administrateur :</span> {{ user.isAdmin }} <br></p>
-             <!-- le profil administrateur ne s'affiche que si la personne connectée est administrateur -->
              <h2> {{user.email }}</h2><br>
              <!--Symbole genre masculin/feminin-->
                <i v-if="user.sex === 'f'" class="fas fa-venus"></i>
@@ -33,7 +31,10 @@
       components: Footer,
       data(){
            return{
-     user:[]
+     username: "",
+     email: "",
+     sex:"",
+     biography:""
            }
       }
 

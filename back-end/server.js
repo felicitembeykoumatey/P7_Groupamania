@@ -5,7 +5,6 @@ const app = require('./app'); // récupérer l'application express
 // création du serveur (passage de l'application express au serveur)
 const server = http.createServer(app);
 
-
 // configuration du serveur sur le port (3000).
 server.listen(process.env.PORT || 3000); 
 

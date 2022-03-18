@@ -1,22 +1,22 @@
 <template>
-<main class="row"> 
-<div class="col-md-6 offset-md-3">
+<main> 
+<div>
 <h1>SE CONNECTER</h1>
 <hr/>
 </div>
           <form>  <!-- Formulaire -->
-    <div class="form-group">
+    <div>
           <!-- Nom d'utlisateur-->
-            <input type="text" placeholder="Nom d'utilisateur" name="username" required>
+            <input type="text" placeholder="Nom d'utilisateur" name="username" required v-model="username">
 </div>         
-<div class="form-group">
+<div>
   <!-- Email -->
 		
 			<input type="email" name="email" id="email" placeholder="Email" autofocus required v-model="email">
                </div>
 
                <!-- Mot de passe -->
-               <div class="form-group">
+               <div>
               
                <input type="password" placeholder="Mot-de-passe" name="passeword" v-model="dataLogin.password"/>
                   </div>
@@ -53,8 +53,9 @@ components: Footer,
 data(){
       return{
             dataLogin:{
-                  email:null,
-                  passeword: null,
+                  username:"",
+                  email:"",
+                  passeword: ""
             },
       };
 },

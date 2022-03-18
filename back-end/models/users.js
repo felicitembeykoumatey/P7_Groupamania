@@ -3,10 +3,21 @@ const Sequelize = require('sequelize')
 
 const sequelize = require('./database')
 
-
 module.exports = (sequelize, Sequelize) =>{
   const User = sequelize.define('user', {
-    username: {
+      firstname: {
+      type: Sequelize.STRING(20),
+      allowNull: false
+    },
+      lastname: {
+      type: Sequelize.STRING(20),
+      allowNull: false
+    },
+      username: {
+      type: Sequelize.STRING(20),
+      allowNull: false
+    },
+    function: {
       type: Sequelize.STRING(20),
       allowNull: false
     },
