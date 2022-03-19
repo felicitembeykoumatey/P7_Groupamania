@@ -4,11 +4,25 @@
     <h1>Créer un compte</h1>
 
  <form>
-
-        <!--Username-->
+ <!--Username-->
+         <div class="form-group">
+          <label for="firstrname"><span>Username </span></label>
+          <input type="text" class="form-control" id="firstname"  placeholder="Prénom" v-model="firstname" />
+        </div>
+         <!--Username-->
+         <div class="form-group">
+          <label for="lastname"><span>Lastname </span></label>
+          <input type="text" class="form-control" id="lastname"  placeholder="Nom" v-model="lastname" />
+        </div>
+         <!--Username-->
          <div class="form-group">
           <label for="inputUsername"><span>Username </span></label>
           <input type="text" class="form-control" id="inputUsername"  placeholder="Nom d'utilisateur" v-model="username" />
+        </div>
+        <!--Username-->
+         <div class="form-group">
+          <label for="function"><span>Function </span></label>
+          <input type="text" class="form-control" id="function"  placeholder="Fonction" v-model="function" />
         </div>
          <!-- Email-->
            <div class="form-group">
@@ -49,21 +63,5 @@
 </template>
 
 <script>
-export default{
-  name: "Signup", 
-  data(){
-    return{
-      // ajouter les elements supplementaires lastname/firstname/fonction.
-      username:"",
-      sex:"",
-      email:"",
-      passeword:""
-    };
-    console.log(data);
-  },
-   methods: {
 
-     //axios
-   }
-};
  </script>

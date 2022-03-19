@@ -74,7 +74,7 @@ userLogin(){
 axios.post("http://localhost:3000/login", this.dataLogin)
 .then(res =>{
       localStorage.setItem('token', res.data.token)
-      document.location.href="http://localhost:8080/userProfile";
+      document.location.href="http://localhost:8080/Home";
 })
 .catch(error=> res.status(400).json({ error: error.message }));
       

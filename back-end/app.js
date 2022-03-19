@@ -32,7 +32,7 @@ const commentRoutes = require('./routes/comments'); // Recupérer route comment.
 const likeRoutes = require('./routes/likes'); //Recupérer route like.
 //Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');//droit d'accéder à notre api = tout le monde grâce à ce symbole 
+  res.setHeader('Access-Control-Allow-Origin', '*');//droit d'accéder à notre api 
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); // Autoriser les headers//
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // Autoriser  certaines méthodes GET POST PUT DELETE PATH OPTIONS
   next();

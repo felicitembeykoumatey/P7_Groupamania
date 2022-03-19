@@ -33,7 +33,7 @@ exports.signup = (req, res, next) => {
         isAdmin:xss(req.body.isAdmin)
       };
       // Création d'utlisateur
-   
+  
       User.create(user)
         .then(data =>  res.status(201).json({ message: 'Utilisateur créé !' }))
         .catch(error =>
