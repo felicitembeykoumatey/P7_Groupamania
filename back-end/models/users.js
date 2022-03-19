@@ -17,12 +17,12 @@ module.exports = (sequelize, Sequelize) =>{
       type: Sequelize.STRING(20),
       allowNull: false
     },
-    function: {
+    grade: {
       type: Sequelize.STRING(20),
       allowNull: false
     },
     sex: {
-      type: Sequelize.STRING(1),
+      type: Sequelize.STRING(10),
       allowNull: false
     },
     email: {
