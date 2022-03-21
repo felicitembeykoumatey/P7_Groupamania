@@ -71,7 +71,7 @@ export default{
   },
   methods:{
     dataSignup(){
-       if (this.firstname !== null || this.lastname !== null || this.username !== null || this.grade !== null || this.email !== null || this.password !== null this.male !== null ||this.female !== null ||) {
+       if (this.firstname !== null||  this.lastname !== null || this.username !== null || this.grade !== null  || this.email !== null ||  this.password !== null  ||  this.male !== null ||  this.female !== null) {
                 axios
                     .post("http://localhost:3000/signup",
                         this.dataUser
@@ -89,7 +89,5 @@ export default{
         },
     },
 };
-    }
-  }
-}
+ 
  </script>

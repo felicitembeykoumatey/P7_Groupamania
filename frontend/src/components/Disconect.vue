@@ -1,12 +1,9 @@
 <template>
-<p>
-<button v-on:click="logout"  class="btn-logout" type="submit"><Deconnexion/>
-<font-awesome-icon icon="fas fa-power-off" /></p>
+    <p> <button @click.prevent="disconect" type="submit" class="btn-disconect"><span class="cacher">aaaa</span><i class="fas fa-power-off"></i></button> </p>
 </template>
-
 <script>
 export default {
-    name:'Deconnexion',
+    name:'Disconect',
     methods: {
         logout(){
             localStorage.clear();

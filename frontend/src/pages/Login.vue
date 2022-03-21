@@ -22,7 +22,7 @@
                   </div>
                   <div class="btn">
                         <!-- Bouton connexion -->
-               <router-link class="redirection-userProfile" to="/userProfile"> <button v-on:click="userLogin" type="submit" class="btn-connexion" value="Connecté">Se connecter</button>
+               <router-link class="redirection-" to="/userProfile"> <button v-on:click="userLogin" type="submit" class="btn-connexion" value="Connecté">Se connecter</button>
                 </router-link>
                 </div>
                  <label><input type="checkbox" checked="checked" name="remember"> Souviens-toi de moi.</label>
@@ -74,7 +74,7 @@ userLogin(){
 axios.post("http://localhost:3000/login", this.dataLogin)
 .then(res =>{
       localStorage.setItem('token', res.data.token)
-      document.location.href="http://localhost:8080/Home";
+      document.location.href="http://localhost:8080/posts";
 })
 .catch(error=> res.status(400).json({ error: error.message }));
       
