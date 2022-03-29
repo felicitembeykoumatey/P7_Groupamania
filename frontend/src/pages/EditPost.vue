@@ -41,15 +41,11 @@
       <p>{{ errMsg }}</p>
     </form>
 
-
-
-
-
   </main>
  
 </template>
 <!--Javascript-->
-
+ 
 <script>
 import Disconect from "@/components/Disconect.vue"; //Importation de la fonction déconexion
 //import Footer from "@/components/Footer.vue";
