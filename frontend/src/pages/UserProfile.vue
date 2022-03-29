@@ -1,9 +1,9 @@
 <template>
      <main>
-     <h1>SE CONNECTER</h1>
+     <h1>Mon profil</h1>
     <!--Informations d'utilisateur--> 
-        <aside>
-
+       
+ <div class="BoutonDisconect"> <Disconect/> </div>
         
             <section class="description_user">
                <h2> {{ user.username }} </h2><br>
@@ -18,25 +18,57 @@
                   <textarea v-if="user.biography" class=" biography_user" {{ user.biography }}></textarea>
                   <p v-else class="biography_user">Aucune biographie</p>
             </section>
-             <p> <button v-on:click="SupProfile" type="submit" class="btn-deletecount">Supprimer le compte</button> </p>
-       </aside>
+             <p> <button v-on:click="deleteProfile" type="submit" class="btn-deletecount">Supprimer le compte</button> </p>
+      <Footer/>   
  </main>
    </template>
 
    <script>
    import axios from "axios";
+      import Disconect from "@/components/Disconect";
    import Footer from '@/components/Footer.vue';
  export default {
       name: 'userProfile',
-      components: Footer,
+      components: {Disconect, Footer},
       data(){
            return{
-     username: "",
-     email: "",
-     sex:"",
-     biography:""
-           }
+     user: [] ,
+     username :"",
+     email:""
       }
 
- }
+      },  mounted() { 
+      axios
+        .get("http://localhost:3000/me", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+        
+        .then(response => {
+          this.posts = response.data
+          
+        })
+        .catch(error => console.log(error));
+        },
+    methods:{
+       deleteProfile() { 
+      if (
+        window.confirm("Etes-vous sure de vouloir supprimer votre compte?")
+      )
+      axios
+        .delete("http://localhost:3000/auth/delete", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+     
+        .then(() => {
+          localStorage.clear();
+          document. location. href="http://localhost:8080/signup";
+        })
+        }
+}   
+};
+
    </script>

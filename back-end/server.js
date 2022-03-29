@@ -1,7 +1,6 @@
 const http = require('http'); // récupérer le package http de node.js
 const app = require('./app'); // récupérer l'application express
 
-
 // création du serveur (passage de l'application express au serveur)
 const server = http.createServer(app);
 

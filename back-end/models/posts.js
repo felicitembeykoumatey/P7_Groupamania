@@ -1,21 +1,19 @@
 // Inclure Sequelize module.
 const Sequelize = require('sequelize')
-//const sequelize = require('./database')
+const sequelize = require('./database')
 
 module.exports = (sequelize, Sequelize) =>{
 const Post = sequelize.define('post', {
 
-   title: {
-      type: Sequelize.TEXT,
-      allowNull: false
-    },
+
   content: {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    imageUrl: {
+    images: {
       type: Sequelize.TEXT
     },
+  
     date: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW

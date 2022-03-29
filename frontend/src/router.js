@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory} from 'vue-router';
-import Home from "./pages/Home.vue";
-import Login from './pages/Login.vue';
+
 import Signup from './pages/Signup.vue';
+import Login from './pages/Login.vue';
+import Home from './pages/Home.vue';
 import EditPost from './pages/EditPost.vue';
-import EditComment from './pages/EditComment.vue';
 import UserProfile from './pages/UserProfile.vue';
-import Post from './pages/Post.vue';
-import AllProfiles from './pages/AllProfiles.vue';
+
 
 const routes =[
+
+     // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
    {
          name:'Home',
          component : Home,
@@ -27,29 +28,16 @@ const routes =[
          component : Signup,
         path:'/signup'
     }, 
-    // Chemin vers la page actualités(journal)
-      {
-         name:'Post',
-         component : Post,
-        path:'/posts'
-    }, 
    
-    // Chemin vers la page post
+    // Chemin vers la page actualités(journal)
       {
          name:'EditPost',
          component : EditPost,
-        path:'/post'
+        path:'/posts'
     }, 
+   
+  
     
-    // Chemin vers la page commentaire
-
-
-      {
-         name:'EditComment',
-         component : EditComment,
-        path:'/comment'
-    }, 
-
     // Chemin vers la page profile utilisateur
       {
          name:'UserProfile',
@@ -57,12 +45,7 @@ const routes =[
         path:'/profil'
     }, 
 
-    // Chemin vers tous les profiles utilisateurs
-      {
-         name:'AllProfiles',
-         component : AllProfile,
-        path:'/allprofiles'
-    }, 
+   
 ];
 const router = createRouter ({
 
@@ -70,18 +53,5 @@ const router = createRouter ({
     routes,
 })
 
-
-router.beforeEach((to, from, next) => {
- // console.log(router.beforeEach);
-  if (to.meta.requireAuth) {
-    if (!TokenService.getToken()) {
-      next("/login");
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
 
 export default router;

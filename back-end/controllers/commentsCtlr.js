@@ -1,7 +1,12 @@
 const xss = require('xss')
 const jwt = require('jsonwebtoken');
+// Importation pour utilisation des variables d'environnements.
+const dotenv = require("dotenv");
+// Importation pour utilisation des variables d'environnements.
+require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
 const db = require('../models/database');
 const Comment = db.comments;
+const User = db.users;
 
 //Créer un commentaire
 exports.create =  (req, res,next) =>{

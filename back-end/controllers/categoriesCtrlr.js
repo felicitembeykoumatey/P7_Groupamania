@@ -9,6 +9,7 @@ const result = dotenv.config(); // Récupérer variables d'environnement.
 const db = require('../models/database'); // importation sequelize database
 const Categories = db.Categories; // Chargé fichier models categories
 
+
 // Création Post
 exports.create = (req, res, next) => {
 

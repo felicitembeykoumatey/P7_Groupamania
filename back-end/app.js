@@ -5,6 +5,9 @@ const path = require('path'); // Récupèrer l'élément de node.js permettant d
 const helmet = require('helmet'); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
 const multer = require('multer'); //Charger multer en utilisant la méthode require().
 const auth = require('./middleware/auth'); // authentification
+console.log('cccccccccccccccccccccccccccc')
+
+
 const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk avec la methode diskStorage()
     destination: (req, file, cb) =>{
         cb(null, "./images");
@@ -14,18 +17,19 @@ const fileStorageEngine = multer.diskStorage({  // stockage fichier sur disk ave
     },
 })
 const upload = multer({storage: fileStorageEngine});
-app.post("/single", upload.single ("image"), (req, res) => { 
+app.post("/single", upload.single ("images"), (req, res) => { 
    
-    res.send("Téléchargement succès")
+    res.send("Téléchargement réussie ! ")
 })
-
+/*
 app.post("/multiple", upload.array("images", 3), (req, res) => {
  
   res.send("Tous les fichiers ont été téléchargés avec succès");
-});
+});*/
 
 
 //Charger des routes
+console.log('gfdgfdgfdfg')
 const userRoutes = require('./routes/users'); //Récupèrer route user.
 const postRoutes = require ('./routes/posts'); // Récupèrer route post.
 const commentRoutes = require('./routes/comments'); // Recupérer route comment.

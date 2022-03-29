@@ -1,17 +1,16 @@
 <template>
-  <img  src="./images/icon-left-font-monochrome-black.svg"  alt=" logo groupomania">
+  <img
+    src="./assets/icon-left-font-monochrome-black.svg"
+    alt=" logo groupomania"
+  />
 
-<router-view></router-view>
+  <router-view></router-view>
 </template>
 
 <script>
-
 export default {
-  
-  name: 'App',
-  components: {
- 
-  },
+  name: "App",
+  components: {},
 };
 </script>
 

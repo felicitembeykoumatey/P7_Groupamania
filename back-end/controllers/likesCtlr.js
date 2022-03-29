@@ -1,11 +1,12 @@
 console.log("coucou")
 const jwt = require('jsonwebtoken');// Récupérer de JWT
-const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
-const app = require("../app"); // Recupérer notre application
-
 // Importation pour utilisation des variables d'environnements.
 const dotenv = require("dotenv");
 const result = dotenv.config(); // Récupérer variables d'environnement.
+const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
+const app = require("../app"); // Recupérer notre application
+
+
 
 const db = require('../models/database'); // importation sequelize database
 const Like = db.likes; // Chargé fichier models likes
