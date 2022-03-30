@@ -154,10 +154,10 @@ form {
 }
 
 textarea {
-    height: 50px;
-    padding: 10px 12px 10px 12px ;
+    height: 15px;
+    padding: 10px 2px 10px 2px ;
     width: calc(100% - 1rem);
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 img {
