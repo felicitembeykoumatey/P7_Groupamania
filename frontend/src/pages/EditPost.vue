@@ -51,8 +51,10 @@ import Disconect from "@/components/Disconect.vue"; //Importation de la fonction
 //import Footer from "@/components/Footer.vue";
 //import Comments from "../components/Comments.vue";
 // import Likes from "../components/Likes.vue";
+// eslint-disable-next-line no-unused-vars
 import router from "../router";
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
+// eslint-disable-next-line no-unused-vars
 import formData from "form-data";
 
 export default {
@@ -136,9 +138,6 @@ export default {
   
 };
 </script>
-
-
-
 
 <style scoped>
 form {
