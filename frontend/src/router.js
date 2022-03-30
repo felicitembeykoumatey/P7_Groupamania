@@ -5,7 +5,12 @@ import Login from './pages/Login.vue';
 import Home from './pages/Home.vue';
 import EditPost from './pages/EditPost.vue';
 import UserProfile from './pages/UserProfile.vue';
+<<<<<<< HEAD
 
+=======
+import Post from './pages/Post.vue';
+import AllProfiles from './pages/AllProfiles.vue';
+>>>>>>> main
 
 const routes =[
 
@@ -45,7 +50,16 @@ const routes =[
         path:'/profil'
     }, 
 
+<<<<<<< HEAD
    
+=======
+    // Chemin vers tous les profiles utilisateurs
+      {
+         name:'AllProfiles',
+         component : AllProfile,
+        path:'/allprofiles'
+    }, 
+>>>>>>> main
 ];
 const router = createRouter ({
 
