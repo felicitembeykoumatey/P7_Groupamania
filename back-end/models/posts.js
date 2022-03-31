@@ -10,7 +10,7 @@ const Post = sequelize.define('post', {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    images: {
+    files: {
       type: Sequelize.TEXT
     },
   
