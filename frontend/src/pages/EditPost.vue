@@ -52,7 +52,7 @@
       <div class="contenu"> {{ post.content }} <br></div>
   
   
-      <p v-if="member.id==post.userId || member.isAdmin">  <button @click.prevent="DeleMessage(post.id, post.userId)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button> </p>    
+      <p v-if="users.id==post.userId || users.isAdmin">  <button @click.prevent="DelePost(post.id, post.userId)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button> </p>    
     
   </li>
   </ul>
@@ -85,16 +85,13 @@ export default {
 
       dataPost: {
         content: "",
-    
-     
         preview: null,
         errMsg: null,
-      
-  
+    
       }, 
         files: "",
 
-      member: [], //je récupère les infos de la personnes connectée
+      users: [], //je récupère les infos de la personnes connectée
        
        posts: [], //je récupère les posts de la personnes connectée
     };
@@ -114,7 +111,7 @@ export default {
           this.preview = event.target.result;
          
         };
- console.log("this.previews",this.previews)
+ //console.log("this.previews",this.previews)
         reader.readAsDataURL(input.files[0]);
       }
     },
@@ -129,11 +126,11 @@ export default {
      // Objet formData pour notre image
       const formData = new FormData()
       formData.append("content", this.dataPost.content)
-      formData.append("files", this.file.name)
+      formData.append("files", this.file.files)
      formData.append("userId", localStorage.setItem("userId"))
       //console.log("this.dataPost",this.dataPost);
       //console.log("this.dataPost.content",this.dataPost.content);
-      //console.log("this.file.name",this.file.name)
+      console.log("this.file.files",this.file.files)
 
       axios.post("http://localhost:3000/posts", formData, {
           headers: {
@@ -142,13 +139,12 @@ export default {
           },
           
         })
+           // eslint-disable-next-line no-unused-vars
            .then(response => {
-              console.log(response);
+             // console.log(response);
               document. location. href="http://localhost:8080/post"; //si tout est ok je recharge la page et j'affiche ensuite mon message
           })
-        //.then((res) => this.$emit("add-Post", res.data))
-
-                //.then(res => this.$emit('sendPost', res.data))
+        
                 .catch(error => console.log(error))
      
       /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */

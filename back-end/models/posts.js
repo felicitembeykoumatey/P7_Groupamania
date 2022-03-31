@@ -2,22 +2,20 @@
 const Sequelize = require('sequelize')
 const sequelize = require('./database')
 
-module.exports = (sequelize, Sequelize) =>{
-const Post = sequelize.define('post', {
-
-
-  content: {
+   module.exports = (sequelize, Sequelize) => {
+    const Post = sequelize.define('post', {
+   content: {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    files: {
+    images: {
       type: Sequelize.TEXT
-    },
+     },
   
-    date: {
+     date: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
-    }
+     }
   }, {
     timestamps: false
  

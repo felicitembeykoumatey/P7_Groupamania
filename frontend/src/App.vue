@@ -1,5 +1,6 @@
 <template>
-  <img class="img-logo"
+  <img
+    class="img-logo"
     src="./assets/icon-left-font-monochrome-black.svg"
     alt=" logo groupomania"
   />
@@ -9,7 +10,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   components: {},
 };
 </script>
@@ -24,7 +25,7 @@ export default {
   margin-top: 60px;
 }
 
-.img-logo{
-width:40%;
+.img-logo {
+  width: 40%;
 }
 </style>
