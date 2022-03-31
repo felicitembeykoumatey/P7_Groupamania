@@ -37,8 +37,8 @@
 
 <script>
 import axios from "axios";
-import router from '../router';
-import store from '../store/index.js';
+//import router from '../router';
+//import store from '../store/index.js';
 export default{
   name:'signup',
   data(){
@@ -73,6 +73,7 @@ export default{
                         this.dataForm
                     )
                     .then(response => {
+                      console.log("response",response);
                       alert('Bravo votre compte est crée avec succès! Rédirection vers la page connexion!')
                      
                        document. location. href="http://localhost:8080";

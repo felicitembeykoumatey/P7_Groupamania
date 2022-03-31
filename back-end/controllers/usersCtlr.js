@@ -80,17 +80,17 @@ exports.login = (req, res) => {
 
       res.status(200).json({
         message: "Vous êtes connecté !",
-        userId: user[0].id,
+        users_id: user[0].id,
         isAdminId: user[0].isAdminId,
         username: user[0].username,
         sex:user[0].sex,
         
         token: jwt.sign({
-          userId: user[0].id,
+          users_id: user[0].id,
            isAdminId: user[0].isAdminId,
 
         }, process.env.KEY_TOKEN, {expiresIn:'24h'})
-       // userId: user[0].id,
+       // users_id: user[0].id,
         
         
       });

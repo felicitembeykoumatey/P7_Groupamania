@@ -5,62 +5,72 @@ const app = require("../app"); // Recupérer notre application
 
 // Importation pour utilisation des variables d'environnements.
 const dotenv = require("dotenv");
+
+const multer = require("multer"); 
+
 // Importation pour utilisation des variables d'environnements.
 require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
 const db = require('../models/database'); // importation sequelize database
 const Post = db.posts; // Chargé fichier models post
 const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
-
+console.log("1111112525251")
 // Création Post d'actualité
-exports.createPost = (req, res, next) => {
-  
+exports.createPost = (req, res) => {
+
   const post = {
     content: xss(req.body.content),
     images: req.body.files,
-    userId: req.body.userId,
-    categories_id: req.body.categories_id,
-  };
-  
-  if (req.file) {
-    post.images = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    
+    users_id: req.body.users_id
+    //categories_id: req.body.categories_id,
+  }; 
+
+
+  if (req.file!= undefined) {
+    post.images    = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  }else {
+    post.images == null;
   }
-  console.log("req.file", req.file);
-  
+ 
+  console.log("sdfghj")
   // publication réussie
-  
+  console.log("post",post)
   Post.create(post)
-    .then(data => response.status(201).json({
+    .then(data => res.status(201).json({
       message: "Publication créée!"
     }))
-  
     .catch((error) => res.status(400).json({
       error: error.message
     }));
 };
 
 
+
 //Afficher tous les publications
 
 exports.getAllPosts = (req, res, next) => {
-  //console.log('azertyujikol')
-  Post.findAll({
+  console.log('je suis passé ici')
+ /* Post.findAll({
+    include: [
+      {
+        model: Comment,
+        as: 'comments',
+        include: ["users"]
+      },
+      "users"
+    ],
     order: [
       ['createdAt', "DESC"]
-    ],
-    include: [
-      
-      {
-        model: User,
-        as: 'comments',
-        include: ["user"]
-      },
-      "user"
     ]
+  })*/
+  Post.findAll({
+    where:{
+id : 121
+    }
   })
-    .then((posts) => {
-      res.status(200).json(posts);
+  
+    .then((post) => {
+      res.status(200).json(post);
     })
     .catch((error) => res.status(500).json(error));
   
@@ -68,7 +78,7 @@ exports.getAllPosts = (req, res, next) => {
 
 
 exports.getAllPostFromOneUser = (req, res, next) => {
-  const id = req.params.userId;
+  const id = req.params.users_id;
   
   User.findByPk(id, {
     include: [{
@@ -129,7 +139,7 @@ exports.getOnePost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
   const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
-  const userId = decodedToken.userId; //Récupérer  userId qui est dans l'objet decodedToken (constance decodedToken)
+  const users_id = decodedToken.users_id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
   const id = req.params.id;
   const post = {};
   
@@ -147,7 +157,7 @@ exports.modifyPost = (req, res, next) => {
   })
     .then((oldpost) => {
       
-      if (userId === oldpost.user.id) {
+      if (users_id === oldpost.user.id) {
         
         if (req.file) {
           
@@ -232,7 +242,7 @@ exports.deletePost = (req, res, next) => {
   
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
   const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
-  const userId = decodedToken.userId; //Récupérer  userId qui est dans l'objet decodedToken (constance decodedToken)
+  const users_id = decodedToken.users_id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
   const isAdminId = decodedToken.isAdminId;
   const id = req.params.id;
   
@@ -243,7 +253,7 @@ exports.deletePost = (req, res, next) => {
     .then((post) => {
       
       
-      if (isAdminId === 1 || userId === post.user.id) {
+      if (isAdminId === 1 || users_id === post.user.id) {
         
         if (post.file) {
           

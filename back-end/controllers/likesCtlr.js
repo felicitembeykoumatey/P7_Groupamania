@@ -52,7 +52,7 @@ exports.addLike = (req, res, next) => {
       } else {
         Like.destroy({ where: {
           idPost: req.body.idPost,
-          userId: req.body.userId }})
+          users_id: req.body.users_id }})
           .then(() => {
             Like.findById({
               where: {idPost: req.body.idPost}

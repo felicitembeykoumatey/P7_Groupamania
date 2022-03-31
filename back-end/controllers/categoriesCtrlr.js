@@ -14,7 +14,7 @@ const Categories = db.Categories; // Chargé fichier models categories
 exports.create = (req, res, next) => {
 
   const category = {
-    userId: req.body.userId,
+    users_id: req.body.users_id,
     title: req.body.title,
     content: req.body.content,
     //imageUrl: req.file ?`${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null,

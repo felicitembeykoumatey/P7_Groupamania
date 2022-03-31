@@ -44,7 +44,7 @@ db.categories = require("./categories")(sequelize,Sequelize);
 db.users.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });  // un utilisateur a plusieurs posts
 // Si on supprime un user, on supprime ses messages //
   db.posts.belongsTo(db.users, { // le post est relié a un utilisateur
-    foreignKey: 'idUsers',
+    foreignKey: 'users_id',
     as: 'user',
   });
   
@@ -70,7 +70,7 @@ db.posts.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on suppri
 db.categories.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 // un utilisateur a plusieurs likes
  db.posts.belongsTo(db.categories, { // like a un utilisateur
-    foreignKey: 'categories_idcategories',
+    foreignKey: 'categories_id',
    as: 'categorie',
    });
 

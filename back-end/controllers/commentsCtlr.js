@@ -11,7 +11,7 @@ const User = db.users;
 //Créer un commentaire
 exports.create =  (req, res,next) =>{
     const comment = {
-        userId : req.body.userId,
+        users_id : req.body.users_id,
         postId: req.body.postId,
       content: req.body.content
     }
