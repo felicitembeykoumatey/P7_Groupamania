@@ -86,12 +86,13 @@ export default {
       dataPost: {
         content: "",
     
-        files: "",
+     
         preview: null,
         errMsg: null,
       
   
-      },
+      }, 
+        files: "",
 
       member: [], //je récupère les infos de la personnes connectée
        
@@ -128,7 +129,7 @@ export default {
      // Objet formData pour notre image
       const formData = new FormData()
       formData.append("content", this.dataPost.content)
-      formData.append("file", this.file.name)
+      formData.append("files", this.file.name)
      formData.append("userId", localStorage.setItem("userId"))
       //console.log("this.dataPost",this.dataPost);
       //console.log("this.dataPost.content",this.dataPost.content);
