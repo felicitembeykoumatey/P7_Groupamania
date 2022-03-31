@@ -23,9 +23,10 @@ exports.createPost = (req, res, next) => {
   };
   
   if (req.file) {
-    post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    post.images = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     
   }
+  console.log("req.file", req.file);
   
   // publication réussie
   

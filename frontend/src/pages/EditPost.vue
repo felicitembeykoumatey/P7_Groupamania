@@ -87,6 +87,7 @@ export default {
         content: "",
         preview: null,
         errMsg: null,
+        images:"",
     
       }, 
         files: "",
