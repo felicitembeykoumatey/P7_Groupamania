@@ -77,7 +77,8 @@ export default{
                      
                        document. location. href="http://localhost:8080";
                     })
-                  .catch(error=> res.status(400).json({ error: error.message }));
+                  
+ .catch(error => console.log(error))
             } else {
                 alert("L'un des champs n'est pas renseigné !");
             }

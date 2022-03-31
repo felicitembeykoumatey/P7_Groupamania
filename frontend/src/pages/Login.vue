@@ -84,7 +84,7 @@ axios.post("http://localhost:3000/login", this.dataForm)
 }
 
 ) 
-.catch(error => response.status(400).json({ error: error.message }));
+ .catch(error => console.log(error))
       
 }
 

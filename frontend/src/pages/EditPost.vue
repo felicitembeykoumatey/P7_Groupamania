@@ -28,7 +28,7 @@
 
       <div id="btns">
         <input
-          id="file"
+          id="files"
           ref="file"
           name="file"
           type="file"
@@ -41,6 +41,24 @@
       <p>{{ errMsg }}</p>
     </form>
 
+
+<div class="container2">
+      <div class="test"><h1>Fil d'actualité</h1>
+      <ul id="example-1">
+     <li v-for="post in posts" :key="post.id"> 
+      <span>{{ post.content }}<br></span>
+    
+      <i>Publié par <strong>{{post.User.username }}</strong> le {{post.createdAt.split('T')[0]}} à {{post.createdAt.slice(11,16)}}<br><br></i>
+      <div class="contenu"> {{ post.content }} <br></div>
+  
+  
+      <p v-if="member.id==post.userId || member.isAdmin">  <button @click.prevent="DeleMessage(post.id, post.userId)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button> </p>    
+    
+  </li>
+  </ul>
+  </div>
+  </div>
+  
   </main>
  
 </template>
@@ -67,25 +85,25 @@ export default {
 
       dataPost: {
         content: "",
-       // images:"",
-        file: "",
+    
+        files: "",
         preview: null,
         errMsg: null,
       
-        //userId: localStorage.userId
+  
       },
 
-      // member: [], //je récupère les infos de la personnes connectée
+      member: [], //je récupère les infos de la personnes connectée
        
-     //  posts: [], //je récupère les posts de la personnes connectée
+       posts: [], //je récupère les posts de la personnes connectée
     };
   },
 
       
   methods: {
     selectFile(event) {
-      this.file = this.$refs.file.files[0];
-
+      this.files = this.$refs.file.files[0];
+      //console.log("this.files", this.files)
       let input = event.target;
       if (input.files) {
         let reader = new FileReader();
@@ -93,8 +111,9 @@ export default {
         reader.onload = (event) => {
           //  console.log("  reader.onload", reader)
           this.preview = event.target.result;
+         
         };
-
+ console.log("this.previews",this.previews)
         reader.readAsDataURL(input.files[0]);
       }
     },
@@ -110,26 +129,31 @@ export default {
       const formData = new FormData()
       formData.append("content", this.dataPost.content)
       formData.append("file", this.file.name)
-     formData.append("userId", localStorage.getItem("userId"))
+     formData.append("userId", localStorage.setItem("userId"))
       //console.log("this.dataPost",this.dataPost);
       //console.log("this.dataPost.content",this.dataPost.content);
       //console.log("this.file.name",this.file.name)
 
       axios.post("http://localhost:3000/posts", formData, {
           headers: {
+            
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          
         })
-        
+           .then(response => {
+              console.log(response);
+              document. location. href="http://localhost:8080/post"; //si tout est ok je recharge la page et j'affiche ensuite mon message
+          })
         //.then((res) => this.$emit("add-Post", res.data))
 
-                .then(res => this.$emit('add-Post', res.data))
+                //.then(res => this.$emit('sendPost', res.data))
                 .catch(error => console.log(error))
      
       /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
       this.$emit("toggle-Create");
       this.content = "";
-      this.file = "";
+      this.files = "";
       this.preview = "";
       document.querySelector("form").reset();
     },
