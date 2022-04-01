@@ -2,9 +2,7 @@
 //Importation mySql pour la base de donnée.
 //Connexion data base.
 const Sequelize = require("sequelize"); //Récupérer sequelize.
-//const Post = require ("./post"); // Model post
-//const User = require ("./user"); // model user
-//const Comment = require("./comment");
+
 // Importation pour utilisation des variables d'environnements.
 const dotenv = require("dotenv");
 const result = dotenv.config(); // Récupérer variables d'environnement.
@@ -35,7 +33,7 @@ db.users = require("./users")(sequelize,Sequelize);
 db.posts = require("./posts")(sequelize,Sequelize);
 db.comments = require("./comments")(sequelize,Sequelize);
 db.likes = require("./likes")(sequelize,Sequelize); 
-db.categories = require("./categories")(sequelize,Sequelize); 
+
 
 //ASSOCIATION TABLES 
 
@@ -44,7 +42,7 @@ db.categories = require("./categories")(sequelize,Sequelize);
 db.users.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });  // un utilisateur a plusieurs posts
 // Si on supprime un user, on supprime ses messages //
   db.posts.belongsTo(db.users, { // le post est relié a un utilisateur
-    foreignKey: 'users_id',
+    foreignKey: 'userId',
     as: 'user',
   });
   
@@ -54,7 +52,7 @@ db.users.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });  // un utilisa
 db.users.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 
  db.likes.belongsTo(db.users, { // like a un utilisateur
-    foreignKey: 'users_id',
+    foreignKey: 'userId',
     as: 'user',
     });
 
@@ -62,23 +60,16 @@ db.users.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on suppri
 db.posts.hasMany(db.likes, { as: "likes", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 //posts a plusieurs likes
  db.likes.belongsTo(db.posts, { // like a un utilisateur
-    foreignKey: 'posts_id',
+    foreignKey: 'postId',
    as: 'post',
    });
 
-//Tables intermédiaires categories
-db.categories.hasMany(db.posts, { as: "posts", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
-// un utilisateur a plusieurs likes
- db.posts.belongsTo(db.categories, { // like a un utilisateur
-    foreignKey: 'categories_id',
-   as: 'categorie',
-   });
 
 //Table comment et user 
 db.users.hasMany(db.comments, { as: "comments", onDelete: 'CASCADE' });// Si on supprime un user, on supprime ses messages //
 // un utilisateur a plusieurs commentaires
  db.comments.belongsTo(db.users, { //Commentaire a un utilisateur
-    foreignKey: 'users_id',
+    foreignKey: 'userId',
     as: 'user',
     });
 
@@ -86,7 +77,7 @@ db.users.hasMany(db.comments, { as: "comments", onDelete: 'CASCADE' });// Si on 
 db.posts.hasMany(db.comments, { as: "comments", onDelete: 'CASCADE' });// Si on supprime un post, on supprime ses messages //
 //un post a plusieurs commentaires
  db.comments.belongsTo(db.posts, { //Commentaire a un post
-    foreignKey: 'posts_id',
+    foreignKey: 'postId',
     as: 'post',
     });
 

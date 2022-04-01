@@ -25,7 +25,33 @@ export default {
   margin-top: 60px;
 }
 
+
+
+
+/*Média queries*/
+/*Mobile*/
+@media screen and (min-width:375px) {
+
 .img-logo {
-  width: 40%;
+  width: 48%;
 }
+}
+
+
+
+/*desktop*/
+@media screen and (min-width:992px) {
+
+}
+
+
+@media screen and (min-width:1440px) {
+.img-logo {
+  width: 25%;
+}
+  
+}
+
+
+
 </style>

@@ -1,5 +1,8 @@
 <template>
+<header>
+  <i class="fas fa-arrow-left fa-2x"></i>
      <main>
+
      <h1>Mon profil</h1>
     <!--Informations d'utilisateur--> 
        
@@ -18,9 +21,12 @@
                   <textarea v-if="user.biography" class=" biography_user" {{ user.biography }}></textarea>
                   <p v-else class="biography_user">Aucune biographie</p>
             </section>
-             <p> <button v-on:click="deleteProfile" type="submit" class="btn-deletecount">Supprimer le compte</button> </p>
+            <br>
+            
+             <button v-on:click="deleteProfile" type="submit" class="btn-deletecount"><i class="fa-solid fa-trash-can"></i></button>
       <Footer/>   
  </main>
+ </header>
    </template>
 
    <script>

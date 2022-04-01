@@ -63,16 +63,13 @@ exports.getAllPosts = (req, res, next) => {
       ['createdAt', "DESC"]
     ]
   })*/
-  Post.findAll({
-    where:{
-id : 121
-    }
-  })
+  Post.findAll() 
+ 
   
     .then((post) => {
-      res.status(200).json(post);
+      res.status(200).json({post});
     })
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => res.status(500).json({error}));
   
 };
 

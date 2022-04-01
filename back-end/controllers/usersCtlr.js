@@ -35,7 +35,7 @@ exports.signup = (req, res, next) => {
         lastname: req.body.lastname,
         username: req.body.username,
         grade: req.body.grade,
-        email: xss(req.body.email),
+        email: req.body.email,
         password: hash,
         sex: xss(req.body.sex),
         isAdmin : 0
@@ -56,9 +56,9 @@ exports.signup = (req, res, next) => {
 //Requête login (se connecter)
 
 exports.login = (req, res) => {
-  const loginEmail = xss(req.body.email)
+  const loginEmail = req.body.email
   const loginPassword = req.body.password
-  User.findAll({where:{email: loginEmail}}) 
+  User.findOne({where:{email: loginEmail}}) 
     .then(user => {
       if (!user) {
         return res.status(401).json({ message: 'Utilisateur non trouvé !', error : error.message  });
@@ -67,7 +67,7 @@ exports.login = (req, res) => {
       bcrypt.hash(req.body.password, 10)
         .then(hash => {
           const user = {
-            email: xss(req.body.email),
+            email: req.body.email,
             password: hash,
           }});
 
@@ -80,13 +80,13 @@ exports.login = (req, res) => {
 
       res.status(200).json({
         message: "Vous êtes connecté !",
-        users_id: user[0].id,
+        userId: user[0].id,
         isAdminId: user[0].isAdminId,
         username: user[0].username,
         sex:user[0].sex,
         
         token: jwt.sign({
-          users_id: user[0].id,
+          userId: user[0].id,
            isAdminId: user[0].isAdminId,
 
         }, process.env.KEY_TOKEN, {expiresIn:'24h'})

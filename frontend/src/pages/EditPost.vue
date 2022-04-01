@@ -8,13 +8,15 @@
       Bienvenu(e) 
       <router-link class="redirection-profil" to="/profil"
         ><span class="hide">aaaa</span>
-        <p>Mon profil</p></router-link
+        
+        <p>Mon profil</p><i class="fa-regular fa-user"></i></router-link
       >
     </p>
+    <br>
      <form>
-   <!-- <form @submit.prevent="sendPost">!-->
+
       <div id="content">
-        <label for="content"><span>Quoi de neuf?</span></label
+        <label for="content"><span class="news">Quoi de neuf?</span></label
         ><br />
         <textarea
           id="content"
@@ -37,24 +39,25 @@
         />
 
         <button @click.prevent="sendPost" class="btn-publier" type="submit" >
-           <i class="fas fa-arrow-circle-up"></i>
+           <i class="fa-solid fa-share-from-square"></i>
           </button>
       </div>
       <p>{{ errMsg }}</p>
     </form>
 
 
-<div class="container2">
+<div class="container">
       <div class="test"><h1>Fil d'actualité</h1>
       <ul id="example-1">
      <li v-for="post in posts" :key="post.id"> 
       <span>{{ post.content }}<br></span>
     
-      <i>Publié par <strong>{{post.User.username }}</strong> le {{post.createdAt.split('T')[0]}} à {{post.createdAt.slice(11,16)}}<br><br></i>
-      <div class="contenu"> {{ post.content }} <br></div>
+     <!-- <i>Publié par <strong>{{post.User.username }}</strong> le {{post.createdAt.split('T')[0]}} à {{post.createdAt.slice(11,16)}}<br><br></i>
+      <div class="contenu"> {{ post.content }} <br></div>-->
   
   
-      <p v-if="users.id==post.users_id || users.isAdmin">  <button @click.prevent="DelePost(post.id, post.users_id)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button> </p>    
+      <p v-if="users.id==post.userId || users.isAdmin"> 
+        <button @click.prevent="DelePost(post.id, post.userId)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button> </p>    
     
   </li>
   </ul>
@@ -110,7 +113,9 @@ axios
         .then(response => {
           console.log(response);
           this.posts = response.data
+           console.log("this.posts", this.posts);
         })
+       
         .catch(error => console.log(error));
 },
       
@@ -146,17 +151,17 @@ axios
       const formData = new FormData()
       formData.append("content", this.dataPost.content)
       formData.append("files", this.$refs.file.files[0])
-     formData.append("users_id", localStorage.getItem("users_id"))
-console.log("fffe",formData.get("users_id"))
+     formData.append("userId", localStorage.getItem("userId"))
+console.log("fffe",formData.get("userId"))
       axios
       .post("http://localhost:3000/posts", formData, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token")
-          }   
+           headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
         })
            .then(response => {
               console.log("response",response);
-              document. location. href="http://localhost:8080/posts"; //si tout est ok je recharge la page et j'affiche ensuite mon message
+              document. location. href="http://localhost:8080/posts"; 
           })
             .catch(error => console.log("Erreur",error))
      
@@ -174,6 +179,7 @@ console.log("fffe",formData.get("users_id"))
 </script>
 
 <style scoped>
+
 form {
     display: flex;
     flex-direction: column;
@@ -201,7 +207,17 @@ img {
     width: 100%;
     object-fit: cover;
 }
+.news{
+  font-weight: bold;
+  color: #c33906;
 
+}
+
+.fa-user{
+ font-weight: bold;
+ color: #c33906;
+;
+}
 #preview {
     overflow: hidden;
     max-width: 20%;
@@ -211,8 +227,48 @@ img {
 display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
-    border-top: 1px solid hsla(0, 0%, 0%, 0.5);
-    padding-top: 2rem;
+    margin-top: 10px;
+    padding-top: 10px;
 }
+
+
+/*Média queries*/
+/*Mobile*/
+@media screen and (min-width:375px) {
+
+.img-logo {
+  width: 48%;
+}
+
+#sendPost{
+  
+    max-width: 85%;
+    box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
+    margin: auto;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 40px;
+
+}
+}
+
+
+
+/*desktop*/
+@media screen and (min-width:992px) {
+
+}
+
+
+@media screen and (min-width:1440px) {
+.img-logo {
+  width: 25%;
+}
+  
+}
+
+
+
+
+
 </style>

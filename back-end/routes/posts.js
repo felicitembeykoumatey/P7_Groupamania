@@ -7,8 +7,8 @@ const multer = require("../middleware/multer-config"); // Charger package multer
 const postCtrollers = require('../controllers/postsCtlr');//Charger fichier controllers 
 
 //Méthode CRUD (création, lecture, modification, suppression)
-router.post('/posts', auth, multer, postCtrollers.createPost);
-router.get('/posts', auth, postCtrollers.getAllPosts);
+router.post('/posts',  multer, postCtrollers.createPost);
+router.get('/posts',  postCtrollers.getAllPosts);
 router.get('/:id', auth, postCtrollers.getAllPostFromOneUser);
 router.get('/:id', auth, postCtrollers.getOnePost);
 router.put('/:id', auth, multer, postCtrollers.modifyPost);

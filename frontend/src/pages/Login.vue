@@ -2,29 +2,32 @@
 <main> 
             <div>
                   <h1>SE CONNECTER</h1>
+
 <hr/>
+
+<h4 style="color:red"> {{msg}}</h4>
             </div>
-                   <form>  <!-- Formulaire -->
+                   <form @submit.prevent="userLogin">  <!-- Formulaire -->
    
                   <div>
   <!-- Email -->
 		
-			<input type="email" name="email" id="email" placeholder="Email" autofocus required v-model="dataForm.email">
+			<input type="email" name="email" id="email" placeholder="Email"  v-model="dataForm.email">
                </div>
 
                <!-- Mot de passe -->
                <div>
               
-               <input type="password" placeholder="Mot-de-passe" name="passeword" v-model="dataForm.password"/>
+               <input type="password" placeholder="Mot-de-passe" name="password" v-model="dataForm.password"/>
                   </div>
                   <div class="btn">
                         <!-- Bouton connexion -->
-               <router-link class="redirection-" to="/posts"> 
-               <button v-on:click="userLogin" type="submit" class="btn-connexion" value="Connecté">Se connecter</button>
-                </router-link>
+               <!-- <router-link class="redirection-" to="/posts">  </router-link>-->
+               <button type="submit" class="btn-connexion" value="Connecté">Se connecter</button>
+               
                 </div>
                  <label><input type="checkbox" checked="checked" name="remember"> Souviens-toi de moi.</label>
-         
+           </form>
            
        <!-- Inscription-->
             <p>
@@ -36,7 +39,7 @@
               
 
 
-         </form>
+       
         
 </main>
 </template>
@@ -54,6 +57,7 @@ data(){
                   email:"",
                   password: ""
             },
+            msg:null
       };
 },
   
@@ -62,25 +66,24 @@ data(){
 userLogin(){
     //console.log("this.dataForm.email ", this.dataForm.email)
    // console.log("this.dataForm.password  ", this.dataForm.password)
-    if (
-        this.dataForm.email ==null ||
-        this.dataForm.password ==null 
-      )
-       
-{
+    if ( !this.dataForm.email  || !this.dataForm.password  ){
       this.msg="Erreur de saisie"
-}
-//console.log('this.dataForm',this.dataForm)
+console.log('je suis dans le if')
+      //console.log('this.dataForm',this.dataForm)
+     }else{
+           console.log('je suis dans le else')
+           
 
+console.log('this.dataForm',this.dataForm)
 axios.post("http://localhost:3000/login", this.dataForm)
  .then(response => {
      
-    
+    /*
                       alert('Utilisateur connecté !')
-   localStorage.setItem('users_id', response.data.users_id)
+   localStorage.setItem('userId', response.data.userId)
       localStorage.setItem('token', response.data.token)
-      document.location.href="http://localhost:8080/posts";
-    
+      document.location.href="http://localhost:8080/posts";*/
+    //console.log(response)
 }
 
 ) 
@@ -88,6 +91,8 @@ axios.post("http://localhost:3000/login", this.dataForm)
       
 }
 
+
+}
  }
 
 };
