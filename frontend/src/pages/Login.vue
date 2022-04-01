@@ -49,6 +49,7 @@ import axios from "axios";
 import Footer from '@/components/Footer.vue';
 
 export default {
+// eslint-disable-next-line vue/multi-word-component-names
 name:"Login",
 components: Footer,
 data(){
@@ -78,12 +79,12 @@ console.log('this.dataForm',this.dataForm)
 axios.post("http://localhost:3000/login", this.dataForm)
  .then(response => {
      
-    /*
+    
                       alert('Utilisateur connecté !')
    localStorage.setItem('userId', response.data.userId)
       localStorage.setItem('token', response.data.token)
-      document.location.href="http://localhost:8080/posts";*/
-    //console.log(response)
+      document.location.href="http://localhost:8080/posts";
+    
 }
 
 ) 
