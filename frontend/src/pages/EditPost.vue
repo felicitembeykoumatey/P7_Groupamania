@@ -55,7 +55,7 @@
             <!-- <i>Publié par <strong>{{post.User.username }}</strong> le {{post.createdAt.split('T')[0]}} à {{post.createdAt.slice(11,16)}}<br><br></i>
       <div class="contenu"> {{ post.content }} <br></div>-->
 
-            <p v-if="users.id == post.userId || users.isAdmin">
+            <p v-if="user.id == post.userId || user.isAdmin">
               <button
                 @click.prevent="DelePost(post.id, post.userId)"
                 id="btn-sup"
@@ -102,24 +102,6 @@ export default {
 
       posts: [], //je récupère les posts de la personnes connectée
     };
-  },
-  mounted() {
-    axios
-      .get(
-        "http://localhost:3000/posts", // récupèrer les messages postés
-        {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"), //récupèrer la clé présent dans le local storage
-          },
-        }
-      )
-      .then((response) => {
-        //   console.log(response);
-        this.posts = response.data;
-        //  console.log("this.posts", this.posts);
-      })
-
-      .catch((error) => console.log(error));
   },
 
   methods: {
@@ -174,6 +156,25 @@ export default {
       this.preview = "";
       document.querySelector("form").reset();
     },
+  },
+
+  mounted() {
+    axios
+      .get(
+        "http://localhost:3000/posts", //je récupère les posts
+
+        {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
+          },
+        }
+      )
+
+      .then((response) => {
+        console.log(response);
+        this.posts = response.data;
+      })
+      .catch((error) => console.log(error));
   },
 };
 </script>

@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 const multer = require("multer");
 
 const db = require("../models/database"); // importation sequelize database
+const { posts } = require("../models/database");
 const Post = db.posts; // Chargé fichier models post
 const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
@@ -28,6 +29,7 @@ exports.createPost = (req, res) => {
     images: req.body.files,
     userId: userId,
   };
+  console.log("post", post);
 
   if (req.file != undefined) {
     post.images = `${req.protocol}://${req.get("host")}/images/${
@@ -55,16 +57,40 @@ exports.createPost = (req, res) => {
 //Afficher tous les publications
 
 exports.getAllPosts = (req, res) => {
-  Post.findAll()
+  Post.findAll({
+    include: [
+      // inclu la relation direct avec la table post
+      {
+        model: User,
+        attributes: ["id", "username", "isAdmin"], // on n'affiche que le username
+      },
+      {
+        model: Comment,
+        attributes: ["id", "postId", "userId", "content", "createAt"],
+        include: [
+          {
+            model: User,
+            attributes: ["id", "username"],
+          },
+        ],
+      },
+    ],
 
-    .then((post) => {
-      res.status(200).json({ post });
+    order: [["createdAt", "DESC"]], // ordre d'affichage
+  })
+
+    .then((posts) => {
+      if (posts.length > null) {
+        res.status(200).json({ posts });
+      } else {
+        res.status(404).json({ error: "Pas de post à afficher" });
+      }
     })
     .catch((error) => res.status(500).json({ error }));
 };
 
 exports.getAllPostFromOneUser = (req, res, next) => {
-  const id = req.params.users_id;
+  const id = req.params.userId;
 
   User.findByPk(id, {
     include: [
@@ -85,8 +111,8 @@ exports.getAllPostFromOneUser = (req, res, next) => {
       ["posts", "comments", "date", "ASC"],
     ],
   })
-    .then((post) => {
-      res.status(200).json(post);
+    .then((postS) => {
+      res.status(200).json(postS);
     })
     .catch((error) => {
       res.status(400).json({
@@ -108,8 +134,8 @@ exports.getOnePost = (req, res, next) => {
     ],
     order: [["comments", "date", "ASC"]],
   })
-    .then((post) => {
-      res.status(200).json(post);
+    .then((postS) => {
+      res.status(200).json(posts);
     })
     .catch((error) => {
       res.status(400).json({
