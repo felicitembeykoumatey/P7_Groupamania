@@ -28,6 +28,7 @@ exports.createPost = (req, res) => {
   const post = {
     content: xss(req.body.content),
     images: req.body.files,
+    userId: userId,
   };
 
   if (req.file != undefined) {
