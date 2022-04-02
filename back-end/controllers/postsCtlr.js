@@ -56,8 +56,9 @@ exports.createPost = (req, res) => {
 
 //Afficher tous les publications
 
-exports.getAllPosts = (req, res) => {
-  Post.findAll({
+exports.getAllPosts = (req, res, next) => {
+  console.log("dfdsgdsgsdgds");
+  /*Post.findAll({
     include: [
       // inclu la relation direct avec la table post
       {
@@ -66,7 +67,8 @@ exports.getAllPosts = (req, res) => {
       },
       {
         model: Comment,
-        attributes: ["id", "postId", "userId", "content", "createAt"],
+        //attributes: ["id", "postId", "userId", "content", "createAt"],
+        attributes: ["id", "postId", "userId", "content"],
         include: [
           {
             model: User,
@@ -76,16 +78,31 @@ exports.getAllPosts = (req, res) => {
       },
     ],
 
-    order: [["createdAt", "DESC"]], // ordre d'affichage
+    //order: [["createdAt", "DESC"]], // ordre d'affichage
+  })*/
+  Post.findAll({
+    include: [
+      {
+        model: Comment,
+        as: "comments",
+        include: ["user"],
+      },
+      "user",
+    ],
+    order: [
+      ["date", "DESC"],
+      ["comments", "myDate", "ASC"],
+    ],
   })
 
     .then((posts) => {
       if (posts.length > null) {
-        res.status(200).json({ posts });
+        res.status(200).json(posts);
       } else {
         res.status(404).json({ error: "Pas de post à afficher" });
       }
     })
+
     .catch((error) => res.status(500).json({ error }));
 };
 

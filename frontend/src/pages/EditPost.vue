@@ -49,12 +49,17 @@
       <div class="test">
         <h1>Fil d'actualité</h1>
         <ul id="example-1">
-          <li v-for="post in posts" :key="post.id">
-            <span>{{ post.content }}<br /></span>
+          <li v-for="item in posts" :key="item.id">
+            
+            <span>{{ item.content }}<br /></span>
+            <li>{{log("item : ",item)}}</li>
+            <li>{{log("user : ",item.user)}}</li>
+            <i
+              >Publié par <strong>{{ item.user.username }}</strong> le
+              le {{item.date.split('T')[0]}} à {{item.date.slice(11,16)}}<br><br></i>
+            <div class="contenu">{{ item.content }} <br /></div>
 
-            <!-- <i>Publié par <strong>{{post.User.username }}</strong> le {{post.createdAt.split('T')[0]}} à {{post.createdAt.slice(11,16)}}<br><br></i>
-      <div class="contenu"> {{ post.content }} <br></div>-->
-
+<!--
             <p v-if="user.id == post.userId || user.isAdmin">
               <button
                 @click.prevent="DelePost(post.id, post.userId)"
@@ -64,7 +69,7 @@
               >
                 <span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i>
               </button>
-            </p>
+            </p>!-->
           </li>
         </ul>
       </div>
@@ -105,6 +110,10 @@ export default {
   },
 
   methods: {
+    log(commmentaire,variable) {
+      console.log(commmentaire, variable);
+    },
+
     selectFile(event) {
       this.files = this.$refs.file.files[0];
       //
@@ -162,18 +171,18 @@ export default {
     axios
       .get(
         "http://localhost:3000/posts", //je récupère les posts
-
         {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
           },
         }
       )
-
       .then((response) => {
-        console.log(response);
+        console.log("response", response);
         this.posts = response.data;
+        console.log(" this.posts", this.posts);
       })
+
       .catch((error) => console.log(error));
   },
 };

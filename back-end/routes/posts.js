@@ -8,7 +8,8 @@ const postCtrollers = require("../controllers/postsCtlr"); //Charger fichier con
 
 //Méthode CRUD (création, lecture, modification, suppression)
 router.post("/posts", multer, postCtrollers.createPost); // création post
-router.get("/posts", auth, postCtrollers.getAllPosts);
+//router.get("/posts", auth, postCtrollers.getAllPosts);
+router.get("/posts", postCtrollers.getAllPosts);
 router.get("/:id", auth, postCtrollers.getAllPostFromOneUser);
 router.get("/:id", auth, postCtrollers.getOnePost);
 router.put("/:id", auth, multer, postCtrollers.modifyPost);
