@@ -106,20 +106,5 @@ exports.login = (req, res) => {
       console.log(" user.id", user.id);
     })
 
-    //  username: user.username,
-    // userId: user.id,
-    // isAdminId: user.isAdminId,
-
-    // message: "Vous êtes connecté !",
-    // token: jwt.sign(
-    //  {
-    //    userId: user.id,
-    //     isAdminId: user.isAdminId,
-    //   },
-    //   process.env.KEY_TOKEN,
-    //  { expiresIn: "24h" }
-    // ),
-    // });
-    // })
     .catch((error) => res.status(500).json({ error: error.message }));
 };
