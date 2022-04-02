@@ -67,7 +67,7 @@
       />
       <label for="genre">Femme</label>
       <!-- Button -->
-      <router-link class="redirection-Home" to="/"
+      <router-link class="redirection-Home" to="/login"
         ><button @click="dataSignup" class="btn-signup" type="submit">
           S'inscrire
         </button>
@@ -98,7 +98,7 @@ export default {
         username: "",
         grade: "",
         email: "",
-        passeword: "",
+        password: "",
         sex: "",
       },
       errMsg: null,
@@ -127,9 +127,6 @@ export default {
           .post("http://localhost:3000/signup", this.dataForm)
           .then((response) => {
             console.log("response", response);
-            alert(
-              "Bravo votre compte est crée avec succès! Rédirection vers la page connexion!"
-            );
 
             document.location.href = "http://localhost:8080";
           })

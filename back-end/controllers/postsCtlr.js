@@ -1,56 +1,63 @@
-const fs = require('fs');
-const jwt = require('jsonwebtoken');// Récupérer de JWT
+const fs = require("fs");
+const jwt = require("jsonwebtoken"); // Récupérer de JWT
 const xss = require("xss"); // xss dépendance chargée pour proteger contre les failles , piratages.
 const app = require("../app"); // Recupérer notre application
 
 // Importation pour utilisation des variables d'environnements.
 const dotenv = require("dotenv");
 
-const multer = require("multer"); 
+const multer = require("multer");
 
 // Importation pour utilisation des variables d'environnements.
 require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
-const db = require('../models/database'); // importation sequelize database
+const db = require("../models/database"); // importation sequelize database
 const Post = db.posts; // Chargé fichier models post
 const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
-console.log("1111112525251")
+console.log("1111112525251");
 // Création Post d'actualité
 exports.createPost = (req, res) => {
+  console.log("req.headers", req.headers);
+  const token = req.headers.authorization.split(" ")[1];
 
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+
+  const userId = decodedToken.userId;
+
+  console.log("req.body", req.body);
   const post = {
     content: xss(req.body.content),
     images: req.body.files,
-    users_id: req.body.users_id
-    //categories_id: req.body.categories_id,
-  }; 
+  };
 
-
-  if (req.file!= undefined) {
-    post.images    = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-  }else {
+  if (req.file != undefined) {
+    post.images = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
+  } else {
     post.images == null;
   }
- 
-  console.log("sdfghj")
+  console.log("sdfghj");
   // publication réussie
-  console.log("post",post)
+  console.log("post", post);
   Post.create(post)
-    .then(data => res.status(201).json({
-      message: "Publication créée!"
-    }))
-    .catch((error) => res.status(400).json({
-      error: error.message
-    }));
+    .then((data) =>
+      res.status(201).json({
+        message: "Publication créée!",
+      })
+    )
+    .catch((error) =>
+      res.status(400).json({
+        error: error.message,
+      })
+    );
 };
-
-
 
 //Afficher tous les publications
 
 exports.getAllPosts = (req, res, next) => {
-  console.log('je suis passé ici')
- /* Post.findAll({
+  console.log("je suis passé ici");
+  /* Post.findAll({
     include: [
       {
         model: Comment,
@@ -63,72 +70,67 @@ exports.getAllPosts = (req, res, next) => {
       ['createdAt', "DESC"]
     ]
   })*/
-  Post.findAll() 
- 
-  
-    .then((post) => {
-      res.status(200).json({post});
-    })
-    .catch((error) => res.status(500).json({error}));
-  
-};
+  Post.findAll()
 
+    .then((post) => {
+      res.status(200).json({ post });
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
 
 exports.getAllPostFromOneUser = (req, res, next) => {
   const id = req.params.users_id;
-  
+
   User.findByPk(id, {
-    include: [{
-      model: Post,
-      as: 'posts',
-      include: [{
-        model: Comment,
-        as: 'comments',
-        include: ["user"]
-      }, ],
-    }, ],
+    include: [
+      {
+        model: Post,
+        as: "posts",
+        include: [
+          {
+            model: Comment,
+            as: "comments",
+            include: ["user"],
+          },
+        ],
+      },
+    ],
     order: [
-      ['posts', 'date', 'DESC'],
-      ['posts', 'comments', 'date', 'ASC']
-    ]
+      ["posts", "date", "DESC"],
+      ["posts", "comments", "date", "ASC"],
+    ],
   })
     .then((post) => {
       res.status(200).json(post);
     })
-    .catch(
-      (error) => {
-        res.status(400).json({
-          error: error
-        });
-      }
-    );
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
 };
-
 
 exports.getOnePost = (req, res, next) => {
   const id = req.params.id;
   Post.findByPk(id, {
-    include: [{
-      model: Comment,
-      as: 'comments',
-      include: ["user"]
-    },
-    "user"
+    include: [
+      {
+        model: Comment,
+        as: "comments",
+        include: ["user"],
+      },
+      "user",
     ],
-    order: [
-      ['comments', 'date', 'ASC']
-    ]
+    order: [["comments", "date", "ASC"]],
   })
     .then((post) => {
       res.status(200).json(post);
     })
-    .catch(
-      (error) => {
-        res.status(400).json({
-          error: error
-        });
-      }
-    );
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
 };
 
 //Modifier une publication
@@ -136,166 +138,155 @@ exports.getOnePost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
   const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
-  const users_id = decodedToken.users_id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
+  const userId = decodedToken.id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
   const id = req.params.id;
   const post = {};
-  
+
   if (req.body.content) {
-    
-    post.content = req.body.content
+    post.content = req.body.content;
   }
-  
+
   if (req.file) {
-    post.files = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    post.files = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
   }
-  
+
   Post.findByPk(id, {
-    include: "user"
+    include: "user",
   })
     .then((oldpost) => {
-      
-      if (users_id === oldpost.user.id) {
-        
+      if (userId === oldpost.user.id) {
         if (req.file) {
-          
-          
           if (!post.content) {
-            post.content = oldpost.content
+            post.content = oldpost.content;
           }
-          
+
           if (oldpost.file) {
-            
-            const filename = oldpost.file.split('/images/')[1];
+            const filename = oldpost.file.split("/images/")[1];
             fs.unlink(`images/${filename}`, () => {
-              
-              
               Post.update(post, {
                 where: {
-                  id: id
-                }
+                  id: id,
+                },
               })
-                .then(data => {
+                .then((data) => {
                   res.status(201).json({
-                    message: 'Post modifié !'
-                  })
+                    message: "Post modifié !",
+                  });
                 })
-                .catch(error => res.status(500).json({
-                  error
-                }));
+                .catch((error) =>
+                  res.status(500).json({
+                    error,
+                  })
+                );
             });
-            
           } else {
-            
             Post.update(post, {
               where: {
-                id: id
-              }
+                id: id,
+              },
             })
-              .then(data => {
+              .then((data) => {
                 res.status(201).json({
-                  message: 'Publication modifié !'
-                })
+                  message: "Publication modifié !",
+                });
               })
-              .catch(error => res.status(500).json({
-                error
-              }));
+              .catch((error) =>
+                res.status(500).json({
+                  error,
+                })
+              );
           }
         } else {
           Post.update(post, {
             where: {
-              id: id
-            }
+              id: id,
+            },
           })
-            .then(data => {
+            .then((data) => {
               res.status(201).json({
-                message: 'Publication modifié !'
-              })
+                message: "Publication modifié !",
+              });
             })
-            .catch(error => res.status(500).json({
-              error
-            }));
+            .catch((error) =>
+              res.status(500).json({
+                error,
+              })
+            );
         }
-        
-        
       } else {
         res.status(401).json({
-          error: new Error('!')
+          error: new Error("!"),
         });
       }
-      
     })
-    .catch(
-      (error) => {
-        res.status(400).json({
-          error: error.message
-        });
-      }
-    );
+    .catch((error) => {
+      res.status(400).json({
+        error: error.message,
+      });
+    });
 };
 
 // Supprimer une publication
 
 exports.deletePost = (req, res, next) => {
-  
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
   const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
   const users_id = decodedToken.users_id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
   const isAdminId = decodedToken.isAdminId;
   const id = req.params.id;
-  
-  
+
   Post.findByPk(id, {
-    include: "user"
+    include: "user",
   })
     .then((post) => {
-      
-      
       if (isAdminId === 1 || users_id === post.user.id) {
-        
         if (post.file) {
-          
-          const filename = post.file.split('/images/')[1];
+          const filename = post.file.split("/images/")[1];
           fs.unlink(`images/${filename}`, () => {
-            
-            
             Post.destroy({
               where: {
-                id: id
-              }
+                id: id,
+              },
             })
-              .then(() => res.status(200).json({
-                message: 'Post supprimé !'
-              }))
-              .catch(error => res.status(400).json({
-                error: error.message
-              }));
+              .then(() =>
+                res.status(200).json({
+                  message: "Post supprimé !",
+                })
+              )
+              .catch((error) =>
+                res.status(400).json({
+                  error: error.message,
+                })
+              );
           });
-          
         } else {
           Post.destroy({
             where: {
-              id: id
-            }
+              id: id,
+            },
           })
-            .then(() => res.status(200).json({
-              message: 'Post supprimé !'
-            }))
-            .catch(error => res.status(400).json({
-              error: error.message
-            }));
+            .then(() =>
+              res.status(200).json({
+                message: "Post supprimé !",
+              })
+            )
+            .catch((error) =>
+              res.status(400).json({
+                error: error.message,
+              })
+            );
         }
-        
       } else {
         res.status(401).json({
-          error: new Error('Mauvaise requête!')
+          error: new Error("Mauvaise requête!"),
         });
       }
     })
-    .catch(
-      (error) => {
-        res.status(400).json({
-          error: error
-        });
-      }
-    );
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
 };

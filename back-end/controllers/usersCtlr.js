@@ -5,9 +5,9 @@ const xss = require("xss");
 const db = require("../models/database");
 const User = db.users;
 // Importation pour utilisation des variables d'environnements.
-require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
+//require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
 const passValid = new passwordValidator();
-//const maskData = require('maskdata');
+
 passValid
   .is()
   .min(8)
@@ -31,12 +31,10 @@ passValid
 exports.signup = (req, res) => {
   //Si le mot de passe respecte pas les recommandations de passValid, resultat alert s'affichera.
   if (!passValid.validate(req.body.password)) {
-    res
-      .status(401)
-      .json({
-        alert:
-          "Sécurité du mot de passe faible. Il doit contenir au moins 8 caractères, des majuscules et deux chiffres",
-      });
+    res.status(401).json({
+      alert:
+        "Sécurité du mot de passe faible. Il doit contenir au moins 8 caractères, des majuscules et deux chiffres",
+    });
   }
   //Mot de passe haché et email masqué
   bcrypt
@@ -45,9 +43,9 @@ exports.signup = (req, res) => {
       const user = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        username: xss(req.body.username),
+        username: req.body.username,
         grade: req.body.grade,
-        email: xss(req.body.email),
+        email: req.body.email,
         password: hash,
         sex: req.body.sex,
         isAdmin: 0,
@@ -56,7 +54,7 @@ exports.signup = (req, res) => {
       // Création d'utlisateur
 
       User.create(user)
-        .then((data) =>
+        .then((res) =>
           res.status(201).json({ message: " Bravo compte crée  !" })
         )
         .catch((error) =>
@@ -70,8 +68,8 @@ exports.signup = (req, res) => {
 };
 
 //Requête login (se connecter)
-
 exports.login = (req, res) => {
+  // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
 
@@ -85,12 +83,12 @@ exports.login = (req, res) => {
       //mot de passe haché et email masqué
       bcrypt.hash(req.body.password, 10).then((hash) => {
         const user = {
-          email: req.body.email,
+          email: xss(req.body.email),
           password: hash,
         };
       });
 
-      bcrypt.compare(loginPassword, user[0].password).then((valid) => {
+      bcrypt.compare(loginPassword, user.password).then((valid) => {
         if (!valid) {
           // Si le mot de passe n'est pas le bon
           return res.status(401).json({ error: "Mot de passe incorrect !" });
@@ -98,22 +96,30 @@ exports.login = (req, res) => {
       });
 
       res.status(200).json({
-        username: user[0].username,
-        sex: user[0].sex,
-        userId: user[0].id,
-        isAdminId: user[0].isAdminId,
+        userId: user.id,
 
-        message: "Vous êtes connecté !",
-        token: jwt.sign(
-          {
-            userId: user[0].id,
-            isAdminId: user[0].isAdminId,
-          },
-          process.env.KEY_TOKEN,
-          { expiresIn: "24h" }
-        ),
-        // users_id: user[0].id,
+        token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
+          expiresIn: "24h",
+        }),
       });
+
+      console.log(" user.id", user.id);
     })
+
+    //  username: user.username,
+    // userId: user.id,
+    // isAdminId: user.isAdminId,
+
+    // message: "Vous êtes connecté !",
+    // token: jwt.sign(
+    //  {
+    //    userId: user.id,
+    //     isAdminId: user.isAdminId,
+    //   },
+    //   process.env.KEY_TOKEN,
+    //  { expiresIn: "24h" }
+    // ),
+    // });
+    // })
     .catch((error) => res.status(500).json({ error: error.message }));
 };
