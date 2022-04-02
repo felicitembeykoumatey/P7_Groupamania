@@ -8,23 +8,21 @@ const dotenv = require("dotenv");
 
 const multer = require("multer");
 
-// Importation pour utilisation des variables d'environnements.
-require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
 const db = require("../models/database"); // importation sequelize database
 const Post = db.posts; // Chargé fichier models post
 const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
-console.log("1111112525251");
+//console.log("1111112525251");
+
 // Création Post d'actualité
 exports.createPost = (req, res) => {
+  //Token qui permet de recupérer userdId
   console.log("req.headers", req.headers);
   const token = req.headers.authorization.split(" ")[1];
-
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-
   const userId = decodedToken.userId;
 
-  console.log("req.body", req.body);
+  //console.log("req.body", req.body);
   const post = {
     content: xss(req.body.content),
     images: req.body.files,
@@ -56,21 +54,7 @@ exports.createPost = (req, res) => {
 
 //Afficher tous les publications
 
-exports.getAllPosts = (req, res, next) => {
-  console.log("je suis passé ici");
-  /* Post.findAll({
-    include: [
-      {
-        model: Comment,
-        as: 'comments',
-        include: ["users"]
-      },
-      "users"
-    ],
-    order: [
-      ['createdAt', "DESC"]
-    ]
-  })*/
+exports.getAllPosts = (req, res) => {
   Post.findAll()
 
     .then((post) => {

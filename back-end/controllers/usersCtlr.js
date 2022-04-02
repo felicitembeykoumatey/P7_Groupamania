@@ -1,41 +1,17 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
-const passwordValidator = require("password-validator");
+
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
 const xss = require("xss");
 const db = require("../models/database");
 const User = db.users;
 // Importation pour utilisation des variables d'environnements.
 //require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
-const passValid = new passwordValidator();
 
-passValid
-  .is()
-  .min(8)
-  .is()
-  .max(50)
-  .has()
-  .uppercase()
-  .has()
-  .lowercase()
-  .has()
-  .digits(2)
-  .has()
-  .not()
-  .spaces()
-  .is()
-  .not()
-  .oneOf(["Passw0rd", "Password123"]);
 
 //Requête signup (s'inscrire)//
 
 exports.signup = (req, res) => {
-  //Si le mot de passe respecte pas les recommandations de passValid, resultat alert s'affichera.
-  if (!passValid.validate(req.body.password)) {
-    res.status(401).json({
-      alert:
-        "Sécurité du mot de passe faible. Il doit contenir au moins 8 caractères, des majuscules et deux chiffres",
-    });
-  }
+  
   //Mot de passe haché et email masqué
   bcrypt
     .hash(req.body.password, 10)

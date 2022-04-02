@@ -93,49 +93,81 @@ export default {
   data() {
     return {
       dataForm: {
-        firstname: "",
-        lastname: "",
-        username: "",
-        grade: "",
-        email: "",
-        password: "",
-        sex: "",
+        firstname: null,
+        lastname: null,
+        username: null,
+        grade: null,
+        sex: null,
+        email: null,
+        password: null,
       },
       errMsg: null,
     };
   },
   methods: {
     dataSignup() {
-      // données de connexion
-      // eslint-disable-next-line no-unused-vars
-      const login = {
-        email: this.dataForm.email,
-        password: this.dataForm.password,
-      };
+      const formData = new FormData();
+      console.log("formData", formData);
+      formData.append("firstname", this.dataForm.firstname);
+      formData.append("lastname", this.dataForm.lastname);
+      formData.append("username", this.dataForm.username);
+      formData.append("grade", this.dataForm.grade);
+      formData.append(" sex", this.dataForm.sex);
+      formData.append("email", this.dataForm.email);
+      formData.append(" password", this.dataForm.password);
 
       if (
-        this.firstname !== null ||
-        this.lastname !== null ||
-        this.username !== null ||
-        this.grade !== null ||
-        this.email !== null ||
-        this.password !== null ||
-        this.sex !== null ||
-        this.female !== null
+        !this.dataForm.firstname ||
+        !this.dataForm.lastname ||
+        !this.dataForm.username ||
+        !this.dataForm.grade ||
+        !this.dataForm.sex ||
+        !this.dataForm.email ||
+        !this.dataForm.password
       ) {
-        axios
-          .post("http://localhost:3000/signup", this.dataForm)
-          .then((response) => {
-            console.log("response", response);
-
-            document.location.href = "http://localhost:8080";
-          })
-
-          .catch((error) => console.log(error));
-        console.log("je pass ici if");
-      } else {
-        alert("L'un des champs n'est pas renseigné !");
+        this.errMsg = "Svp, remplissez tous les champs du formulaire !";
+        return;
       }
+      const passwordValidator = require("vee-validate");
+      const passValid = new passwordValidator();
+
+      passValid
+        .is()
+        .min(8)
+        .is()
+        .max(50)
+        .has()
+        .uppercase()
+        .has()
+        .lowercase()
+        .has()
+        .digits(2)
+        .has()
+        .not()
+        .spaces()
+        .is()
+        .not()
+        .oneOf(["Passw0rd", "Password123"]);
+
+      if (!passValid.validate(!this.dataForm.password)) {
+        this.errMsg =
+          "Password Err! => entre 8 et 32 caractères + 1 minuscule min + 1 maj min + 1 caractère spécial";
+        return;
+      }
+
+      axios
+        .post("http://localhost:3000/signup", formData)
+     
+           .then((response) => {
+            localStorage.setItem("token", response.data.token);
+          console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
+          //Réinitialisation
+          this.dataForm.email = null;
+          this.dataForm.username = null;
+
+          document.location.href = "http://localhost:8080/login";
+        })
+        .catch((error) => console.log(error));
     },
   },
 };
