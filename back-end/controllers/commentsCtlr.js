@@ -10,17 +10,18 @@ const Comments = db.comments;
 
 //Créer un commentaire
 exports.createComment =  (req, res) =>{
+console.log("fqsfsqfsqfqf11111")
 
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
     const userId = decodedToken.userId;
-    const postId = decodedToken.postId;
-
+    console.log("userId : ", userId)
    const comment = {
         userId : userId,
-        postId: postId,
+        postId: req.body.postId,
       content: req.body.content,
     };
+    console.log("comment : ", comment )
     Comments.create(comment)
  
  .then((data) => res.status(201).json({ message: "Commentaire ajouté !" }))

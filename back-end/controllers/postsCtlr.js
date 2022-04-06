@@ -75,7 +75,8 @@ exports.getAllPosts = (req, res, next) => {
   })
 
     .then((posts) => {
-      if (posts.length > null) {
+      console.log("posts.length : ",posts.length);
+      if (posts.length > 0) {
         res.status(200).json(posts); // mon gros erreur qui bloque l'affichage des posts .Ne jamains mettre res.status(200).json({pots})
       } else {
         res.status(404).json({ error: "Pas de post à afficher" });
