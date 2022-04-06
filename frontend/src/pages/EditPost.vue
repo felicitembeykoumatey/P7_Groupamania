@@ -53,30 +53,15 @@
 
               <div class="contenu">{{ item.content }} <br /></div>
               <i
-                                
                 >Publié par <strong>{{ item.user.username }}</strong> le
                 {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
                 }}<br /><br
               /></i>
 
               <div class="displayPost_item_like">
-               <!--  <h2> {{log("item",item)}} </h2>-->
+                <!--  <h2> {{log("item",item)}} </h2>-->
                 <Likes v-bind:item="item" />
-<!--
-                <div>
-                  <i
-                    @click="displayComment(item.id)"
-                    v-on:click="diplayCreateComment(item.id)"
-                    class="displayPost_item_like_button far fa-comment-dots"
-                    aria-label="Commenter"
-                  ></i>
-                  <span
-                    v-if="item.comments.length > 0"
-                    class="displayPost_item_like_count"
-                    >{{ item.comments.length }}</span
-                  >
-                </div> 
--->
+
                 <i
                   v-if="userId == item.userId || isAdmin == 'true'"
                   v-on:click="deletePost(item.id)"
@@ -84,80 +69,7 @@
                   aria-label="Supprimer le message"
                 ></i>
               </div>
-              <!--
-              <div>
-                <div v-for="item in comments" :key="item.commentid">
-                  <div
-                    v-bind:showComment="showComment"
-                    v-if="showComment && item.id == comment.postId"
-                    class="comment_item"
-                  >
-                    <div class="comment_item_information">
-                      <div class="comment_item_information_user">
-                        <h2 class="comment_item_information_user_name">
-                          {{ comment.user.username }}
-                        </h2>
-                      </div>
 
-                     <div>
-                        <i>
-                          Commenté par
-                          <strong>{{ item.user.username }}</strong> le
-                          {{ item.date.split("T")[0] }} à
-                          {{ item.date.slice(11, 16) }}<br /><br />
-                        </i>
-                      </div>-->
-                      <!--Contenu du commentaire-->
-                       <!--
-                      <div class="post_item_publication">
-                        <p class="post_item_publication_text">
-                          {{ comment.content }}
-                        </p>
-                      </div>-->
-
-                      <!--Suppression commentaire-->
-                      <!--
-                      <div class="post_item_delete">
-                        <i
-                          v-if="userId == comment.userId || isAdmin == 'true'"
-                          @click="deleteComment(comment.id)"
-                          class="post_item_delete_button far fa-trash-alt"
-                        ></i>
-                      </div>
-                    </div>
-
-                    <div
-                      :formId="item.id"
-                      style="display: none"
-                      v-bind:showCreateComment="showCreateComment"
-                      class="comment_newComment"
-                    >
-                      <form
-                        @submit.prevent="createComment(item.id)"
-                        class="comment_newComment_form"
-                      >
-                        <textarea
-                          v-model="contentComment"
-                          class="comment_newComment_form_text"
-                          name="comment"
-                          id="comment"
-                          placeholder="Ecrivez votre commentaire ..."
-                          aria-label="Rédiger un nouveau commentaire"
-                        />
-
-                        <div>
-                          <button
-                            class="displayComment_newComment_form_button"
-                            aria-label="Publier le commentaire"
-                          >
-                            <i class="far fa-paper-plane"></i>
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>-->
               <textarea
                 id="comment"
                 placeholder="Insérer votre commentaire"
@@ -169,25 +81,32 @@
               </button>
               <div id="containe2">
                 <div id="example-2">
-                  <ul v-for="item in comments" :key="item.id">
-                    <div class="contenu">{{ item.content }} <br /></div>
+                  <h2>{{ log("item ", item) }}</h2>
+                  <ul
+                    v-for="commentaire in item.comments"
+                    :key="commentaire.id"
+                  >
+                    <h2>{{ log("item.content ", commentaire.content) }}</h2>
+                    <div class="contenu">{{ commentaire.content }} <br /></div>
 
                     <i>
                       Commenté par <strong>{{ item.user.username }}</strong> le
+
                       {{ item.date.split("T")[0] }} à
                       {{ item.date.slice(11, 16) }}<br /><br />
                     </i>
 
-                    <p v-if="user.id == comment.userId || user.isAdmin">
+                    <p
+                      v-if="
+                        item.user.id == commentaire.userId || item.user.isAdmin
+                      "
+                    >
                       <button
-                        @click.prevent="
-                          DeleteComment(comment.id, comment.userId)
+                        v-on:click.prevent="
+                          DeleteComment(commentaire.id, commentaire.userId)
                         "
-                        id="btn-sup"
-                        type="submit"
-                        class="btn btn-primary"
                       >
-                        <span class="cacher">aaaa</span
+                        <span class="cacher">Poubelle</span
                         ><i class="fas fa-trash-alt"></i>
                       </button>
                     </p>
@@ -220,18 +139,16 @@ export default {
   components: { Disconect, Likes },
 
   data() {
-
-    
     return {
       userId: localStorage.getItem("userId"),
       username: localStorage.getItem("username"),
       isAdmin: localStorage.getItem("isAdmin"),
       like: false,
-      postLikes:[],
+      postLikes: [],
       revele: false,
-                showComment: false,
-                showCreateComment: false,
-    
+      showComment: false,
+      showCreateComment: false,
+
       dataPost: {
         content: "",
         preview: null,
@@ -298,46 +215,35 @@ export default {
       this.preview = "";
       document.querySelector("form").reset();
     },
-//supprimer publication//
+    //supprimer publication//
 
     deletePost(id) {
-                const postId = id;
-               
-                axios.delete('http://localhost:3000/posts/' + postId, {
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                .then(() => {
-                    this.displayPost();
-                })
-                .catch(error => {
-                    error.response.data
-                  
-                })
-            },
-            // Créer et afficher  un nouveau commentaire //
-        createComment(id) {
+      const postId = id;
 
-       const formData = new FormData();
+      axios
+        .delete("http://localhost:3000/posts/" + postId, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          this.displayPost();
+        })
+        .catch((error) => {
+          error.response.data;
+        });
+    },
+    // Créer et afficher  un nouveau commentaire //
+    createComment(id) {
+      const formData = new FormData();
 
       formData.append("content", this.dataComment.content);
       formData.append("userId", localStorage.getItem("userId"));
-      formData.append("postId",id);
-  //const postId = id;
-  //this.showCreateComment == false
-  //let form = document.querySelector('div[formId="'+id+'"]')
- //let formId = form.getAttribute('formId');
-  /*if(postId == formId && this.showCreateComment == false) {
-                    form.style.display = "block";
-                    this.showCreateComment = !this.showCreateComment
-                } else if(postId == formId && this.showCreateComment == true) {
-                    form.style.display = "none";
-                    this.showCreateComment = !this.showCreateComment
-                }*/
-                console.log("formData : ", formData)
-        axios
+      formData.append("postId", id);
+
+      console.log("formData : ", formData);
+      axios
         .post("http://localhost:3000/comments", formData, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
@@ -347,62 +253,64 @@ export default {
           console.log("response", response);
         })
         .catch((error) => console.log("Erreur", error));
-            },
+    },
 
-            // Permet de créer un nouveau commentaire
-            displayCreateComment(id) {
-                const postId = id;
-                axios.post('http://localhost:3000/api/comment/' + postId, {
-                    content: this.contentComment,
-                },{
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                .then(() => {
-                    window.location.reload()                    
-                })
-                .catch(error => {
-                    const msgerror = error.response.data
-                    this.notyf.error(msgerror.error)
-                })
+    // Permet de créer un nouveau commentaire
+    /*displayCreateComment(id) {
+      const postId = id;
+      axios
+        .post(
+          "http://localhost:3000/api/comment/" + postId,
+          {
+            content: this.contentComment,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
             },
-            // Permet d'afficher les commentaires d'un message
-            displayComment(id) {
-                this.showComment = !this.showComment
-                const postId = id;
-                
-                axios.get('http://localhost:3000/comments/' + postId, {
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                .then(response => {
-                    this.comments = response.data;
-                })
-                .catch(error => {
- error.response.data
-                  
-                })
-            },
-// Permet de supprimer un commentaire
-            deleteComment(id) {
-                const commentId = id;
-                axios.delete('http://localhost:3000/comments/' + commentId, {
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                .then(() => {
-                    window.location.reload()
-                })
-                .catch(error => {
-                    const msgerror = error.response.data
-                    this.notyf.error(msgerror.error)
-                })
-            }
+          }
+        )
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          const msgerror = error.response.data;
+          this.notyf.error(msgerror.error);
+        });
+    },
+    // Permet d'afficher les commentaires d'un message
+    displayComment(id) {
+      this.showComment = !this.showComment;
+      const postId = id;
+
+      axios
+        .get("http://localhost:3000/comments/" + postId, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.comments = response.data;
+        })
+        .catch((error) => {
+          error.response.data;
+        });
+    },*/
+    // Permet de supprimer un commentaire
+    DeleteComment(commentId, user) {
+      //gerer commentaire proprietaire des l'user
+      axios
+        .delete("http://localhost:3000/comments/" + commentId, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => console.log("Erreur", error));
+    },
     /*  const formData = new FormData();
       console.log("poiuytrtyuiouytrertgyhujk");
       formData.append("content", this.dataComment.content);
@@ -448,7 +356,7 @@ export default {
     },*/
   },
 
- mounted() {
+  mounted() {
     axios
       .get(
         "http://localhost:3000/posts", //je récupère les posts
