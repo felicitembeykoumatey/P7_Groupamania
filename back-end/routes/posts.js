@@ -11,7 +11,7 @@ router.post("/posts", multer, postCtrollers.createPost); // création post
 //router.get("/posts", auth, postCtrollers.getAllPosts);
 router.get("/posts", postCtrollers.getAllPosts);
 router.get("/:id", auth, postCtrollers.getAllPostFromOneUser);
-router.get("/:id", auth, postCtrollers.getOnePost);
-router.put("/:id", auth, multer, postCtrollers.modifyPost);
+//router.get("/:id", auth, postCtrollers.getOnePost);
+//router.put("/:id", auth, multer, postCtrollers.modifyPost);
 router.delete("/:id", auth, postCtrollers.deletePost);
 module.exports = router;

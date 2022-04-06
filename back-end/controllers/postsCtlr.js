@@ -29,7 +29,7 @@ exports.createPost = (req, res) => {
     images: req.body.files,
     userId: userId,
   };
-  console.log("post", post);
+  //console.log("post", post);
 
   if (req.file != undefined) {
     post.images = `${req.protocol}://${req.get("host")}/images/${
@@ -54,32 +54,11 @@ exports.createPost = (req, res) => {
     );
 };
 
-//Afficher tous les publications
+//Afficher toutes les publications
 
 exports.getAllPosts = (req, res, next) => {
   console.log("dfdsgdsgsdgds");
-  /*Post.findAll({
-    include: [
-      // inclu la relation direct avec la table post
-      {
-        model: User,
-        attributes: ["id", "username", "isAdmin"], // on n'affiche que le username
-      },
-      {
-        model: Comment,
-        //attributes: ["id", "postId", "userId", "content", "createAt"],
-        attributes: ["id", "postId", "userId", "content"],
-        include: [
-          {
-            model: User,
-            attributes: ["id", "username"],
-          },
-        ],
-      },
-    ],
-
-    //order: [["createdAt", "DESC"]], // ordre d'affichage
-  })*/
+  
   Post.findAll({
     include: [
       {
@@ -97,7 +76,7 @@ exports.getAllPosts = (req, res, next) => {
 
     .then((posts) => {
       if (posts.length > null) {
-        res.status(200).json(posts);
+        res.status(200).json(posts); // mon gros erreur qui bloque l'affichage des posts .Ne jamains mettre res.status(200).json({pots})
       } else {
         res.status(404).json({ error: "Pas de post à afficher" });
       }
@@ -138,7 +117,7 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     });
 };
 
-exports.getOnePost = (req, res, next) => {
+/*exports.getOnePost = (req, res, next) => {
   const id = req.params.id;
   Post.findByPk(id, {
     include: [
@@ -161,9 +140,9 @@ exports.getOnePost = (req, res, next) => {
     });
 };
 
-//Modifier une publication
+//Modifier une publication*/
 
-exports.modifyPost = (req, res, next) => {
+/*exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
   const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
   const userId = decodedToken.id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
@@ -254,7 +233,7 @@ exports.modifyPost = (req, res, next) => {
         error: error.message,
       });
     });
-};
+};*/
 
 // Supprimer une publication
 

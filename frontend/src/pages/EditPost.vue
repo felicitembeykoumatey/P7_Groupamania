@@ -43,37 +43,37 @@
         </button>
       </div>
       <p>{{ errMsg }}</p>
-    </form>
+ </form>
+          <textarea
+          id="comment"
+          placeholder="Insérer votre commentaire"
+          v-model="dataComment.content"
+        ></textarea>
+          <a v-on:click="createComment(item.id)"><i class="fas fa-comment" title="Envoyer"></i></a>
+          <div id="containe2">
+          <div id="example-2">
+            <ul v-for="item in comments" :key="item.id">
+      
+              <div class="contenu">{{ item.content }} <br /></div>
 
-    <div class="container">
-      <div class="test">
-        <h1>Fil d'actualité</h1>
-        <ul id="example-1">
-          <li v-for="item in posts" :key="item.id">
-            
-            <span>{{ item.content }}<br /></span>
-            <li>{{log("item : ",item)}}</li>
-            <li>{{log("user : ",item.user)}}</li>
-            <i
-              >Publié par <strong>{{ item.user.username }}</strong> le
-              le {{item.date.split('T')[0]}} à {{item.date.slice(11,16)}}<br><br></i>
-            <div class="contenu">{{ item.content }} <br /></div>
+              <i> Commenté par <strong>{{ item.user.username }}</strong> le
+                {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
+                }}<br /><br/>
+              </i>
 
-<!--
-            <p v-if="user.id == post.userId || user.isAdmin">
-              <button
-                @click.prevent="DelePost(post.id, post.userId)"
-                id="btn-sup"
-                type="submit"
-                class="btn btn-primary"
-              >
-                <span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i>
-              </button>
-            </p>!-->
-          </li>
-        </ul>
-      </div>
-    </div>
+              <p v-if="user.id==comment.userId || user.isAdmin"> <button @click.prevent="DeleteComment(comment.id, comment.userId)" id="btn-sup" type="submit" class="btn btn-primary"><span class="cacher">aaaa</span><i class="fas fa-trash-alt"></i></button></p>
+            </ul>
+          </div>
+          </div>
+       
+
+
+
+
+
+     
+   
+
   </main>
 </template>
 <!--Javascript-->
@@ -82,7 +82,7 @@
 import Disconect from "@/components/Disconect.vue"; //Importation de la fonction déconexion
 //import Footer from "@/components/Footer.vue";
 //import Comments from "../components/Comments.vue";
-// import Likes from "../components/Likes.vue";
+//import Likes from "../components/Likes.vue";
 // eslint-disable-next-line no-unused-vars
 //import router from "../router";
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
@@ -91,7 +91,7 @@ import formData from "form-data";
 
 export default {
   name: "EditPost",
-  components: { Disconect },
+  components: { Disconect, },
 
   data() {
     return {
@@ -102,15 +102,20 @@ export default {
         images: "",
       },
       files: "",
+      dataComment:{
+        content: null,
+      },
 
-      users: [], //je récupère les infos de la personnes connectée
+      user: [], //je récupère les infos de la personnes connectée
 
       posts: [], //je récupère les posts de la personnes connectée
+     
+      likes: [],
     };
   },
 
   methods: {
-    log(commmentaire,variable) {
+    log(commmentaire, variable) {
       console.log(commmentaire, variable);
     },
 
@@ -131,15 +136,7 @@ export default {
     },
 
     sendPost() {
-      // LE contenu est obligatoire!
-      // appeler back-end postsCtlr.createPost
-      // console.log("formData", formData)
-      /*         if (!this.content) {
-        this.errMsg =
-          "Vous devez remplir obligatoirement le champs !";
-        return
-      }*/
-      // Objet formData pour notre image
+   
 
       const formData = new FormData();
       formData.append("content", this.dataPost.content);
@@ -185,6 +182,55 @@ export default {
 
       .catch((error) => console.log(error));
   },
+
+createComment(postId){
+
+      const formData = new FormData();
+      formData.append("content", this.dataComment.content);
+      console.log("this.dataComment.content")
+          formData.append("userId", localStorage.getItem("userId"));
+            formData.append("postId", localStorage.getItem("postId"));
+
+            
+    if (
+        this.dataComment.comment !==null 
+      )  
+
+      console.log(this.dataComment);
+
+       axios
+        .post("http://localhost:3000/posts", formData, {
+          content:this.dataComment.content, 
+          postId:postId},
+          {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          }
+        })
+        .then((response) => {
+          console.log("response", response);
+          document.location.href = "http://localhost:8080/posts";
+        })
+        .catch((error) => console.log("Erreur", error));
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 </script>
 

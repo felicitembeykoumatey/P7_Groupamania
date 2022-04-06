@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 const sequelize = require('./database')
 
 module.exports = (sequelize, Sequelize) =>{
-const Comment = sequelize.define('comment', {
+const Comments = sequelize.define('comment', {
 
   content: {
       type: Sequelize.TEXT,
@@ -17,5 +17,5 @@ const Comment = sequelize.define('comment', {
     timestamps: false 
  
 });
-return Comment;
+return Comments;
 };
