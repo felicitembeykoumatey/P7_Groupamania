@@ -14,110 +14,108 @@
       ></router-link>
     </p>
     <br />
-    <form>
-      <div id="content">
-        <label for="content"><span class="news">Quoi de neuf?</span></label
-        ><br />
-        <textarea
-          id="content"
-          placeholder="Exprimez-vous?"
-          v-model="dataPost.content"
-        ></textarea>
-      </div>
-      <div id="preview" v-if="preview">
-        <img :src="preview" :alt="preview" class="image" />
-      </div>
 
-      <div id="btns">
-        <input
-          id="files"
-          ref="file"
-          name="file"
-          type="file"
-          @change="selectFile"
-          accept=".jpg, .jpeg, .png"
-        />
+    <div id="content">
+      <label for="content"><span class="news">Quoi de neuf?</span></label
+      ><br />
+      <textarea
+        id="content"
+        placeholder="Exprimez-vous?"
+        v-model="dataPost.content"
+      ></textarea>
+    </div>
+    <div id="preview" v-if="preview">
+      <img :src="preview" :alt="preview" class="image" />
+    </div>
 
-        <button @click.prevent="sendPost" class="btn-publier" type="submit">
-          <i class="fa-solid fa-share-from-square"></i>
-        </button>
-      </div>
-      <p>{{ errMsg }}</p>
+    <div id="btns">
+      <input
+        id="files"
+        ref="file"
+        name="file"
+        type="file"
+        @change="selectFile"
+        accept=".jpg, .jpeg, .png"
+      />
 
-      <div class="container">
-        <div class="test">
-          <h1>Fil d'actualité</h1>
-          <div id="example-1">
-            <ul v-for="item in posts" :key="item.id">
-              <p v-if="item.images"><img :src="item.images" alt="..." /></p>
+      <button @click.prevent="sendPost" class="btn-publier" type="submit">
+        <i class="fa-solid fa-share-from-square"></i>
+      </button>
+    </div>
+    <p>{{ errMsg }}</p>
 
-              <div class="contenu">{{ item.content }} <br /></div>
+    <div class="container">
+      <div class="test">
+        <h1>Fil d'actualité</h1>
+        <div id="example-1">
+          <ul v-for="item in posts" :key="item.id">
+            <p v-if="item.images"><img :src="item.images" alt="..." /></p>
+
+            <div class="contenu">{{ item.content }} <br /></div>
+            <i
+              >Publié par <strong>{{ item.user.username }}</strong> le
+              {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
+              }}<br /><br
+            /></i>
+
+            <div class="displayPost_item_like">
+              <!--  <h2> {{log("item",item)}} </h2>-->
+              <!--  <Likes v-bind:item="item" />-->
+              <Likes :postId="item.id" :userId="item.userId" />
+
               <i
-                >Publié par <strong>{{ item.user.username }}</strong> le
-                {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
-                }}<br /><br
-              /></i>
+                v-if="userId == item.userId || isAdmin == 'true'"
+                v-on:click="deletePost(item.id)"
+                class="displayPost_item_option_button far fa-trash-alt"
+                aria-label="Supprimer le message"
+              ></i>
+            </div>
 
-              <div class="displayPost_item_like">
-                <!--  <h2> {{log("item",item)}} </h2>-->
-                <!--  <Likes v-bind:item="item" />-->
-                <Likes :postId="item.id" :userId="item.userId" />
-                <i
-                  v-if="userId == item.userId || isAdmin == 'true'"
-                  v-on:click="deletePost(item.id)"
-                  class="displayPost_item_option_button far fa-trash-alt"
-                  aria-label="Supprimer le message"
-                ></i>
-              </div>
+            <textarea
+              id="comment"
+              placeholder="Insérer votre commentaire"
+              v-model="dataComment.content"
+            ></textarea>
 
-              <textarea
-                id="comment"
-                placeholder="Insérer votre commentaire"
-                v-model="dataComment.content"
-              ></textarea>
+            <button v-on:click.prevent="createComment(item.id)">
+              <i class="fas fa-comment" title="Envoyer"></i>
+            </button>
+            <div id="containe2">
+              <div id="example-2">
+                <h2>{{ log("item ", item) }}</h2>
+                <ul v-for="commentaire in item.comments" :key="commentaire.id">
+                  <h2>{{ log("item.content ", commentaire.content) }}</h2>
+                  <div class="contenu">{{ commentaire.content }} <br /></div>
 
-              <button v-on:click.prevent="createComment(item.id)">
-                <i class="fas fa-comment" title="Envoyer"></i>
-              </button>
-              <div id="containe2">
-                <div id="example-2">
-                  <h2>{{ log("item ", item) }}</h2>
-                  <ul
-                    v-for="commentaire in item.comments"
-                    :key="commentaire.id"
+                  <i>
+                    Commenté par <strong>{{ item.user.username }}</strong> le
+
+                    {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
+                    }}<br /><br />
+                  </i>
+
+                  <p
+                    v-if="
+                      item.user.id == commentaire.userId || item.user.isAdmin
+                    "
                   >
-                    <h2>{{ log("item.content ", commentaire.content) }}</h2>
-                    <div class="contenu">{{ commentaire.content }} <br /></div>
-
-                    <i>
-                      Commenté par <strong>{{ item.user.username }}</strong> le
-
-                      {{ item.date.split("T")[0] }} à
-                      {{ item.date.slice(11, 16) }}<br /><br />
-                    </i>
-
-                    <p
-                      v-if="
-                        item.user.id == commentaire.userId || item.user.isAdmin
+                    <button
+                      v-on:click.prevent="
+                        DeleteComment(commentaire.id, commentaire.userId)
                       "
                     >
-                      <button
-                        v-on:click.prevent="
-                          DeleteComment(commentaire.id, commentaire.userId)
-                        "
-                      >
-                        <span class="cacher">Poubelle</span
-                        ><i class="fas fa-trash-alt"></i>
-                      </button>
-                    </p>
-                  </ul>
-                </div>
+                      <span class="cacher">Poubelle</span
+                      ><i class="fas fa-trash-alt"></i>
+                    </button>
+                  </p>
+                </ul>
               </div>
-            </ul>
-          </div>
+            </div>
+          </ul>
         </div>
       </div>
-    </form>
+    </div>
+
     <router-view />
   </main>
 </template>
@@ -129,7 +127,7 @@ import Disconect from "@/components/Disconect.vue"; //Importation de la fonction
 //import Comments from "../components/Comments.vue";
 import Likes from "../components/Likes.vue";
 // eslint-disable-next-line no-unused-vars
-//import router from "../router";
+import router from "../router";
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 // eslint-disable-next-line no-unused-vars
 import formData from "form-data";
@@ -204,7 +202,8 @@ export default {
         })
         .then((response) => {
           console.log("response", response);
-          document.location.href = "http://localhost:8080/posts";
+          router.push({ path: "posts" });
+          //document.location.href = "http://localhost:8080/posts";
         })
         .catch((error) => console.log("Erreur", error));
 

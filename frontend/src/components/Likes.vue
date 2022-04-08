@@ -1,12 +1,14 @@
 <template>
-  <button v-if="!liked" @click="likePost(postId)" class="btn">
-    <i class="far fa-thumbs-up likeBtn like"></i>
-    {{ likes.length }}
-  </button>
-  <button v-else @click="unlikePost(postId)" class="btn">
-    <i class="far fa-thumbs-up likeBtn liked"></i>
-    {{ likes.length }}
-  </button>
+  <div class="likes-dislikes">
+    <button v-if="!liked" @click="likePost(postId)" class="btn">
+      <i class="far fa-thumbs-up likeBtn like"></i>
+      {{ likes.length }}
+    </button>
+    <button v-else @click="unlikePost(postId)" class="btn">
+      <i class="far fa-thumbs-up likeBtn liked"></i>
+      {{ likes.length }}
+    </button>
+  </div>
 </template>
 
 <script>
@@ -28,30 +30,22 @@ export default {
   methods: {
     /* fetch des Likes en fonction de l'id du post concerné */
     async fetchLikes(postId) {
-      const formData = new FormData();
-      formData.append("like", true);
-      formData.append("conpostIdtent", postId);
-
-      console.log("formData : ", formData);
       axios
-        .get("http://localhost:3000/likes", formData, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        })
+        .get(`http://localhost:3000/${JSON.stringify(postId)}/likes`)
         .then((response) => {
           console.log("response", response);
         })
         .catch((error) => console.log("Erreur", error));
     },
-    /* fonction qui like le post (selon son id) */
+
     likePost(postId) {
       const formData = new FormData();
       formData.append("like", true);
-      formData.append("conpostIdtent", postId);
-      console.log("postId sfsf: ", postId);
+      formData.append("userId", this.userId);
+      formData.append("postId", postId);
+
       axios
-        .post("http://localhost:3000/likes", formData, {
+        .post("http://localhost:3000/posts/like", formData, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
@@ -61,6 +55,9 @@ export default {
         })
         .catch((error) => console.log("Erreur", error));
     },
+  },
+  async created() {
+    this.likes = await this.fetchLikes(this.postId);
   },
 };
 </script>

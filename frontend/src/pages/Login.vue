@@ -76,7 +76,7 @@
 <script>
 import axios from "axios";
 import Footer from "@/components/Footer.vue";
-
+import router from "../router";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
@@ -108,7 +108,9 @@ export default {
           .post("http://localhost:3000/login", this.dataForm)
           .then((response) => {
             localStorage.setItem("token", response.data.token);
-            document.location.href = "http://localhost:8080/posts";
+
+            router.push({ path: "posts" });
+            // document.location.href = "http://localhost:8080/posts";
             alert("Utilisateur connecté !");
           })
           .catch((error) => console.log(error));

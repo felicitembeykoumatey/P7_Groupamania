@@ -47,14 +47,14 @@ exports.getAllComment = (req, res, next) => {
 };
 
 // Modifier un commentaire
-exports.modify = (req, res, next) => {
+exports.modify = (req, res) => {
   Comments.update({ ...req.body }, { where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Commentaire modifié !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
 };
 
 // Supprimer un commentaire
-exports.delete = (req, res, next) => {
+exports.delete = (req, res) => {
   console.log("req.params.id", req.params.id);
   Comments.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
