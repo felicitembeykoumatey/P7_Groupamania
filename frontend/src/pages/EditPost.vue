@@ -60,8 +60,8 @@
 
               <div class="displayPost_item_like">
                 <!--  <h2> {{log("item",item)}} </h2>-->
-                <Likes v-bind:item="item" />
-
+                <!--  <Likes v-bind:item="item" />-->
+                <Likes :postId="item.id" :userId="item.userId" />
                 <i
                   v-if="userId == item.userId || isAdmin == 'true'"
                   v-on:click="deletePost(item.id)"
@@ -251,54 +251,13 @@ export default {
         })
         .then((response) => {
           console.log("response", response);
+          document.location.href = "http://localhost:8080/posts";
         })
         .catch((error) => console.log("Erreur", error));
     },
 
-    // Permet de créer un nouveau commentaire
-    /*displayCreateComment(id) {
-      const postId = id;
-      axios
-        .post(
-          "http://localhost:3000/api/comment/" + postId,
-          {
-            content: this.contentComment,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((error) => {
-          const msgerror = error.response.data;
-          this.notyf.error(msgerror.error);
-        });
-    },
-    // Permet d'afficher les commentaires d'un message
-    displayComment(id) {
-      this.showComment = !this.showComment;
-      const postId = id;
-
-      axios
-        .get("http://localhost:3000/comments/" + postId, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.comments = response.data;
-        })
-        .catch((error) => {
-          error.response.data;
-        });
-    },*/
     // Permet de supprimer un commentaire
-    DeleteComment(commentId, user) {
+    DeleteComment(commentId) {
       //gerer commentaire proprietaire des l'user
       axios
         .delete("http://localhost:3000/comments/" + commentId, {
@@ -311,49 +270,6 @@ export default {
         })
         .catch((error) => console.log("Erreur", error));
     },
-    /*  const formData = new FormData();
-      console.log("poiuytrtyuiouytrertgyhujk");
-      formData.append("content", this.dataComment.content);
-      formData.append("userId", localStorage.getItem("userId"));
-      formData.append("postId", localStorage.getItem("postId"));
-
-      if (this.dataComment.content !== null)
-        axios
-          .post("http://localhost:3000/posts", formData, {
-            content: this.dataComment.content,
-            postId: postId,
-
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          })
-          .then((response) => {
-            console.log("response", response);
-            document.location.href = "http://localhost:8080/posts";
-          })
-          .catch((error) => console.log("Erreur", error));
-      this.$emit("toggle-Create");
-      this.content = "";
-
-      document.querySelector("div").reset();
-
-      axios
-        .get(
-          "http://localhost:3000/comments", //je récupère les comments
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
-            },
-          }
-        )
-        .then((response) => {
-          console.log("response", response);
-          this.comments = response.data;
-          console.log(" this.comments", this.comments);
-        })
-
-        .catch((error) => console.log(error));
-    },*/
   },
 
   mounted() {
@@ -399,9 +315,10 @@ textarea {
 img {
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 40%;
   width: 100%;
   object-fit: cover;
+  border-radius: 15px;
 }
 .news {
   font-weight: bold;

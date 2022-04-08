@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Likes",
@@ -26,57 +28,39 @@ export default {
   methods: {
     /* fetch des Likes en fonction de l'id du post concerné */
     async fetchLikes(postId) {
-      const resLikes = await fetch(
-        `http://localhost:3000/posts/${JSON.stringify(postId)}/likes`
-      );
-      const dataLikes = await resLikes.json();
-      dataLikes.forEach((like) => {
-        like.userId == this.userId ? (this.liked = true) : (this.like = false); // <- ici on vérifie si notre user à déjà liker ce post
-      });
-      return dataLikes;
+      const formData = new FormData();
+      formData.append("like", true);
+      formData.append("conpostIdtent", postId);
+
+      console.log("formData : ", formData);
+      axios
+        .get("http://localhost:3000/likes", formData, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log("response", response);
+        })
+        .catch((error) => console.log("Erreur", error));
     },
     /* fonction qui like le post (selon son id) */
     likePost(postId) {
-      const data = {
-        like: true,
-        userId: this.userId,
-        postId: postId,
-      };
-      console.log("postId : ", this.postId);
-
-      fetch(`http://localhost:3000/posts/${JSON.stringify(postId)}/like`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((data) => this.likes.push(data))
-        .catch((error) => console.log(error));
-      this.liked = true; // <- on indiquer à notre template que le user à liker ce post
-    },
-    /* fonction pour unliker le post */
-    unlikePost(postId) {
-      const data = {
-        userId: this.userId,
-      };
-      fetch(
-        `http://localhost:3000/api/posts/${JSON.stringify(postId)}/unlike`,
-        {
-          method: "DELETE",
+      const formData = new FormData();
+      formData.append("like", true);
+      formData.append("conpostIdtent", postId);
+      console.log("postId sfsf: ", postId);
+      axios
+        .post("http://localhost:3000/likes", formData, {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
-          body: JSON.stringify(data),
-        }
-      );
-      this.likes = this.likes.filter((like) => like.userId != this.userId); // <- pour unliker le post côté front
-      this.liked = false;
+        })
+        .then((response) => {
+          console.log("response", response);
+        })
+        .catch((error) => console.log("Erreur", error));
     },
-  },
-  async created() {
-    this.likes = await this.fetchLikes(this.postId);
   },
 };
 </script>
