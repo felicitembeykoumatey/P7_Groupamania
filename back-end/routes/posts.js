@@ -6,16 +6,11 @@ const auth = require("../middleware/auth"); // fonction qui permet de vérifier 
 const multer = require("../middleware/multer-config"); // Charger package multer  pour la  gestion des fichiers ( images des différents formats)
 const postCtrollers = require("../controllers/postsCtlr"); //Charger fichier controllers
 
-//Méthode CRUD (création, lecture, modification, suppression)
 router.post("/posts", multer, postCtrollers.createPost); // création post
-//router.get("/posts", auth, postCtrollers.getAllPosts);
 router.get("/posts", postCtrollers.getAllPosts);
 router.get("/:id", auth, postCtrollers.getAllPostFromOneUser);
-//router.get("/:id", auth, postCtrollers.getOnePost);
-//router.put("/:id", auth, multer, postCtrollers.modifyPost);
-router.delete("/:id", auth, postCtrollers.deletePost);
+router.delete("/posts/:id", multer, postCtrollers.deletePost);
 router.post("/posts/like", multer, postCtrollers.likePost); // création post
 router.post("/posts/unlike", multer, postCtrollers.unlikePost); // création post
-//router.get("/posts/like", postCtrollers.getAllLikesPost);
 router.get("/:postId/likes", postCtrollers.getAllLikesPost);
 module.exports = router;

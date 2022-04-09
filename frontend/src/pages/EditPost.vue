@@ -47,10 +47,15 @@
     <div class="container">
       <div class="test">
         <h1>Fil d'actualité</h1>
-        <div id="example-1">
+        <div id="container_post">
           <ul v-for="item in posts" :key="item.id">
             <p v-if="item.images"><img :src="item.images" alt="..." /></p>
-
+            <p v-if="item.user.id == item.userId || item.user.isAdmin">
+              <!--suppresion publication-->
+              <button v-on:click.prevent="deletePost(item.id, item.userId)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </p>
             <div class="contenu">{{ item.content }} <br /></div>
             <i
               >Publié par <strong>{{ item.user.username }}</strong> le
@@ -62,13 +67,6 @@
               <!--  <h2> {{log("item",item)}} </h2>-->
               <!--  <Likes v-bind:item="item" />-->
               <Likes :postId="item.id" :userId="item.userId" />
-
-              <i
-                v-if="userId == item.userId || isAdmin == 'true'"
-                v-on:click="deletePost(item.id)"
-                class="displayPost_item_option_button far fa-trash-alt"
-                aria-label="Supprimer le message"
-              ></i>
             </div>
 
             <textarea
@@ -104,8 +102,7 @@
                         DeleteComment(commentaire.id, commentaire.userId)
                       "
                     >
-                      <span class="cacher">Poubelle</span
-                      ><i class="fas fa-trash-alt"></i>
+                      <i class="fas fa-trash-alt"></i>
                     </button>
                   </p>
                 </ul>
@@ -200,10 +197,8 @@ export default {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
-        .then((response) => {
-          console.log("response", response);
+        .then(() => {
           router.push({ path: "posts" });
-          //document.location.href = "http://localhost:8080/posts";
         })
         .catch((error) => console.log("Erreur", error));
 
@@ -217,21 +212,17 @@ export default {
     //supprimer publication//
 
     deletePost(id) {
-      const postId = id;
-
       axios
-        .delete("http://localhost:3000/posts/" + postId, {
+        .delete("http://localhost:3000/posts/" + id, {
           headers: {
-            "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then(() => {
-          this.displayPost();
+          window.location.reload();
+          //this.displayPost();
         })
-        .catch((error) => {
-          error.response.data;
-        });
+        .catch((error) => console.log("Erreur", error));
     },
     // Créer et afficher  un nouveau commentaire //
     createComment(id) {
@@ -248,9 +239,8 @@ export default {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
-        .then((response) => {
-          console.log("response", response);
-          document.location.href = "http://localhost:8080/posts";
+        .then(() => {
+          router.push({ path: "posts" });
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -282,6 +272,7 @@ export default {
         }
       )
       .then((response) => {
+        // window.location.reload();
         this.posts = response.data;
       })
 

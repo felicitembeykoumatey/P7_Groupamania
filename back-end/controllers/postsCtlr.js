@@ -4,22 +4,22 @@ const xss = require("xss"); // xss dépendance chargée pour proteger contre les
 const app = require("../app"); // Recupérer notre application
 
 // Importation pour utilisation des variables d'environnements.
-const dotenv = require("dotenv");
+//const dotenv = require("dotenv");
 
 const multer = require("multer");
 
 const db = require("../models/database"); // importation sequelize database
 const { posts } = require("../models/database");
+//const { posts } = require("../models/database");
 const Post = db.posts; // Chargé fichier models post
 const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
 const Like = db.likes;
-//console.log("1111112525251");
 
 // Création Post d'actualité
 exports.createPost = (req, res) => {
   //Token qui permet de recupérer userdId
-  console.log("req.headers", req.headers);
+  //console.log("req.headers", req.headers);
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
@@ -30,7 +30,6 @@ exports.createPost = (req, res) => {
     images: req.body.files,
     userId: userId,
   };
-  //console.log("post", post);
 
   if (req.file != undefined) {
     post.images = `${req.protocol}://${req.get("host")}/images/${
@@ -39,7 +38,7 @@ exports.createPost = (req, res) => {
   } else {
     post.images == null;
   }
-  console.log("sdfghj");
+
   // publication réussie
   console.log("post", post);
   Post.create(post)
@@ -119,130 +118,12 @@ exports.getAllPostFromOneUser = (req, res, next) => {
     });
 };
 
-/*exports.getOnePost = (req, res, next) => {
-  const id = req.params.id;
-  Post.findByPk(id, {
-    include: [
-      {
-        model: Comment,
-        as: "comments",
-        include: ["user"],
-      },
-      "user",
-    ],
-    order: [["comments", "date", "ASC"]],
-  })
-    .then((postS) => {
-      res.status(200).json(posts);
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
-
-//Modifier une publication*/
-
-/*exports.modifyPost = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
-  const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
-  const userId = decodedToken.id; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
-  const id = req.params.id;
-  const post = {};
-
-  if (req.body.content) {
-    post.content = req.body.content;
-  }
-
-  if (req.file) {
-    post.files = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
-  }
-
-  Post.findByPk(id, {
-    include: "user",
-  })
-    .then((oldpost) => {
-      if (userId === oldpost.user.id) {
-        if (req.file) {
-          if (!post.content) {
-            post.content = oldpost.content;
-          }
-
-          if (oldpost.file) {
-            const filename = oldpost.file.split("/images/")[1];
-            fs.unlink(`images/${filename}`, () => {
-              Post.update(post, {
-                where: {
-                  id: id,
-                },
-              })
-                .then((data) => {
-                  res.status(201).json({
-                    message: "Post modifié !",
-                  });
-                })
-                .catch((error) =>
-                  res.status(500).json({
-                    error,
-                  })
-                );
-            });
-          } else {
-            Post.update(post, {
-              where: {
-                id: id,
-              },
-            })
-              .then((data) => {
-                res.status(201).json({
-                  message: "Publication modifié !",
-                });
-              })
-              .catch((error) =>
-                res.status(500).json({
-                  error,
-                })
-              );
-          }
-        } else {
-          Post.update(post, {
-            where: {
-              id: id,
-            },
-          })
-            .then((data) => {
-              res.status(201).json({
-                message: "Publication modifié !",
-              });
-            })
-            .catch((error) =>
-              res.status(500).json({
-                error,
-              })
-            );
-        }
-      } else {
-        res.status(401).json({
-          error: new Error("!"),
-        });
-      }
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error.message,
-      });
-    });
-};*/
-
 // Supprimer une publication
-
-exports.deletePost = (req, res, next) => {
+/*
+exports.deletePost = (req, res) => {
   const token = req.headers.authorization.split(" ")[1]; // Récupérer le token dans le header authorization (qui se trouve après "bearer_")
-  const decodedToken = jwt.verify(token, process.env.KEY_TOKEN); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
-  const userId = decodedToken.userId; //Récupérer  users_id qui est dans l'objet decodedToken (constance decodedToken)
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET"); // Décoder le token avec la fonction "verify" de jwt (vérifier le token par rapport à notre clé secrète)
+  const userId = decodedToken.userId; //Récupérer  userId qui est dans l'objet decodedToken (constance decodedToken)
   const isAdminId = decodedToken.isAdminId;
   const id = req.params.id;
 
@@ -298,12 +179,21 @@ exports.deletePost = (req, res, next) => {
         error: error,
       });
     });
+};*/
+
+// Supprimer un commentaire
+exports.deletePost = (req, res) => {
+  // console.log("req.params.id", req.params.id);
+  Post.destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: "poublication  supprimé !" }))
+    .catch((error) => res.status(400).json({ error: error.message }));
 };
 
+//Implementation like et unlike
 exports.likePost = (req, res) => {
   try {
-    console.log(req.body);
-    let { userId, postId } = req.body;
+    //console.log(req.body);
+    const { userId, postId } = req.body;
     Like.create({ postId, userId })
       .then((newLike) => {
         console.log("nouveau like créé");
@@ -317,7 +207,7 @@ exports.likePost = (req, res) => {
 
 /* logique pour unliker un post */
 exports.unlikePost = (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   try {
     Like.destroy({
       where: { postId: req.params.postId, userId: req.body.userId },
@@ -332,7 +222,6 @@ exports.unlikePost = (req, res) => {
   }
 };
 
-/* logique pour récupérer les likes d'un post */
 exports.getAllLikesPost = (req, res) => {
   try {
     Like.findAll({ where: { postId: req.params.postId }, include: User })

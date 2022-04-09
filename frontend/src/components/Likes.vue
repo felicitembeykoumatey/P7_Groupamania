@@ -28,16 +28,6 @@ export default {
     };
   },
   methods: {
-    /* fetch des Likes en fonction de l'id du post concerné */
-    async fetchLikes(postId) {
-      axios
-        .get(`http://localhost:3000/${JSON.stringify(postId)}/likes`)
-        .then((response) => {
-          console.log("response", response);
-        })
-        .catch((error) => console.log("Erreur", error));
-    },
-
     likePost(postId) {
       const formData = new FormData();
       formData.append("like", true);

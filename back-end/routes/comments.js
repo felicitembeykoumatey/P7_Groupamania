@@ -10,7 +10,6 @@ const multer = require("../middleware/multer-config"); // Charger package multer
 //Mes routes
 router.post("/comments", multer, commentCtrollers.createComment); // chemin pour créer un commentaire.
 router.get("/comments", auth, commentCtrollers.getAllComment); // chemin pour obtenir un commentaire.
-router.put("/:id", auth, commentCtrollers.modify); // modifier commentaire.
 router.delete("/comments/:id", multer, commentCtrollers.delete); // chemin pour supprimer le commentaire.
 
 module.exports = router;

@@ -46,16 +46,9 @@ exports.getAllComment = (req, res, next) => {
     .catch((error) => res.status(404).json({ error: error.message })); // Gestion d'erreur
 };
 
-// Modifier un commentaire
-exports.modify = (req, res) => {
-  Comments.update({ ...req.body }, { where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Commentaire modifié !" }))
-    .catch((error) => res.status(400).json({ error: error.message }));
-};
-
 // Supprimer un commentaire
 exports.delete = (req, res) => {
-  console.log("req.params.id", req.params.id);
+ // console.log("req.params.id", req.params.id);
   Comments.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
