@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
+//import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -24,30 +24,18 @@ export default {
   data() {
     return {
       likes: [],
+      dislikes: [],
       liked: null,
     };
   },
-  methods: {
-    likePost(postId) {
-      const formData = new FormData();
-      formData.append("like", true);
-      formData.append("userId", this.userId);
-      formData.append("postId", postId);
 
-      axios
-        .post("http://localhost:3000/posts/like", formData, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          console.log("response", response);
-        })
-        .catch((error) => console.log("Erreur", error));
+  methods: {
+    likePost() {
+      this.likes += 1;
     },
-  },
-  async created() {
-    this.likes = await this.fetchLikes(this.postId);
+    unlikePost() {
+      this.dislikes += 1;
+    },
   },
 };
 </script>
