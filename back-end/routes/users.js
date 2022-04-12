@@ -12,7 +12,7 @@ const auth = require("../middleware/auth"); // Importer la fonction qui permet d
 //Création des routes  inscription et connexion //
 router.post("/signup", multer, limiter, userCtrl.signup); // Inscription//
 router.post("/login", limiter, userCtrl.login); // Connexion//
-router.get("/me", auth, userCtrl.profilUser); // profil d'utilisateur//
+router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 //router.get('/all', auth, userCtrl.allProfiluser);// Tous les profils
 //router.delete("/delete", auth, userCtrl.deleteProfile); //Suppression profile
 //**EXPORT**/

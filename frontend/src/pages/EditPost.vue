@@ -5,7 +5,7 @@
     </div>
 
     <p>
-      Bienvenu(e)
+      {{ member.username }} est en ligne!
       <router-link class="redirection-profil" to="/profil"
         ><span class="hide">aaaa</span>
 
@@ -53,7 +53,7 @@
             <p v-if="item.images"><img :src="item.images" alt="..." /></p>
 
             <!--suppresion publication-->
-            <p v-if="item.userId || item.user.isAdmin == true">
+            <p v-if="member.id == item.userId || item.user.isAdmin == true">
               <button v-on:click.prevent="deletePost(item.id, item.userId)">
                 <i class="fas fa-trash-alt"></i>
               </button>
@@ -99,16 +99,14 @@
                     {{ commentaire.myDate.split("T")[0] }} à
                     {{ commentaire.myDate.slice(11, 16) }}<br /><br />
                   </i>
-
                   <p
                     v-if="
-                      commentaire.userId || commentaire.user.isAdmin == true
+                      member.id == commentaire.userId ||
+                      commentaire.user.isAdmin == true
                     "
                     class="poubelle"
                   >
-                    <button
-                      v-on:click.prevent="DeleteComment(commentaire.userId)"
-                    >
+                    <button v-on:click.prevent="DeleteComment(commentaire.id)">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </p>
@@ -158,7 +156,7 @@ export default {
       dataComment: {
         content: null,
       },
-      user: [], //je récupère les infos de la personnes connectée
+      member: [], //je récupère les infos de la personnes connectée
       posts: [], //je récupère les posts de la personnes connectée
       comments: [],
       likes: [],
@@ -264,11 +262,11 @@ export default {
 
       .then((response) => {
         console.log("response", response);
-        this.user = response.data;
-        console.log("this.user:", this.user);
+        this.member = response.data;
+        console.log("member :", this.member);
       })
       .catch((error) => console.log(error));
-    console.log("this.user:", this.user);
+    console.log("this.member:", this.member);
     axios
       .get(
         "http://localhost:3000/posts", //je récupère les posts

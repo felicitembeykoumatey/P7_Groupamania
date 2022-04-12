@@ -43,11 +43,8 @@ exports.login = (req, res) => {
   // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
-  console.log("loginEmail:", loginEmail);
-  console.log("loginPassword:", loginPassword);
   User.findOne({ where: { email: loginEmail } })
     .then((user) => {
-      console.log("userdgsfhgjhk:", user);
       if (user == null) {
         return res
           .status(401)
@@ -55,11 +52,8 @@ exports.login = (req, res) => {
       }
 
       bcrypt.compare(loginPassword, user.password).then((valid) => {
-        console.log("user.password :", user.password);
-        console.log("valid :", valid);
         if (valid == false) {
           // Si le mot de passe n'est pas le bon
-          console.log("egrsgreg :");
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
       });
@@ -82,11 +76,14 @@ exports.login = (req, res) => {
 exports.profilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-  const id = decodedToken.id;
+  console.log("decodedToken :", decodedToken);
+  const userId = decodedToken.userId;
+  console.log("userId :", userId);
   User.findOne({
-    attributes: ["userId", "email", "username", "isAdmin"],
-    where: { id: id },
+    attributes: ["id", "email", "username", "isAdmin"],
+    where: { id: userId },
   })
+
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
