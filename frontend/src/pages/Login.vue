@@ -32,24 +32,24 @@
         />
       </div>
       <div class="btn">
-        <router-link class="redirection-" to="/posts">
-          <!--  <button
+        <!--  <router-link class="redirection-" to="/posts">
+          <button
             @submit.prevent="userLogin"
             type="submit"
             class="btn-connexion"
           >
             Connexion
-          </button>-->
-
-          <button
-            v-on:click="userLogin"
-            type="submit"
-            class="btn-connexion"
-            value="Connecté"
-          >
-            Se connecter
           </button></router-link
+        >-->
+
+        <button
+          v-on:click="userLogin"
+          type="submit"
+          class="btn-connexion"
+          value="Connecté"
         >
+          Se connecter
+        </button>
         <!-- Bouton connexion -->
         <!-- 
         <button type="submit" class="btn-connexion" value="Connecté">
@@ -76,7 +76,7 @@
 <script>
 import axios from "axios";
 import Footer from "@/components/Footer.vue";
-import router from "../router";
+//import router from "../router"; aa revoir
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
@@ -107,10 +107,10 @@ export default {
         axios
           .post("http://localhost:3000/login", this.dataForm)
           .then((response) => {
+            console.log("response : ", response);
             localStorage.setItem("token", response.data.token);
-
-            router.push({ path: "posts" });
-            // document.location.href = "http://localhost:8080/posts";
+            //router.push({ path: "posts" });
+            document.location.href = "http://localhost:8080/posts";
             alert("Utilisateur connecté !");
           })
           .catch((error) => console.log(error));

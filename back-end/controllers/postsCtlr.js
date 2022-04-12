@@ -126,7 +126,6 @@ exports.deletePost = (req, res) => {
   const userId = decodedToken.userId; //Récupérer  userId qui est dans l'objet decodedToken (constance decodedToken)
   const isAdminId = decodedToken.isAdminId;
   const id = req.params.id;
-
   Post.findByPk(id, {
     include: "user",
   })

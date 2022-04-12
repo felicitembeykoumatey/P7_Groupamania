@@ -44,14 +44,16 @@
     </div>
     <p>{{ errMsg }}</p>
 
+    <h2>{{ log("user courant ", userId) }}</h2>
     <div class="container">
       <div class="test">
         <h1>Fil d'actualité</h1>
         <div id="container_post">
           <ul v-for="item in posts" :key="item.id">
             <p v-if="item.images"><img :src="item.images" alt="..." /></p>
-            <p v-if="item.user.id == item.userId || item.user.isAdmin">
-              <!--suppresion publication-->
+
+            <!--suppresion publication-->
+            <p v-if="item.userId || item.user.isAdmin == true">
               <button v-on:click.prevent="deletePost(item.id, item.userId)">
                 <i class="fas fa-trash-alt"></i>
               </button>
@@ -81,26 +83,31 @@
             <div id="containe2">
               <div id="example-2">
                 <h2>{{ log("item ", item) }}</h2>
-                <ul v-for="commentaire in item.comments" :key="commentaire.id">
+
+                <ul
+                  v-for="commentaire in item.comments"
+                  :key="commentaire.id"
+                  class="commentaire_conteneur"
+                >
                   <h2>{{ log("item.content ", commentaire.content) }}</h2>
                   <div class="contenu">{{ commentaire.content }} <br /></div>
 
                   <i>
-                    Commenté par <strong>{{ item.user.username }}</strong> le
+                    Commenté par
+                    <strong>{{ commentaire.user.username }}</strong> le
 
-                    {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
-                    }}<br /><br />
+                    {{ commentaire.myDate.split("T")[0] }} à
+                    {{ commentaire.myDate.slice(11, 16) }}<br /><br />
                   </i>
 
                   <p
                     v-if="
-                      item.user.id == commentaire.userId || item.user.isAdmin
+                      commentaire.userId || commentaire.user.isAdmin == true
                     "
+                    class="poubelle"
                   >
                     <button
-                      v-on:click.prevent="
-                        DeleteComment(commentaire.id, commentaire.userId)
-                      "
+                      v-on:click.prevent="DeleteComment(commentaire.userId)"
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -128,11 +135,9 @@ import router from "../router";
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 // eslint-disable-next-line no-unused-vars
 import formData from "form-data";
-
 export default {
   name: "EditPost",
   components: { Disconect, Likes },
-
   data() {
     return {
       userId: localStorage.getItem("userId"),
@@ -143,7 +148,6 @@ export default {
       revele: false,
       showComment: false,
       showCreateComment: false,
-
       dataPost: {
         content: "",
         preview: null,
@@ -155,18 +159,15 @@ export default {
         content: null,
       },
       user: [], //je récupère les infos de la personnes connectée
-
       posts: [], //je récupère les posts de la personnes connectée
       comments: [],
       likes: [],
     };
   },
-
   methods: {
     log(commmentaire, variable) {
       console.log(commmentaire, variable);
     },
-
     selectFile(event) {
       this.files = this.$refs.file.files[0];
       //
@@ -182,10 +183,8 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-
     sendPost() {
       // Objet formData pour notre image
-
       const formData = new FormData();
       formData.append("content", this.dataPost.content);
       formData.append("files", this.$refs.file.files[0]);
@@ -201,7 +200,6 @@ export default {
           router.push({ path: "posts" });
         })
         .catch((error) => console.log("Erreur", error));
-
       /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
       this.$emit("toggle-Create");
       this.content = "";
@@ -210,7 +208,6 @@ export default {
       document.querySelector("form").reset();
     },
     //supprimer publication//
-
     deletePost(id) {
       axios
         .delete("http://localhost:3000/posts/" + id, {
@@ -227,11 +224,9 @@ export default {
     // Créer et afficher  un nouveau commentaire //
     createComment(id) {
       const formData = new FormData();
-
       formData.append("content", this.dataComment.content);
       formData.append("userId", localStorage.getItem("userId"));
       formData.append("postId", id);
-
       console.log("formData : ", formData);
       axios
         .post("http://localhost:3000/comments", formData, {
@@ -244,7 +239,6 @@ export default {
         })
         .catch((error) => console.log("Erreur", error));
     },
-
     // Permet de supprimer un commentaire
     DeleteComment(commentId) {
       //gerer commentaire proprietaire des l'user
@@ -260,8 +254,21 @@ export default {
         .catch((error) => console.log("Erreur", error));
     },
   },
-
   mounted() {
+    axios
+      .get("http://localhost:3000/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+
+      .then((response) => {
+        console.log("response", response);
+        this.user = response.data;
+        console.log("this.user:", this.user);
+      })
+      .catch((error) => console.log(error));
+    console.log("this.user:", this.user);
     axios
       .get(
         "http://localhost:3000/posts", //je récupère les posts
@@ -275,7 +282,6 @@ export default {
         // window.location.reload();
         this.posts = response.data;
       })
-
       .catch((error) => console.log(error));
   },
 };
@@ -294,14 +300,12 @@ form {
   padding: 1rem;
   border-radius: 40px;
 }
-
 textarea {
   height: 15px;
   padding: 10px 2px 10px 2px;
   width: calc(100% - 1rem);
   border-radius: 15px;
 }
-
 img {
   display: flex;
   justify-content: center;
@@ -314,7 +318,6 @@ img {
   font-weight: bold;
   color: #c33906;
 }
-
 .fa-user {
   font-weight: bold;
   color: #c33906;
@@ -323,7 +326,6 @@ img {
   overflow: hidden;
   max-width: 20%;
 }
-
 #btns {
   display: flex;
   justify-content: space-between;
@@ -331,14 +333,22 @@ img {
   margin-top: 10px;
   padding-top: 10px;
 }
-
+.container_post {
+  color: rgb(8, 8, 8);
+  background-color: rgb(100, 207, 240);
+  border-radius: 30px 30px 30px 30px;
+}
+.commentaire_conteneur {
+  color: rgb(8, 8, 8);
+  background-color: rgb(240, 154, 100);
+  border-radius: 30px 30px 30px 30px;
+}
 /*Média queries*/
 /*Mobile*/
 @media screen and (min-width: 375px) {
   .img-logo {
     width: 48%;
   }
-
   #sendPost {
     max-width: 85%;
     box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
@@ -348,11 +358,9 @@ img {
     border-radius: 40px;
   }
 }
-
 /*desktop*/
 @media screen and (min-width: 992px) {
 }
-
 @media screen and (min-width: 1440px) {
   .img-logo {
     width: 25%;

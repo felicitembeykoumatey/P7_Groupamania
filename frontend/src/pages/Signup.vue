@@ -85,7 +85,7 @@
 
 <script>
 import axios from "axios";
-//import router from '../router';
+import router from "../router";
 //import store from '../store/index.js';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -107,15 +107,15 @@ export default {
   methods: {
     dataSignup() {
       const formData = new FormData();
-      console.log("formData", formData);
+
       formData.append("firstname", this.dataForm.firstname);
       formData.append("lastname", this.dataForm.lastname);
       formData.append("username", this.dataForm.username);
       formData.append("grade", this.dataForm.grade);
-      formData.append(" sex", this.dataForm.sex);
+      formData.append("sex", this.dataForm.sex);
       formData.append("email", this.dataForm.email);
-      formData.append(" password", this.dataForm.password);
-
+      formData.append("password", this.dataForm.password);
+      console.log("formData", formData);
       if (
         !this.dataForm.firstname ||
         !this.dataForm.lastname ||
@@ -126,46 +126,19 @@ export default {
         !this.dataForm.password
       ) {
         this.errMsg = "Svp, remplissez tous les champs du formulaire !";
-        return;
       }
-      const passwordValidator = require("vee-validate");
-      const passValid = new passwordValidator();
-
-      passValid
-        .is()
-        .min(8)
-        .is()
-        .max(50)
-        .has()
-        .uppercase()
-        .has()
-        .lowercase()
-        .has()
-        .digits(2)
-        .has()
-        .not()
-        .spaces()
-        .is()
-        .not()
-        .oneOf(["Passw0rd", "Password123"]);
-
-      if (!passValid.validate(!this.dataForm.password)) {
-        this.errMsg =
-          "Password Err! => entre 8 et 32 caractères + 1 minuscule min + 1 maj min + 1 caractère spécial";
-        return;
-      }
-
+      console.log("formData12 :", formData);
       axios
         .post("http://localhost:3000/signup", formData)
-     
-           .then((response) => {
-            localStorage.setItem("token", response.data.token);
-          console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
+
+        .then(() => {
+          // localStorage.setItem("token", response.data.token);
+          // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
           //Réinitialisation
           this.dataForm.email = null;
           this.dataForm.username = null;
-
-          document.location.href = "http://localhost:8080/login";
+          router.push({ path: "login" });
+          //document.location.href = "http://localhost:8080/login";
         })
         .catch((error) => console.log(error));
     },
