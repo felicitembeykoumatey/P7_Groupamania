@@ -66,9 +66,9 @@
             /></i>
 
             <div class="displayPost_item_like">
-              <!--  <h2> {{log("item",item)}} </h2>-->
+              <!-- <h2>{{ log("item.userId", item.userId) }}</h2>-->
               <!--  <Likes v-bind:item="item" />-->
-              <Likes :postId="item.id" :userId="item.userId" />
+              <Likes :postId="item.id" :userId="member.id" />
             </div>
 
             <textarea
@@ -203,7 +203,6 @@ export default {
       this.content = "";
       this.files = "";
       this.preview = "";
-      document.querySelector("form").reset();
     },
     //supprimer publication//
     deletePost(id) {
@@ -225,7 +224,6 @@ export default {
       formData.append("content", this.dataComment.content);
       formData.append("userId", localStorage.getItem("userId"));
       formData.append("postId", id);
-      console.log("formData : ", formData);
       axios
         .post("http://localhost:3000/comments", formData, {
           headers: {

@@ -190,26 +190,48 @@ exports.deletePost = (req, res) => {
 
 //Implementation like et unlike
 exports.likePost = (req, res) => {
-  try {
-    //console.log(req.body);
-    const { userId, postId } = req.body;
-    Like.create({ postId, userId })
-      .then((newLike) => {
-        console.log("nouveau like créé");
-        res.status(201).json(newLike);
-      })
-      .catch((error) => res.status(400).json(error));
-  } catch {
-    (error) => res.status(500).json(error);
-  }
+  const postId = req.body.postId;
+  const userId = req.body.userId;
+  console.log("req.body.userId : ", req.body.userId);
+  Like.findOne({
+    where: { postId: postId, userId: userId },
+  })
+    .then((like) => {
+      if (!like) {
+        console.log("je suis dans !like");
+        Like.create({ postId, userId }).then((newLike) => {
+          console.log("nouveau like créé");
+          res.status(201).json(newLike);
+        });
+      } else {
+        console.log("je suis dans like");
+        res.status(200).json({
+          message: "Utilisateur a déjà liké",
+        });
+      }
+    })
+    .catch((error) => res.status(400).json({ error: error.message }));
 };
-
-/* logique pour unliker un post */
+/*
+try {
+  //console.log(req.body);
+  const { userId, postId } = req.body;
+  Like.create({ postId, userId })
+    .then((newLike) => {
+      console.log("nouveau like créé");
+      res.status(201).json(newLike);
+    })
+    .catch((error) => res.status(400).json(error));
+} catch {
+  (error) => res.status(500).json(error);
+  };
+*/
+/* logique pour unliker un post
 exports.unlikePost = (req, res) => {
   //console.log(req.body);
   try {
     Like.destroy({
-      where: { postId: req.params.postId, userId: req.body.userId },
+      where: { postId: req.body.postId, userId: req.body.userId },
     })
       .then((like) => {
         console.log(like);
@@ -220,12 +242,15 @@ exports.unlikePost = (req, res) => {
     (error) => res.status(500).json(error);
   }
 };
-
+ */
 exports.getAllLikesPost = (req, res) => {
   try {
-    Like.findAll({ where: { postId: req.params.postId }, include: User })
+    Like.findAll({
+      where: { postId: req.params.postId },
+    })
       .then((like) => {
-        res.status(200).json(like);
+        res.status(200).json(like.length);
+        return like.length;
       })
       .catch((error) => res.status(400).json(error));
   } catch {

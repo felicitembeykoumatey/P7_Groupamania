@@ -1,18 +1,18 @@
 <template>
-  <div class="likes-dislikes">
-    <button v-if="!liked" @click="likePost(postId)" class="btn">
+  <div>
+    <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
       <i class="far fa-thumbs-up likeBtn like"></i>
-      {{ likes.length }}
+      {{ likes }}
     </button>
-    <button v-else @click="unlikePost(postId)" class="btn">
-      <i class="far fa-thumbs-up likeBtn liked"></i>
+    <!-- <button v-else @click.prevent="unlikePost(postId)" class="btn">
+      <i class="far fa-thumbs-o-up likeBtn liked"></i>
       {{ likes.length }}
-    </button>
+    </button>-->
   </div>
 </template>
 
 <script>
-//import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
+import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -25,17 +25,42 @@ export default {
     return {
       likes: [],
       dislikes: [],
-      liked: null,
     };
   },
 
   methods: {
-    likePost() {
-      this.likes += 1;
+    likePost(postId) {
+      const formData = new FormData();
+      formData.append("likes", true);
+      formData.append("userId", this.userId);
+      formData.append("postId", postId);
+      console.log("formData : ", formData.get("userId"));
+      axios.post("http://localhost:3000/posts/like", formData, {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      });
+
+      //this.likes += 1;
     },
-    unlikePost() {
-      this.dislikes += 1;
-    },
+  },
+
+  mounted() {
+    const formData = new FormData();
+    formData.append("postId", this.postId);
+    //  axios
+    //   .get("http://localhost:3000/likes", formData, {
+    axios
+      .get("http://localhost:3000/likes/" + this.postId, {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log("likes : ", response.data);
+        this.likes = response.data;
+      })
+      .catch((error) => console.log(error));
   },
 };
 </script>
@@ -57,10 +82,10 @@ p {
   border-radius: 50%;
   padding: 0.5rem;
 }
-.like {
-  color: #3174e4;
+.islike {
+  color: #b0b3b8;
   background-color: white;
-  border: 1px solid #3174e4;
+  border: 1px solid #eff1f5;
   border-radius: 50%;
   padding: 0.5rem;
 }

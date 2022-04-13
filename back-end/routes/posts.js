@@ -11,6 +11,7 @@ router.get("/posts", multer, postCtrollers.getAllPosts);
 router.get("/:id", auth, postCtrollers.getAllPostFromOneUser);
 router.delete("/posts/:id", multer, postCtrollers.deletePost);
 router.post("/posts/like", multer, postCtrollers.likePost); // création post
-router.post("/posts/unlike", multer, postCtrollers.unlikePost); // création post
-router.get("/:postId/likes", postCtrollers.getAllLikesPost);
+//router.post("/posts/unlike", multer, postCtrollers.unlikePost); // création post
+
+router.get("/likes/:postId", multer, postCtrollers.getAllLikesPost);
 module.exports = router;
