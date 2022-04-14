@@ -196,6 +196,7 @@ export default {
         })
         .then(() => {
           router.push({ path: "posts" });
+          window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
       /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
@@ -232,6 +233,7 @@ export default {
         })
         .then(() => {
           router.push({ path: "posts" });
+          window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -338,6 +340,8 @@ img {
   color: rgb(8, 8, 8);
   background-color: rgb(240, 154, 100);
   border-radius: 30px 30px 30px 30px;
+}
+.contenu {
 }
 /*Média queries*/
 /*Mobile*/

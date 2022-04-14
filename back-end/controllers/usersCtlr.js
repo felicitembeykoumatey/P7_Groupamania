@@ -57,7 +57,6 @@ exports.login = (req, res) => {
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
       });
-
       res.status(200).json({
         userId: user.id,
         isAdmin: user.isAdmin,
@@ -80,10 +79,18 @@ exports.profilUser = (req, res) => {
   const userId = decodedToken.userId;
   console.log("userId :", userId);
   User.findOne({
-    attributes: ["id", "email", "username", "isAdmin"],
+    attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
     where: { id: userId },
   })
 
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
+};
+
+// Supprimer utilisateur
+exports.deleteProfil = (req, res) => {
+  console.log("req.params.id", req.params.id);
+  User.destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: "Compte supprimé !" }))
+    .catch((error) => res.status(400).json({ error: error.message }));
 };

@@ -8,12 +8,11 @@ const limiter = require("../middleware/limiter"); // middeleware limiter //
 const userCtrl = require("../controllers/usersCtlr"); // Réécupérer le controleur pour "user"
 const auth = require("../middleware/auth"); // Importer la fonction qui permet de vérifier les tokens et sécuriser les différentes routes
 
-/**ROUTES**/
 //Création des routes  inscription et connexion //
 router.post("/signup", multer, limiter, userCtrl.signup); // Inscription//
 router.post("/login", limiter, userCtrl.login); // Connexion//
 router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 //router.get('/all', auth, userCtrl.allProfiluser);// Tous les profils
-//router.delete("/delete", auth, userCtrl.deleteProfile); //Suppression profile
+router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile
 //**EXPORT**/
 module.exports = router;

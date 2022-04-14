@@ -41,7 +41,7 @@ export default {
         },
       });
 
-      //this.likes += 1;
+      window.location.reload();
     },
   },
 
