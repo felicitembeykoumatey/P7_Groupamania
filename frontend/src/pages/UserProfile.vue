@@ -8,6 +8,7 @@
 
       <div class="BoutonDisconect"><Disconect /></div>
       <section class="description_user">
+        <div class="id-user">Identifiant d'utilisateur: {{ member.id }}</div>
         <h2>Je m'appelle {{ member.username }}</h2>
         <h3>J'occupe le poste {{ member.grade }} chez Groupomania.</h3>
         <!--Symbole genre masculin/feminin-->
@@ -86,3 +87,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.id-user {
+  color: orangered;
+}
+</style>
