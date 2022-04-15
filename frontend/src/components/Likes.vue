@@ -2,7 +2,7 @@
   <div>
     <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
       <i class="far fa-thumbs-up likeBtn like"></i>
-      {{ likes }}
+      {{ likes.length }}
     </button>
     <!-- <button v-else @click.prevent="unlikePost(postId)" class="btn">
       <i class="far fa-thumbs-o-up likeBtn liked"></i>

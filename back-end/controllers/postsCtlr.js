@@ -198,13 +198,13 @@ exports.likePost = (req, res) => {
   })
     .then((like) => {
       if (!like) {
-        console.log("je suis dans !like");
+        // console.log("je suis dans !like");
         Like.create({ postId, userId }).then((newLike) => {
-          console.log("nouveau like créé");
+          // console.log("nouveau like créé");
           res.status(201).json(newLike);
         });
       } else {
-        console.log("je suis dans like");
+        // console.log("je suis dans like");
         res.status(200).json({
           message: "Utilisateur a déjà liké",
         });
@@ -249,8 +249,7 @@ exports.getAllLikesPost = (req, res) => {
       where: { postId: req.params.postId },
     })
       .then((like) => {
-        res.status(200).json(like.length);
-        return like.length;
+        return res.status(200).json(like);
       })
       .catch((error) => res.status(400).json(error));
   } catch {
