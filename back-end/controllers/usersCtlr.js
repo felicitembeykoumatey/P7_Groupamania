@@ -88,14 +88,14 @@ exports.profilUser = (req, res) => {
 };
 //Tous les profils
 exports.allProfilUser = (req, res) => {
+  console.log("fdgfdgfdg")
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   //console.log("decodedToken :", decodedToken);
   const userId = decodedToken.userId;
-  // console.log("userId :", userId);
+  console.log("userId :", userId);
   User.findAll({
     attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
-    where: { id: userId },
   })
 
     .then((user) => res.status(200).json(user))

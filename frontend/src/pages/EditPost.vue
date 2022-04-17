@@ -13,6 +13,12 @@
         <i class="fa-regular fa-user"></i
       ></router-link>
     </p>
+    <p v-if="member.isAdmin == true">  <router-link class="redirection-profil" to="/dashbord"
+        ><span class="hide">aaaa</span>
+
+        <p>Tableau de bord</p>
+        <i class="fa fa-users" aria-hidden="true"></i
+      ></router-link></p>
     <br />
 
     <div id="content">
@@ -120,19 +126,21 @@
 
     <router-view />
   </main>
+
 </template>
 <!--Javascript-->
 
 <script>
+
 import Disconect from "@/components/Disconect.vue"; //Importation de la fonction déconexion
-//import Footer from "@/components/Footer.vue";
+
 //import Comments from "../components/Comments.vue";
 import Likes from "../components/Likes.vue";
 // eslint-disable-next-line no-unused-vars
 import router from "../router";
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 // eslint-disable-next-line no-unused-vars
-import formData from "form-data";
+//import formData from "form-data";
 export default {
   name: "EditPost",
   components: { Disconect, Likes },
@@ -341,8 +349,7 @@ img {
   background-color: rgb(240, 154, 100);
   border-radius: 30px 30px 30px 30px;
 }
-.contenu {
-}
+
 /*Média queries*/
 /*Mobile*/
 @media screen and (min-width: 375px) {
