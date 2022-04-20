@@ -1,18 +1,18 @@
 <template>
   <div>
       <router-link class="redirection-posts" to="/posts">
-      <i class="fas fa-arrow-left fa-2x"></i>
+      <i class=" arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
     <h2>Tableau de bord</h2>
 
-    <div>
+    <div class="dashboard-table">
     
-      <table class="table table-bordered table-sm" id="table">
+      <table class="tableau-style" id="table">
         <thead id="thead">
           <tr class="color">
-            <th scope="col"></th>
-                  <th scope="col">id</th>
-            <th scope="col">username</th>
+            
+                  <th scope="col">Id</th>
+            <th scope="col">Username</th>
             <th scope="col">Email</th>
              <th scope="col">Rôle</th>
          <th scope="col">Modifier Rôle</th>
@@ -21,7 +21,7 @@
         </thead>
         <tbody id="tbody" v-for="member in users" :key="member.id">
           <tr class="color">
-            <td class="vide"></td>
+          
               <td class="idnum">{{ member.id }}</td>
             <td class="user">{{ member.username }}</td>
             <td class="email">{{ member.email }}</td>
@@ -121,3 +121,36 @@ export default{
   },
 }
 </script>
+
+<style scoped>
+.tableau-style{
+  border-collapse: collapse;
+  min-width: 400px;
+  width: auto;
+  box-shadow: 0 50px  50px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+thead tr{
+  background-color: rgb(48, 48, 139);
+  color:white;
+}
+th, td{
+  padding: 15px 20px;
+}
+
+tbody tr, td, th{
+  border: 1px solid #ddd
+}
+.dashboard-table{
+  display: flex;
+  justify-content: center;
+}
+
+.fas {
+  color:orangered;
+}
+.fa-solid{
+  color: green;
+}
+
+</style>
