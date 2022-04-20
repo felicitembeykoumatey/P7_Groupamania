@@ -14,7 +14,8 @@
                   <th scope="col">id</th>
             <th scope="col">username</th>
             <th scope="col">Email</th>
-      
+             <th scope="col">Rôle</th>
+         <th scope="col">Modifier Rôle</th>
             <th scope="col">Supprimer</th>
           </tr>
         </thead>
@@ -24,12 +25,19 @@
               <td class="idnum">{{ member.id }}</td>
             <td class="user">{{ member.username }}</td>
             <td class="email">{{ member.email }}</td>
-          
+          <td class="isAdmin">{{ member.isAdmin }}</td>
+                <td class="updateUser">
+              <button @click="updateUser(member.id,member.isAdmin)" class="btn btn-danger">
+     <i class="fa-solid fa-pencil"></i>
+              </button>
+            </td>
+
             <td class="delete">
               <button @click="deleteUsers(member.id)" class="btn btn-danger">
                <i class="fas fa-trash-alt"></i>
               </button>
             </td>
+
           </tr>
         </tbody>
       </table>
@@ -40,7 +48,7 @@
 
 <script>
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
-//import router from "../router";
+import router from "../router";
 
 export default{
   name:'AdminDashbord',
@@ -48,8 +56,8 @@ export default{
   data(){
     return {
        member: [], //je récupère les infos de la personnes connectée
-      posts: [], //je récupère les posts de la personnes connectée
-      comments: [],
+     // posts: [], //je récupère les posts de la personnes connectée
+      //comments: [],
       users:[],
     }
   },
@@ -90,6 +98,26 @@ export default{
             document.location.href = "http://localhost:8080/dashbord";
           });
     },
+    updateUser(userId,isAdmin){
+
+      const formData = new FormData();
+      formData.append("isAdmin", isAdmin);
+      formData.append("userId", userId);
+      axios
+        .put("http://localhost:3000/update", formData, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log("res",res)
+          router.push({ path: "dashbord" });
+          window.location.reload();
+        })
+        .catch((error) => console.log("Erreur", error));
+    },
+      
+  
   },
 }
 </script>

@@ -109,3 +109,28 @@ exports.deleteProfil = (req, res) => {
     .then(() => res.status(200).json({ message: "Compte supprimé !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
 };
+
+// Supprimer utilisateur
+exports.updateUserRole = (req, res) => {
+ // const email = req.body.email
+ // const username = req.body.username
+ const id= req.body.userId;
+ const isAdmin= req.body.isAdmin;
+
+console.log(req.body)
+console.log("isAdmin",isAdmin)
+ if(isAdmin=="true"){
+  console.log("cas 1")
+  User.update({ isAdmin: 'false' },{where: { id: id } })
+.then(function(){
+  res.status(200).json()
+});
+ }
+ else{
+  User.update({ isAdmin: 'true' },{where: { id: id } })
+.then(function(){
+  console.log("new isAdmin isAdmin",isAdmin)
+ console.log("je suis ici 2")
+});
+ };
+};
