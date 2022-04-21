@@ -1,8 +1,6 @@
 // Inclure Sequelize module.
-const Sequelize = require('sequelize');
-
 const sequelize = require('./database');
-
+const Sequelize = require('sequelize');
 module.exports = (sequelize, Sequelize) =>{
   const Like = sequelize.define('like', {
    }, {

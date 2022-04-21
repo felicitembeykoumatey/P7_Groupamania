@@ -5,7 +5,7 @@
     </div>
 
     <p>
-      {{ member.username }} est en ligne!
+     Welcome {{ member.username }}!
       <router-link class="redirection-profil" to="/profil"
         ><span class="hide">aaaa</span>
 
@@ -338,6 +338,7 @@ img {
   align-items: center;
   margin-top: 10px;
   padding-top: 10px;
+  color:red;
 }
 .container_post {
   color: rgb(8, 8, 8);

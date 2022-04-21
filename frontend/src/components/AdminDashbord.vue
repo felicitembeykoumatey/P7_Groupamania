@@ -56,8 +56,6 @@ export default{
   data(){
     return {
        member: [], //je récupère les infos de la personnes connectée
-     // posts: [], //je récupère les posts de la personnes connectée
-      //comments: [],
       users:[],
     }
   },
@@ -100,7 +98,8 @@ export default{
     },
     updateUser(userId,isAdmin){
 
-      const formData = new FormData();
+      const formData = new FormData();  // Formulaire vide à cet instant
+      //ajouter un couple clé/valeur en utilisant FormData.append 
       formData.append("isAdmin", isAdmin);
       formData.append("userId", userId);
       axios

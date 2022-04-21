@@ -17,5 +17,10 @@ export default {
   name: "Footer"
 };
 </script>
-
+<style scoped>
+.container{
+  padding: 400px 15px 15px 15px;
+   margin: 10px 15px 15px 15px;
+}
+</style>
 

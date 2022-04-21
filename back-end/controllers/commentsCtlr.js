@@ -1,35 +1,30 @@
-const xss = require("xss");
 const jwt = require("jsonwebtoken");
 // Importation pour utilisation des variables d'environnements.
-//const dotenv = require("dotenv");
-// Importation pour utilisation des variables d'environnements.
-//require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
+
 const db = require("../models/database");
 const Comments = db.comments;
-//const User = db.users;
 
 //Créer un commentaire
 exports.createComment = (req, res) => {
-  console.log("fqsfsqfsqfqf11111");
-
+ 
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
-  console.log("userId : ", userId);
+  //console.log("userId : ", userId);
   const comment = {
     userId: userId,
     postId: req.body.postId,
     content: req.body.content,
   };
-  console.log("comment : ", comment);
+  //console.log("comment : ", comment);
   Comments.create(comment)
 
-    .then((data) => res.status(201).json({ message: "Commentaire ajouté !" }))
+    .then(() => res.status(201).json({ message: "Commentaire ajouté !" }))
     .catch((error) => res.status(400).json({ error }));
-  console.log("Comments.create");
+ // console.log("Comments.create");
 };
 
-// Un seul commentaire affiché
+// Affichage d'un seul commentaire
 
 exports.getAllComment = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
@@ -42,7 +37,7 @@ exports.getAllComment = (req, res, next) => {
   })
     .then((comment) => {
       res.status(200).json(comment);
-    }) // Succès
+    })
     .catch((error) => res.status(404).json({ error: error.message })); // Gestion d'erreur
 };
 

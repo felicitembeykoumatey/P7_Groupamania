@@ -40,9 +40,9 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       defaultValue: 0,
     },
-    // horodatage valeur date et heure
+  
     date: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
-    //  updatedAt: Sequelize.DATE,
+  
   });
   return User;
 };

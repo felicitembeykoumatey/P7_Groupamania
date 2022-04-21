@@ -20,7 +20,6 @@ app.post("/single", upload.single("images"), (req, res) => {
 });
 
 //Charger des routes
-
 const userRoutes = require("./routes/users"); //Récupèrer route user.
 const postRoutes = require("./routes/posts"); // Récupèrer route post.
 const commentRoutes = require("./routes/comments"); // Recupérer route comment.
@@ -49,10 +48,6 @@ app.use("/images", express.static(path.join(__dirname, "images"))); // cette req
 app.use("/", userRoutes); //CHEMIN ROUTE UTILISATEUR
 app.use("/", commentRoutes); // CHEMIN ROUTE COMMENT
 app.use("/", postRoutes); // CHEMIN ROUTE POST
-
-//Temps de maintiens de session de connexion
-//par exemple server.setTimeout=300000; c'est en seconde 300000 equivaut à 300 secondes, donc 5 minutes
-//1 second = 1000 milliseconds.
 
 app.use(function (req, res, next) {
   res.setTimeout(300000);

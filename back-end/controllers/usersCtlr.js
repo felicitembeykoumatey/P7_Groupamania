@@ -1,10 +1,7 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
-const xss = require("xss");
 const db = require("../models/database");
 const User = db.users;
-// Importation pour utilisation des variables d'environnements.
-//require("dotenv").config(); //Cacher les mots de passe des utilisateurs.
 
 //Requête signup (s'inscrire)//
 
@@ -88,16 +85,13 @@ exports.profilUser = (req, res) => {
 };
 //Tous les profils
 exports.allProfilUser = (req, res) => {
-  console.log("fdgfdgfdg")
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-  //console.log("decodedToken :", decodedToken);
   const userId = decodedToken.userId;
-  console.log("userId :", userId);
+  //console.log("userId :", userId);
   User.findAll({
     attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
   })
-
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
@@ -112,25 +106,18 @@ exports.deleteProfil = (req, res) => {
 
 // Supprimer utilisateur
 exports.updateUserRole = (req, res) => {
- // const email = req.body.email
- // const username = req.body.username
- const id= req.body.userId;
- const isAdmin= req.body.isAdmin;
-
-console.log(req.body)
-console.log("isAdmin",isAdmin)
- if(isAdmin=="true"){
-  console.log("cas 1")
-  User.update({ isAdmin: 'false' },{where: { id: id } })
-.then(function(){
-  res.status(200).json()
-});
- }
- else{
-  User.update({ isAdmin: 'true' },{where: { id: id } })
-.then(function(){
-  console.log("new isAdmin isAdmin",isAdmin)
- console.log("je suis ici 2")
-});
- };
+  const id = req.body.userId;
+  const isAdmin = req.body.isAdmin;
+  //console.log(req.body)
+  //console.log("isAdmin",isAdmin)
+  if (isAdmin == "true") {
+    User.update({ isAdmin: "false" }, { where: { id: id } }).then(function () {
+      res.status(200).json();
+    });
+  } else {
+    User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
+     // console.log("new isAdmin isAdmin", isAdmin);
+      console.log("je suis ici 2");
+    });
+  }
 };
