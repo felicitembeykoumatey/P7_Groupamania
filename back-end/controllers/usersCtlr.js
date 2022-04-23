@@ -104,7 +104,28 @@ exports.deleteProfil = (req, res) => {
     .catch((error) => res.status(400).json({ error: error.message }));
 };
 
-// Supprimer utilisateur
+
+
+//Utilisateur Modifie ses données 
+exports.updateUser = (req, res) => {
+  console.log("edfghjk")
+  const id = req.body.id;
+  const username = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  const grade = req.body.grade;
+  console.log("id",id)
+  console.log("username",username)
+  console.log("email",email)
+  console.log("password",password)
+  console.log("grade",grade)
+User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
+  res.status(200).json();
+});
+}
+
+
+//Administrateur Modifie les données d'utilisateur 
 exports.updateUserRole = (req, res) => {
   const id = req.body.userId;
   const isAdmin = req.body.isAdmin;

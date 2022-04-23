@@ -21,8 +21,8 @@
         </thead>
         <tbody id="tbody" v-for="member in users" :key="member.id">
           <tr class="color">
-          
-              <td class="idnum">{{ member.id }}</td>
+           <router-link class="redirection-Home" to="/updateUser">
+              <td class="idnum">{{ member.id }}</td></router-link>
             <td class="user">{{ member.username }}</td>
             <td class="email">{{ member.email }}</td>
           <td class="isAdmin">{{ member.isAdmin }}</td>

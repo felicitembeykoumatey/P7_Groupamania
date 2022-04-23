@@ -30,6 +30,10 @@
       >
         <i class="fa-solid fa-trash-can"></i>
       </button>
+ <router-link class="redirection-Home" to="/UpdateUser">
+      
+         <button><i class="fa-solid fa-pencil"></i></button>
+      </router-link>
       <Footer />
     </main>
   </header>
@@ -69,7 +73,7 @@ export default {
   methods: {
     log(commmentaire, variable) {
       console.log(commmentaire, variable);
-    },
+   },
     deleteProfil(id) {
       if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))
         axios

@@ -7,7 +7,7 @@
 
       <h4 style="color: red">{{ msg }}</h4>
     </div>
-    <form>
+    <form @submit.prevent="userLogin">
       <!-- Formulaire -->
 
       <div>
@@ -32,29 +32,17 @@
         />
       </div>
       <div class="btn">
-        <!--  <router-link class="redirection-" to="/posts">
-          <button
-            @submit.prevent="userLogin"
-            type="submit"
-            class="btn-connexion"
-          >
-            Connexion
-          </button></router-link
-        >-->
+       
 
-        <button
-          v-on:click="userLogin"
+        <input
+         
           type="submit"
           class="btn-connexion"
-          value="Connecté"
-        >
-          Se connecter
-        </button>
-        <!-- Bouton connexion -->
-        <!-- 
-        <button type="submit" class="btn-connexion" value="Connecté">
-          Se connecter
-        </button>-->
+          value="Se connecter"
+        />
+        
+        
+     
       </div>
       <label
         ><input type="checkbox" checked="checked" name="remember" />
@@ -76,7 +64,7 @@
 <script>
 import axios from "axios";
 import Footer from "@/components/Footer.vue";
-//import router from "../router";
+import router from "../router";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
@@ -109,8 +97,8 @@ export default {
           .then((response) => {
             console.log("response : ", response);
             localStorage.setItem("token", response.data.token);
-
-            document.location.href = "http://localhost:8080/posts";
+             router.push({ path: "posts" });
+            //document.location.href = "http://localhost:8080/posts";
           })
           .catch((error) => console.log(error));
       }

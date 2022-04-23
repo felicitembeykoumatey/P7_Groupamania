@@ -129,14 +129,14 @@ exports.likePost = (req, res) => {
           res.status(201).json(newLike);
         });
       } else {
-        // console.log("je suis dans like");
-        res.status(200).json({
-          message: "Utilisateur a déjà liké",
-        });
+        like.destroy()
+        res.status(200).json();
+
       }
     })
     .catch((error) => res.status(400).json({ error: error.message }));
 };
+
 
 exports.getAllLikesPost = (req, res) => {
   try {

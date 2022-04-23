@@ -20,8 +20,10 @@
         <i class="fa fa-users" aria-hidden="true"></i
       ></router-link></p>
     <br />
-
+    <form @submit.prevent="sendPost">
     <div id="content">
+
+
       <label for="content"><span class="news">Quoi de neuf?</span></label
       ><br />
       <textarea
@@ -44,10 +46,11 @@
         accept=".jpg, .jpeg, .png"
       />
 
-      <button @click.prevent="sendPost" class="btn-publier" type="submit">
-        <i class="fa-solid fa-share-from-square"></i>
-      </button>
+      <input  value="Enregistrer" class="btn-publier" type="submit"/>
+       
+      
     </div>
+    </form>
     <p>{{ errMsg }}</p>
 
     <h2>{{ log("user courant ", userId) }}</h2>
@@ -76,16 +79,18 @@
               <!--  <Likes v-bind:item="item" />-->
               <Likes :postId="item.id" :userId="member.id" />
             </div>
-
+               <form @submit.prevent="createComment(item.id)">
             <textarea
               id="comment"
               placeholder="Insérer votre commentaire"
               v-model="dataComment.content"
             ></textarea>
 
-            <button v-on:click.prevent="createComment(item.id)">
-              <i class="fas fa-comment" title="Envoyer"></i>
-            </button>
+            <input type="submit" value="Commenter"/>
+          
+               </form>
+
+               
             <div id="containe2">
               <div id="example-2">
                 <h2>{{ log("item ", item) }}</h2>
@@ -119,6 +124,7 @@
                 </ul>
               </div>
             </div>
+              
           </ul>
         </div>
       </div>
@@ -189,6 +195,26 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
+
+    getAllPost(){
+        axios
+      .get(
+        "http://localhost:3000/posts", //je récupère les posts
+        {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
+          },
+        }
+      )
+      .then((response) => {
+        // window.location.reload();
+        this.posts = response.data;
+      })
+      .catch((error) => console.log(error));
+
+
+
+    },
     sendPost() {
       // Objet formData pour notre image
       const formData = new FormData();
@@ -203,8 +229,9 @@ export default {
           },
         })
         .then(() => {
-          router.push({ path: "posts" });
-          window.location.reload();
+this.getAllPost();
+          //router.push({ path: "posts" });
+          //window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
       /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
@@ -222,7 +249,8 @@ export default {
           },
         })
         .then(() => {
-          window.location.reload();
+            this.getAllPost();
+          //window.location.reload();
           //this.displayPost();
         })
         .catch((error) => console.log("Erreur", error));
@@ -240,8 +268,9 @@ export default {
           },
         })
         .then(() => {
-          router.push({ path: "posts" });
-          window.location.reload();
+          this.getAllPost();
+         // router.push({ path: "posts" });
+         // window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -255,12 +284,14 @@ export default {
           },
         })
         .then(() => {
-          window.location.reload();
+             this.getAllPost();
+         // window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
   },
   mounted() {
+    this.getAllPost();
     axios
       .get("http://localhost:3000/me", {
         headers: {
@@ -275,20 +306,7 @@ export default {
       })
       .catch((error) => console.log(error));
     console.log("this.member:", this.member);
-    axios
-      .get(
-        "http://localhost:3000/posts", //je récupère les posts
-        {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
-          },
-        }
-      )
-      .then((response) => {
-        // window.location.reload();
-        this.posts = response.data;
-      })
-      .catch((error) => console.log(error));
+  
   },
 };
 </script>

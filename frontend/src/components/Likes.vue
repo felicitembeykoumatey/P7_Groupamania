@@ -41,7 +41,7 @@ export default {
         },
       });
 
-      window.location.reload();
+     window.location.reload();
     },
   },
 

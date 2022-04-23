@@ -7,6 +7,8 @@ import EditPost from "./pages/EditPost.vue";
 import UserProfile from "./pages/UserProfile.vue";
 import AllProfiles from "./pages/AllProfiles.vue";
 import DashBord from "./pages/DashBord.vue";
+import UpdateFromAdmin from "./pages/UpdateFromAdmin.vue";
+import UpdateUser from "./pages/UpdateUser.vue";
 const routes = [
   // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
   {
@@ -52,7 +54,18 @@ const routes = [
     name:"DashBord",
     component: DashBord,
     path:"/dashbord"
-  }
+  },
+  {
+    name: "UpdateUser",
+    component: UpdateUser,
+    path: "/UpdateUser",
+  },
+  // Chemin vers la page connexion
+  {
+    name: "UpdateFromAdmin.",
+    component: UpdateFromAdmin,
+    path: "/updateUser",
+  },
 ];
 
 const router = createRouter({
