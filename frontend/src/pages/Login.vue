@@ -81,26 +81,25 @@ export default {
 
   methods: {
     userLogin() {
-      console.log("this.dataForm.email ", this.dataForm.email);
-      console.log("this.dataForm.password  ", this.dataForm.password);
+       const formData = new FormData();
+      formData.append("email", this.dataForm.email);
+      formData.append("password", this.dataForm.password);
+
       if (!this.dataForm.email || !this.dataForm.password) {
         this.msg = "Erreur de saisie";
-
-        console.log("je suis dans le if");
-        //console.log('this.dataForm',this.dataForm)
       } else {
-        console.log("je suis dans le else");
-
-        console.log("this.dataForm", this.dataForm);
         axios
-          .post("http://localhost:3000/login", this.dataForm)
-          .then((response) => {
+          .post("http://localhost:3000/login", formData)
+          .then(response => {
             console.log("response : ", response);
             localStorage.setItem("token", response.data.token);
              router.push({ path: "posts" });
             //document.location.href = "http://localhost:8080/posts";
           })
-          .catch((error) => console.log(error));
+          .catch(error => {
+          console.log(error)
+            alert(`Le mot de passe ou l'utilisateur n'est pas valide. ${error}`)
+         });
       }
     },
   },

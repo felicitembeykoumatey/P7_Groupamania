@@ -137,9 +137,7 @@
 <!--Javascript-->
 
 <script>
-
 import Disconect from "@/components/Disconect.vue"; //Importation de la fonction déconexion
-
 //import Comments from "../components/Comments.vue";
 import Likes from "../components/Likes.vue";
 // eslint-disable-next-line no-unused-vars
@@ -195,7 +193,6 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-
     getAllPost(){
         axios
       .get(
@@ -211,9 +208,6 @@ export default {
         this.posts = response.data;
       })
       .catch((error) => console.log(error));
-
-
-
     },
     sendPost() {
       // Objet formData pour notre image
@@ -298,7 +292,6 @@ this.getAllPost();
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-
       .then((response) => {
         console.log("response", response);
         this.member = response.data;
@@ -368,7 +361,6 @@ img {
   background-color: rgb(240, 154, 100);
   border-radius: 30px 30px 30px 30px;
 }
-
 /*Média queries*/
 /*Mobile*/
 @media screen and (min-width: 375px) {

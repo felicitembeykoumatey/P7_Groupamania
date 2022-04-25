@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
+const { NULL } = require("node-sass");
 const db = require("../models/database");
 const User = db.users;
 
@@ -22,7 +23,6 @@ exports.signup = (req, res) => {
       };
 
       // Création d'utlisateur
-
       User.create(user)
         .then(res.status(201).json({ message: " Bravo compte crée  !" }))
         .catch((error) =>
@@ -34,37 +34,42 @@ exports.signup = (req, res) => {
     })
     .catch((error) => res.status(500).json({ error: error.message }));
 };
-
 //Requête login (se connecter)
 exports.login = (req, res) => {
+
   // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
-  User.findOne({ where: { email: loginEmail } })
-    .then((user) => {
+
+  User.findOne({ where: { email: loginEmail} })
+    .then(user => {
       if (user == null) {
         return res
           .status(401)
-          .json({ message: "Utilisateur non trouvé !", error: error.message });
+          .json({ error: "Utilisateur non trouvé !" });
       }
-
       bcrypt.compare(loginPassword, user.password).then((valid) => {
-        if (valid == false) {
+        if (!valid) {
+          console.log("valid : ",valid)
           // Si le mot de passe n'est pas le bon
-          return res.status(401).json({ error: "Mot de passe incorrect !" });
+        return res
+        .status(401)
+        .json({ error: "Mot de passe incorrect !" });
         }
+        
       });
+      console.log("je suis perdu : ")
       res.status(200).json({
         userId: user.id,
         isAdmin: user.isAdmin,
         sex: user.sex,
-
         token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
           expiresIn: "24h",
         }),
       });
     })
     .catch((error) => res.status(500).json({ error: error.message }));
+
 };
 
 // Profil d'un utilisateur connecté!
@@ -108,21 +113,27 @@ exports.deleteProfil = (req, res) => {
 
 //Utilisateur Modifie ses données 
 exports.updateUser = (req, res) => {
-  console.log("edfghjk")
-  const id = req.body.id;
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
-  const grade = req.body.grade;
-  console.log("id",id)
-  console.log("username",username)
-  console.log("email",email)
-  console.log("password",password)
-  console.log("grade",grade)
-User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
-  res.status(200).json();
+  console.log("mot de passe : ", req.body.password)
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      const updateUserData={
+
+   id : req.body.id,
+   username : req.body.username,
+  email : req.body.email,
+  password : hash,
+  grade : req.body.grade,
+      };
+const identifiant = req.body.id
+console.log("identifiant : ", identifiant)
+console.log("updateUserData : ", updateUserData)
+//User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
+User.update( updateUserData,{where: { id:identifiant }}).then(function () {
+res.status(200).json();
 });
-}
+    })
+};
 
 
 //Administrateur Modifie les données d'utilisateur 

@@ -49,10 +49,8 @@
 <script>
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
 import router from "../router";
-
 export default{
   name:'AdminDashbord',
-
   data(){
     return {
        member: [], //je récupère les infos de la personnes connectée
@@ -60,7 +58,6 @@ export default{
     }
   },
    mounted (){ 
-
         //Appel à l'API pour l'affichage de tous les utilisateurs
         axios.get('http://localhost:3000/all',
                    {
@@ -76,9 +73,7 @@ export default{
         })
         .catch(error => console.log(error))
     },
-
   methods: {
-
    deleteUsers(id){
      
       if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))
@@ -88,7 +83,6 @@ export default{
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           })
-
           .then(() => {
             //localStorage.clear();
               // router.push({ path: "dashbord" });
@@ -97,7 +91,6 @@ export default{
           });
     },
     updateUser(userId,isAdmin){
-
       const formData = new FormData();  // Formulaire vide à cet instant
       //ajouter un couple clé/valeur en utilisant FormData.append 
       formData.append("isAdmin", isAdmin);
@@ -136,7 +129,6 @@ thead tr{
 th, td{
   padding: 15px 20px;
 }
-
 tbody tr, td, th{
   border: 1px solid #ddd
 }
@@ -144,12 +136,10 @@ tbody tr, td, th{
   display: flex;
   justify-content: center;
 }
-
 .fas {
   color:orangered;
 }
 .fa-solid{
   color: green;
 }
-
 </style>

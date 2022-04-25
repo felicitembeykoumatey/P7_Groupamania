@@ -69,7 +69,7 @@ export default {
   },
     mounted() {
     axios
-      .get("http://localhost:3000/me", {
+      .get("http://localhost:3000/me/", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
