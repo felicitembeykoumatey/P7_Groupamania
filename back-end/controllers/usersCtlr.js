@@ -4,7 +4,6 @@ const { NULL } = require("node-sass");
 const db = require("../models/database");
 const User = db.users;
 //Requête signup (s'inscrire)//
-
 exports.signup = (req, res) => {
   //Mot de passe haché et email masqué
   bcrypt
@@ -103,6 +102,8 @@ exports.allProfilUser = (req, res) => {
 
 // Afficher un utilisateur
 //Tous les profils
+
+
 exports.oneProfilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
@@ -116,10 +117,16 @@ exports.oneProfilUser = (req, res) => {
 };
 
 
+// Recuperer un utilisateur par son id
+exports.ProfilUserById = (req, res) => {
 
-
-
-
+  
+  User.findById(
+     req.params.id
+  )
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(500).json(error));
+};
 
 // Supprimer utilisateur
 exports.deleteProfil = (req, res) => {
