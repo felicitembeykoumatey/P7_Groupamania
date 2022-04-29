@@ -21,7 +21,8 @@
         </thead>
         <tbody id="tbody" v-for="member in users" :key="member.id">
           <tr class="color">
-           <router-link class="redirection-Home" to="/updateUser">
+            
+           <router-link @click="getUser(member.id)" class="redirection-Home" to="/updateFromAdmin">
               <td class="idnum">{{ member.id }}</td></router-link>
             <td class="user">{{ member.username }}</td>
             <td class="email">{{ member.email }}</td>
@@ -74,6 +75,26 @@ export default{
         .catch(error => console.log(error))
     },
   methods: {
+    getUser(id){
+
+
+   const formData = new FormData();  // Formulaire vide à cet instant
+      //ajouter un couple clé/valeur en utilisant FormData.append 
+      formData.append("id", id);
+     
+      axios
+        .get("http://localhost:3000/me", formData, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log("res",res)
+          router.push({ path: "dashbord" });
+          window.location.reload();
+        })
+        .catch((error) => console.log("Erreur", error));
+    },
    deleteUsers(id){
      
       if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))

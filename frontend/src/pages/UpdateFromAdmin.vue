@@ -9,20 +9,20 @@
         class="form-control"
         id="username"
          placeholder=" username "
-        v-model="dataForm.username"
+        v-model="member.username"
       />
       
       <input
         type="text"
         placeholder="Email"
         id="email"
-        v-model="dataForm.email"
+        v-model="member.email"
       />
       <input
         type="password"
         placeholder="Mot de passe"
         id="password"
-        v-model="dataForm.password"
+        v-model="member.password"
       />
 
       <br />
@@ -32,7 +32,7 @@
         id="role"
         name="role"
         value="Administrateur"
-        v-model="dataForm.role"
+        v-model="member.role"
         required
         @click="admin_true"
       />
@@ -42,7 +42,7 @@
         id="role"
         name="role"
         value="Utilisateur"
-        v-model="dataForm.role"
+        v-model="member.role"
         required
         @click="isAdmin_false"
       />
@@ -65,7 +65,7 @@ export default {
   name: "Signup",
   data() {
     return {
-      dataForm: {
+      member: {
        
         username: null,
         role: null,
@@ -75,23 +75,29 @@ export default {
     };
   },
   methods: {
-    dataSignup() {
+  dataUpdate(id) {
       const formData = new FormData();
 
       
-      formData.append("username", this.dataForm.username);
+      formData.append("username", this.member.username);
      
-      formData.append("sex", this.dataForm.role);
-      formData.append("email", this.dataForm.email);
-      formData.append("password", this.dataForm.password);
+      formData.append("sex", this.member.role);
+      formData.append("email", this.member.email);
+      formData.append("password", this.member.password);
       console.log("formData", formData);
       if (
      
-        !this.dataForm.username ||
-        !this.dataForm.role ||
-        !this.dataForm.email ||
-        !this.dataForm.password
+        !this.member.username ||
+        !this.member.role ||
+        !this.member.email ||
+        !this.member.password
       ) 
+      axios.get("http://localhost:3000/one/"+ id,{
+         headers: {
+              Authorization: "Bearer " + localStorage.setItem("token"),
+            },
+
+      }),
       console.log("formData12 :", formData);
       axios
         .post("http://localhost:3000/update", formData)
@@ -100,10 +106,10 @@ export default {
           // localStorage.setItem("token", response.data.token);
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
           //Réinitialisation
-           this.dataForm.username = null;
-            this.dataForm.role = null;
-          this.dataForm.email = null;
-            this.dataForm.password = null;
+           this.member.username = null;
+            this.member.role = null;
+          this.member.email = null;
+            this.member.password = null;
          
           router.push({ path: "dashbord" });
           //document.location.href = "http://localhost:8080/login";

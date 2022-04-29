@@ -13,6 +13,7 @@ router.post("/signup", multer, limiter, userCtrl.signup); // Inscription//
 router.post("/login", multer, userCtrl.login); // Connexion//
 router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 router.get("/all", multer, userCtrl.allProfilUser); // Afficher tous les profils
+router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
 router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile
 router.put("/update", multer, userCtrl.updateUserRole); //modification profile par l'administrateur
 router.put("/updateUser/:id", multer, userCtrl.updateUser); //modification profile par l'utilisateur courant

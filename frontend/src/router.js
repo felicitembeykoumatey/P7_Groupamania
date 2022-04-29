@@ -64,7 +64,7 @@ const routes = [
   {
     name: "UpdateFromAdmin.",
     component: UpdateFromAdmin,
-    path: "/updateUser",
+    path: "/UpdateFromAdmin",
   },
 ];
 

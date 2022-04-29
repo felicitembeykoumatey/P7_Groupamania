@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken"); // Récupérer de JWT
 const { NULL } = require("node-sass");
 const db = require("../models/database");
 const User = db.users;
-
 //Requête signup (s'inscrire)//
 
 exports.signup = (req, res) => {
@@ -49,7 +48,7 @@ exports.login = (req, res) => {
           .json({ error: "Utilisateur non trouvé !" });
       }
       bcrypt.compare(loginPassword, user.password).then((valid) => {
-        if (!valid) {
+        if (valid == false) {
           console.log("valid : ",valid)
           // Si le mot de passe n'est pas le bon
         return res
@@ -101,6 +100,27 @@ exports.allProfilUser = (req, res) => {
     .catch((error) => res.status(500).json(error));
 };
 
+
+// Afficher un utilisateur
+//Tous les profils
+exports.oneProfilUser = (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  const userId = decodedToken.userId;
+  //console.log("userId :", userId);
+  User.findOne({
+    attributes: ["id", "email", "username", "isAdmin", ],
+  })
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(500).json(error));
+};
+
+
+
+
+
+
+
 // Supprimer utilisateur
 exports.deleteProfil = (req, res) => {
   console.log("req.params.id", req.params.id);
@@ -134,7 +154,6 @@ res.status(200).json();
 });
     })
 };
-
 
 //Administrateur Modifie les données d'utilisateur 
 exports.updateUserRole = (req, res) => {
