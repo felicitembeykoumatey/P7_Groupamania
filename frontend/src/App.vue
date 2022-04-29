@@ -1,16 +1,18 @@
 <template>
-  <img
-    class="img-logo"
-    src="./assets/icon-left-font-monochrome-black.svg"
-    alt=" logo groupomania"
-  />
+  <div class="container">
+    <img
+      class="img-logo"
+      src="./assets/icon-left-font-monochrome-black.svg"
+      alt=" logo groupomania"
+    />
 
-  <router-view></router-view>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   components: {},
 };
 </script>
@@ -25,33 +27,21 @@ export default {
   margin-top: 60px;
 }
 
-
-
-
 /*Média queries*/
 /*Mobile*/
-@media screen and (min-width:375px) {
-
-.img-logo {
-  width: 48%;
+@media screen and (min-width: 375px) {
+  .img-logo {
+    width: 48%;
+  }
 }
-}
-
-
 
 /*desktop*/
-@media screen and (min-width:992px) {
-
+@media screen and (min-width: 992px) {
 }
 
-
-@media screen and (min-width:1440px) {
-.img-logo {
-  width: 25%;
+@media screen and (min-width: 1440px) {
+  .img-logo {
+    width: 25%;
+  }
 }
-  
-}
-
-
-
 </style>

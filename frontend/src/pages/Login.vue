@@ -1,65 +1,58 @@
 <template>
-  <main>
-    <div>
-      <h1>SE CONNECTER</h1>
+  <div class="row pt-5">
+    <div class="col-lg-6 offset-lg-3 col-sm-12">
+      <div v-if="msg" class="alert alert-danger" role="alert">
+        {{ msg }}
+      </div>
+      <form @submit.prevent="userLogin">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            v-model="dataForm.email"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Mot-de-passe"
+            name="password"
+            v-model="dataForm.password"
+            class="form-control"
+          />
+        </div>
 
-      <hr />
+        <div class="mb-3 form-check">
+          <input
+            type="checkbox"
+            checked="checked"
+            name="remember"
+            class="form-check-input"
+            id="Check"
+          />
+          <label class="form-check-label" for="Check">
+            Souviens-toi de moi.</label
+          >
+        </div>
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+      </form>
 
-      <h4 style="color: red">{{ msg }}</h4>
+      <p>
+        <small>
+          Pas de compte?
+          <router-link class="redirection-singup" to="/signup"
+            >S'inscrire</router-link
+          >
+        </small>
+      </p>
     </div>
-    <form @submit.prevent="userLogin">
-      <!-- Formulaire -->
-
-      <div>
-        <!-- Email -->
-
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          v-model="dataForm.email"
-        />
-      </div>
-
-      <!-- Mot de passe -->
-      <div>
-        <input
-          type="password"
-          placeholder="Mot-de-passe"
-          name="password"
-          v-model="dataForm.password"
-        />
-      </div>
-      <div class="btn">
-       
-
-        <input
-         
-          type="submit"
-          class="btn-connexion"
-          value="Se connecter"
-        />
-        
-        
-     
-      </div>
-      <label
-        ><input type="checkbox" checked="checked" name="remember" />
-        Souviens-toi de moi.</label
-      >
-    </form>
-
-    <!-- Inscription-->
-    <p>
-      <small>
-        Pas de compte?
-        <router-link class="redirection-singup" to="/signup"
-          >S'inscrire</router-link
-        >
-      </small>
-    </p>
-  </main>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -81,7 +74,7 @@ export default {
 
   methods: {
     userLogin() {
-       const formData = new FormData();
+      const formData = new FormData();
       formData.append("email", this.dataForm.email);
       formData.append("password", this.dataForm.password);
 
@@ -90,16 +83,18 @@ export default {
       } else {
         axios
           .post("http://localhost:3000/login", formData)
-          .then(response => {
+          .then((response) => {
             console.log("response : ", response);
             localStorage.setItem("token", response.data.token);
-             router.push({ path: "posts" });
+            router.push({ path: "posts" });
             //document.location.href = "http://localhost:8080/posts";
           })
-          .catch(error => {
-          console.log(error)
-            alert(`Le mot de passe ou l'utilisateur n'est pas valide. ${error}`)
-         });
+          .catch((error) => {
+            console.log(error);
+            alert(
+              `Le mot de passe ou l'utilisateur n'est pas valide. ${error}`
+            );
+          });
       }
     },
   },

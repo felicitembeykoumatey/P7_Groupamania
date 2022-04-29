@@ -7,7 +7,7 @@ import EditPost from "./pages/EditPost.vue";
 import UserProfile from "./pages/UserProfile.vue";
 import AllProfiles from "./pages/AllProfiles.vue";
 import DashBord from "./pages/DashBord.vue";
-import UpdateFromAdmin from "./pages/UpdateFromAdmin.vue";
+import UpdateProfilUserAdmin from "./pages/UpdateProfilUserAdmin.vue";
 import UpdateUser from "./pages/UpdateUser.vue";
 const routes = [
   // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
@@ -62,9 +62,9 @@ const routes = [
   },
   // Chemin vers la page connexion
   {
-    name: "UpdateFromAdmin.",
-    component: UpdateFromAdmin,
-    path: "/UpdateFromAdmin",
+    name: "UpdateProfilUserAdmin",
+    component: UpdateProfilUserAdmin,
+    path: "/UpdateProfilUserAdmin",
   },
 ];
 
