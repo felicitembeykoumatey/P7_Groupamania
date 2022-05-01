@@ -7,8 +7,10 @@ import EditPost from "./pages/EditPost.vue";
 import UserProfile from "./pages/UserProfile.vue";
 import AllProfiles from "./pages/AllProfiles.vue";
 import DashBord from "./pages/DashBord.vue";
-import UpdateProfilUserAdmin from "./pages/UpdateProfilUserAdmin.vue";
-import UpdateUser from "./pages/UpdateUser.vue";
+import UpdateProfilUserByAdmin from "./pages/UpdateProfilUserByAdmin.vue";
+import UpdateProfilByUser from "./pages/UpdateProfilByUser.vue";
+import UpdatePasswordByUser from "./pages/UpdatePasswordByUser.vue";
+import UpdatePasswordByAdmin from "./pages/UpdatePasswordByAdmin.vue";
 const routes = [
   // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
   {
@@ -51,20 +53,31 @@ const routes = [
     path: "/profiles",
   },
   {
-    name:"DashBord",
+    name: "DashBord",
     component: DashBord,
-    path:"/dashbord"
+    path: "/dashbord",
   },
   {
-    name: "UpdateUser",
-    component: UpdateUser,
-    path: "/UpdateUser",
+    name: "UpdateProfilByUser",
+    component: UpdateProfilByUser,
+    path: "/UpdateProfilByUser",
   },
-  // Chemin vers la page connexion
+  // Chemin de l'admin vers la page modification profil
   {
-    name: "UpdateProfilUserAdmin",
-    component: UpdateProfilUserAdmin,
-    path: "/UpdateProfilUserAdmin",
+    name: "UpdateProfilUserByAdmin",
+    component: UpdateProfilUserByAdmin,
+    path: "/UpdateProfilUserByAdmin",
+  },
+  // Chemin de l'admin vers la page modification profil
+  {
+    name: "UpdatePasswordByUser",
+    component: UpdatePasswordByUser,
+    path: "/UpdatePasswordByUser",
+  }, // Chemin de l'admin vers la page modification profil
+  {
+    name: " UpdatePasswordByAdmin",
+    component: UpdatePasswordByAdmin,
+    path: "/ UpdatePasswordByAdmin",
   },
 ];
 

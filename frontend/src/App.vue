@@ -1,11 +1,5 @@
 <template>
-  <div class="container">
-    <img
-      class="img-logo"
-      src="./assets/icon-left-font-monochrome-black.svg"
-      alt=" logo groupomania"
-    />
-
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
@@ -19,29 +13,16 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
 }
-
-/*Média queries*/
-/*Mobile*/
-@media screen and (min-width: 375px) {
-  .img-logo {
-    width: 48%;
-  }
-}
-
-/*desktop*/
-@media screen and (min-width: 992px) {
-}
-
-@media screen and (min-width: 1440px) {
-  .img-logo {
-    width: 25%;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 </style>

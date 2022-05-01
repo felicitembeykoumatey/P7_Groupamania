@@ -19,6 +19,14 @@ exports.signup = (req, res) => {
         sex: req.body.sex,
         isAdmin: 0,
       };
+      console.log("firstname", firstname);
+      console.log("lastname", lastname);
+      console.log("username", username);
+      console.log("grade", grade);
+      console.log("email", email);
+      console.log("password", password);
+      console.log("sex", sex);
+      console.log("isAdmin", isAdmin);
 
       // Création d'utlisateur
       User.create(user)
@@ -34,29 +42,25 @@ exports.signup = (req, res) => {
 };
 //Requête login (se connecter)
 exports.login = (req, res) => {
-
   // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
-
-  User.findOne({ where: { email: loginEmail} })
-    .then(user => {
+  console.log("loginEmail", loginEmail);
+  console.log("loginPassword", loginPassword);
+  User.findOne({ where: { email: loginEmail } })
+    .then((user) => {
       if (user == null) {
-        return res
-          .status(401)
-          .json({ error: "Utilisateur non trouvé !" });
+        return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
       bcrypt.compare(loginPassword, user.password).then((valid) => {
         if (valid == false) {
-          console.log("valid : ",valid)
+          console.log("valid : ", valid);
           // Si le mot de passe n'est pas le bon
-        return res
-        .status(401)
-        .json({ error: "Mot de passe incorrect !" });
+          return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
-        
       });
-      console.log("je suis perdu : ")
+
+      console.log("je suis perdu : ");
       res.status(200).json({
         userId: user.id,
         isAdmin: user.isAdmin,
@@ -67,7 +71,6 @@ exports.login = (req, res) => {
       });
     })
     .catch((error) => res.status(500).json({ error: error.message }));
-
 };
 
 // Profil d'un utilisateur connecté!
@@ -99,10 +102,8 @@ exports.allProfilUser = (req, res) => {
     .catch((error) => res.status(500).json(error));
 };
 
-
 // Afficher un utilisateur
 //Tous les profils
-
 
 exports.oneProfilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
@@ -110,20 +111,15 @@ exports.oneProfilUser = (req, res) => {
   const userId = decodedToken.userId;
   //console.log("userId :", userId);
   User.findOne({
-    attributes: ["id", "email", "username", "isAdmin", ],
+    attributes: ["id", "email", "username", "isAdmin"],
   })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
 
-
 // Recuperer un utilisateur par son id
 exports.ProfilUserById = (req, res) => {
-
-  
-  User.findById(
-     req.params.id
-  )
+  User.findById(req.params.id)
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
@@ -136,33 +132,30 @@ exports.deleteProfil = (req, res) => {
     .catch((error) => res.status(400).json({ error: error.message }));
 };
 
-
-
-//Utilisateur Modifie ses données 
+//Utilisateur Modifie ses données
 exports.updateUser = (req, res) => {
-  console.log("mot de passe : ", req.body.password)
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => {
-      const updateUserData={
-
-   id : req.body.id,
-   username : req.body.username,
-  email : req.body.email,
-  password : hash,
-  grade : req.body.grade,
-      };
-const identifiant = req.body.id
-console.log("identifiant : ", identifiant)
-console.log("updateUserData : ", updateUserData)
-//User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
-User.update( updateUserData,{where: { id:identifiant }}).then(function () {
-res.status(200).json();
-});
-    })
+  console.log("mot de passe : ", req.body.password);
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const updateUserData = {
+      id: req.body.id,
+      username: req.body.username,
+      email: req.body.email,
+      password: hash,
+      grade: req.body.grade,
+    };
+    const identifiant = req.body.id;
+    console.log("identifiant : ", identifiant);
+    console.log("updateUserData : ", updateUserData);
+    //User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
+    User.update(updateUserData, { where: { id: identifiant } }).then(
+      function () {
+        res.status(200).json();
+      }
+    );
+  });
 };
 
-//Administrateur Modifie les données d'utilisateur 
+//Administrateur Modifie les données d'utilisateur
 exports.updateUserRole = (req, res) => {
   const id = req.body.userId;
   const isAdmin = req.body.isAdmin;
@@ -174,7 +167,7 @@ exports.updateUserRole = (req, res) => {
     });
   } else {
     User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
-     // console.log("new isAdmin isAdmin", isAdmin);
+      // console.log("new isAdmin isAdmin", isAdmin);
       console.log("je suis ici 2");
     });
   }

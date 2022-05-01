@@ -28,11 +28,13 @@
         type="submit"
         class="btn-deletecount"
       >
-        <i class="fa-solid fa-trash-can"></i>
+        <i class="fa-solid fa-trash-can">Supprimer mon compte</i>
       </button>
- <router-link class="redirection-Home" to="/UpdateUser">
-      
-         <button><i class="fa-solid fa-pencil"></i></button>
+      <router-link class="redirection-Home" to="/UpdateProfilByUser">
+        <button><i class="fa-solid fa-pencil">Modifier mon profil</i></button>
+      </router-link>
+      <router-link class="redirection-Home" to="/UpdatePasswordByUser">
+        <button><i class="fa-solid fa-pencil">Changer mot de passe</i></button>
       </router-link>
       <Footer />
     </main>
@@ -73,7 +75,7 @@ export default {
   methods: {
     log(commmentaire, variable) {
       console.log(commmentaire, variable);
-   },
+    },
     deleteProfil(id) {
       if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))
         axios

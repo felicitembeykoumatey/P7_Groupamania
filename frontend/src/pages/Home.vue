@@ -1,50 +1,43 @@
 <template>
-  <main>
-    <section class="welcome">
-      <h1>Bienvenu(e) à votre réseau social d'entreprise</h1>
-      <p>
-        Vous pouvez désormais discuter et apprendre à connaitre vos collègues
-      </p>
-      <span class="link-signup"
-        ><router-link class="redirection-signup" to="/signup">
-          <button
-            v-on:click="userSignup"
-            type="submit"
-            class="btn-signup"
-            value="s'inscrire"
-          >
-            S'inscrire
-          </button>
-        </router-link></span
-      >
+  <div><NavBar /></div>
+  <div class="container">
+    <div>
+      <Signup />
 
-      <span class="link-login"
-        ><router-link class="redirection-login" to="/login">
-          <button
-            v-on:click="userLogin"
-            type="submit"
-            class="btn-login"
-            value="Connecté"
-          >
-            Se connecter
-          </button>
-        </router-link>
-      </span>
-    </section>
-  </main>
+      <div class="container-fluid">
+        <img
+          src="../assets/intranet-reseau-social-dentreprise.jpg"
+          alt=" logo groupomania"
+          class="d-inline-block align-text-top"
+        />
+      </div>
+    </div>
+  </div>
+  <div><Footer /></div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+import Footer from "@/components/Footer.vue";
+import Signup from "@/components/Signup.vue";
 export default {
+  components: { NavBar, Signup, Footer },
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
+  data() {},
 };
 </script>
-
 <!--Css-->
 <style scoped>
 .link-signup,
 .link-login {
   margin: 6px;
+}
+.title-white {
+  color: rgb(255, 255, 255);
+}
+.container-row {
+  display: flex;
+  flex-direction: row;
 }
 </style>
