@@ -1,21 +1,21 @@
 <template>
-<div class="dashadmin">
-
-    <AdminDashbord/>
-   
-    <Footer/>
-</div>
-
+  <fragment>
+    <NavBar />
+    <div class="dashadmin">
+      <AdminDashbord />
+    </div>
+    <Footer />
+  </fragment>
 </template>
 
 <script>
-import AdminDashbord from "../components/AdminDashbord.vue"
+import AdminDashbord from "../components/AdminDashbord.vue";
 
-import Footer from "../components/Footer.vue"
+import NavBar from "../components/NavBar.vue";
+import Footer from "../components/Footer.vue";
 
-export default{
-    name: "DashBord",
-    components: {  AdminDashbord, Footer },
-}
+export default {
+  name: "DashBord",
+  components: { AdminDashbord, NavBar, Footer },
+};
 </script>
-    

@@ -1,19 +1,11 @@
 <template>
-  <div><NavBar /></div>
-  <div class="container">
-    <div>
+  <fragment>
+    <NavBar />
+    <div class="container">
       <Signup />
-
-      <div class="container-fluid">
-        <img
-          src="../assets/intranet-reseau-social-dentreprise.jpg"
-          alt=" logo groupomania"
-          class="d-inline-block align-text-top"
-        />
-      </div>
     </div>
-  </div>
-  <div><Footer /></div>
+    <Footer />
+  </fragment>
 </template>
 
 <script>

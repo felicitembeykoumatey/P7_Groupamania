@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-light" style="background-color: #4781ed">
-    <div class="container-fluid">
+    <div class="container-fluid header-global">
       <img
         src="../assets/icon-left-font-monochrome-black.svg"
         alt=" logo groupomania"
@@ -25,5 +25,14 @@ export default {
 }
 .title-white {
   color: rgb(255, 255, 255);
+}
+
+.header-global {
+  position: relative;
+  box-shadow: 2px 3px 7px;
+  z-index: auto;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 </style>

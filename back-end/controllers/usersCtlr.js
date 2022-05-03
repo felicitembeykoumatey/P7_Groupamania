@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
+//Importation maskData
+const maskData = require("maskdata");
 const { NULL } = require("node-sass");
 const db = require("../models/database");
 const User = db.users;
@@ -14,19 +16,11 @@ exports.signup = (req, res) => {
         lastname: req.body.lastname,
         username: req.body.username,
         grade: req.body.grade,
-        email: req.body.email,
+        email: maskData.maskEmail2(req.body.email),
         password: hash,
         sex: req.body.sex,
         isAdmin: 0,
       };
-      console.log("firstname", firstname);
-      console.log("lastname", lastname);
-      console.log("username", username);
-      console.log("grade", grade);
-      console.log("email", email);
-      console.log("password", password);
-      console.log("sex", sex);
-      console.log("isAdmin", isAdmin);
 
       // Création d'utlisateur
       User.create(user)
@@ -54,7 +48,6 @@ exports.login = (req, res) => {
       }
       bcrypt.compare(loginPassword, user.password).then((valid) => {
         if (valid == false) {
-          console.log("valid : ", valid);
           // Si le mot de passe n'est pas le bon
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }

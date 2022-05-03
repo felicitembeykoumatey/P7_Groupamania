@@ -8,7 +8,7 @@
         class="text-center p-3"
         style="background-color: #4781ed"
       >
-        ©2022 Copyright: groupomania
+        Tous droits réservés ©Copyright groupomania | 2022
       </div>
     </footer>
   </div>

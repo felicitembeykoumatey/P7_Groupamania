@@ -5,61 +5,76 @@
     </div>
 
     <p>
-     Welcome {{ member.username }}!
-      <router-link class="redirection-profil" to="/profil"
-        ><span class="hide">aaaa</span>
-
+      Welcome {{ member.username }}!
+      <router-link class="redirection-profil" to="/profil">
         <p>Mon profil</p>
         <i class="fa-regular fa-user"></i
       ></router-link>
     </p>
-    <p v-if="member.isAdmin == true">  <router-link class="redirection-profil" to="/dashbord"
-        ><span class="hide">aaaa</span>
-
+    <p v-if="member.isAdmin == true">
+      <router-link class="redirection-profil" to="/dashbord">
         <p>Tableau de bord</p>
         <i class="fa fa-users" aria-hidden="true"></i
-      ></router-link></p>
+      ></router-link>
+    </p>
     <br />
     <form @submit.prevent="sendPost">
-    <div id="content">
+      <div class="mb-3" id="content">
+        <label for="FormTextarea1" class="form-label">Exprimez-vous !</label>
+        <textarea
+          rows="3"
+          id="floatingTextarea"
+          class="form-control"
+          placeholder=" Quoi de neuf?"
+          v-model="dataPost.content"
+        ></textarea>
+      </div>
+      <div id="preview" v-if="preview">
+        <img :src="preview" :alt="preview" class="image" />
+      </div>
 
+      <div id="btns">
+        <input
+          id="files"
+          ref="file"
+          name="file"
+          type="file"
+          @change="selectFile"
+          accept=".jpg, .jpeg, .png"
+        />
 
-      <label for="content"><span class="news">Quoi de neuf?</span></label
-      ><br />
-      <textarea
-        id="content"
-        placeholder="Exprimez-vous?"
-        v-model="dataPost.content"
-      ></textarea>
-    </div>
-    <div id="preview" v-if="preview">
-      <img :src="preview" :alt="preview" class="image" />
-    </div>
-
-    <div id="btns">
-      <input
-        id="files"
-        ref="file"
-        name="file"
-        type="file"
-        @change="selectFile"
-        accept=".jpg, .jpeg, .png"
-      />
-
-      <input  value="Enregistrer" class="btn-publier" type="submit"/>
-       
-      
-    </div>
+        <input value="Enregistrer" class="btn btn-success" type="submit" />
+      </div>
     </form>
     <p>{{ errMsg }}</p>
 
     <h2>{{ log("user courant ", userId) }}</h2>
     <div class="container">
       <div class="test">
-        <h1>Fil d'actualité</h1>
-        <div id="container_post">
+        <h3 class="actuality">Fil d'actualité</h3>
+
+        <div id="container_post" class="card-text">
           <ul v-for="item in posts" :key="item.id">
-            <p v-if="item.images"><img :src="item.images" alt="..." /></p>
+            <figure class="figure">
+              <p v-if="item.images">
+                <img :src="item.images" class="img-fluid" alt="..." />
+              </p>
+
+              <figcaption class="contenu card-text figure-caption">
+                {{ item.content }} <br />
+
+                <i
+                  >Publié par <strong>{{ item.user.username }}</strong> le
+                  {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
+                  }}<br /><br
+                /></i>
+              </figcaption>
+            </figure>
+            <div class="displayPost_item_like">
+              <!-- <h2>{{ log("item.userId", item.userId) }}</h2>-->
+              <!--  <Likes v-bind:item="item" />-->
+              <Likes :postId="item.id" :userId="member.id" />
+            </div>
 
             <!--suppresion publication-->
             <p v-if="member.id == item.userId || item.user.isAdmin == true">
@@ -67,30 +82,16 @@
                 <i class="fas fa-trash-alt"></i>
               </button>
             </p>
-            <div class="contenu">{{ item.content }} <br /></div>
-            <i
-              >Publié par <strong>{{ item.user.username }}</strong> le
-              {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
-              }}<br /><br
-            /></i>
+            <form @submit.prevent="createComment(item.id)">
+              <textarea
+                id="comment"
+                placeholder="Insérer votre commentaire"
+                v-model="dataComment.content"
+              ></textarea>
 
-            <div class="displayPost_item_like">
-              <!-- <h2>{{ log("item.userId", item.userId) }}</h2>-->
-              <!--  <Likes v-bind:item="item" />-->
-              <Likes :postId="item.id" :userId="member.id" />
-            </div>
-               <form @submit.prevent="createComment(item.id)">
-            <textarea
-              id="comment"
-              placeholder="Insérer votre commentaire"
-              v-model="dataComment.content"
-            ></textarea>
+              <input type="submit" value="Commenter" />
+            </form>
 
-            <input type="submit" value="Commenter"/>
-          
-               </form>
-
-               
             <div id="containe2">
               <div id="example-2">
                 <h2>{{ log("item ", item) }}</h2>
@@ -124,7 +125,6 @@
                 </ul>
               </div>
             </div>
-              
           </ul>
         </div>
       </div>
@@ -132,7 +132,6 @@
 
     <router-view />
   </main>
-
 </template>
 <!--Javascript-->
 
@@ -193,21 +192,21 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-    getAllPost(){
-        axios
-      .get(
-        "http://localhost:3000/posts", //je récupère les posts
-        {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
-          },
-        }
-      )
-      .then((response) => {
-        // window.location.reload();
-        this.posts = response.data;
-      })
-      .catch((error) => console.log(error));
+    getAllPost() {
+      axios
+        .get(
+          "http://localhost:3000/posts", //je récupère les posts
+          {
+            headers: {
+              Authorization: "Bearer " + window.localStorage.getItem("token"), //je récupère la clé présent dans le local storage
+            },
+          }
+        )
+        .then((response) => {
+          // window.location.reload();
+          this.posts = response.data;
+        })
+        .catch((error) => console.log(error));
     },
     sendPost() {
       // Objet formData pour notre image
@@ -223,7 +222,7 @@ export default {
           },
         })
         .then(() => {
-this.getAllPost();
+          this.getAllPost();
           //router.push({ path: "posts" });
           //window.location.reload();
         })
@@ -243,7 +242,7 @@ this.getAllPost();
           },
         })
         .then(() => {
-            this.getAllPost();
+          this.getAllPost();
           //window.location.reload();
           //this.displayPost();
         })
@@ -263,8 +262,8 @@ this.getAllPost();
         })
         .then(() => {
           this.getAllPost();
-         // router.push({ path: "posts" });
-         // window.location.reload();
+          // router.push({ path: "posts" });
+          // window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -278,8 +277,8 @@ this.getAllPost();
           },
         })
         .then(() => {
-             this.getAllPost();
-         // window.location.reload();
+          this.getAllPost();
+          // window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -299,7 +298,6 @@ this.getAllPost();
       })
       .catch((error) => console.log(error));
     console.log("this.member:", this.member);
-  
   },
 };
 </script>
@@ -331,6 +329,11 @@ img {
   object-fit: cover;
   border-radius: 15px;
 }
+.actuality {
+  position: relative;
+  box-shadow: 2px 3px 7px;
+  z-index: auto;
+}
 .news {
   font-weight: bold;
   color: #c33906;
@@ -349,7 +352,7 @@ img {
   align-items: center;
   margin-top: 10px;
   padding-top: 10px;
-  color:red;
+  color: red;
 }
 .container_post {
   color: rgb(8, 8, 8);

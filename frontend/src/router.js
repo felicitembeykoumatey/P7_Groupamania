@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-import Signup from "./pages/Signup.vue";
-import Login from "./pages/Login.vue";
 import Home from "./pages/Home.vue";
+import Login from "./pages/Login.vue";
 import EditPost from "./pages/EditPost.vue";
 import UserProfile from "./pages/UserProfile.vue";
+
 import AllProfiles from "./pages/AllProfiles.vue";
 import DashBord from "./pages/DashBord.vue";
 import UpdateProfilUserByAdmin from "./pages/UpdateProfilUserByAdmin.vue";
+import UpdatePasswordByAdmin from "./pages/UpdatePasswordByAdmin.vue";
 import UpdateProfilByUser from "./pages/UpdateProfilByUser.vue";
 import UpdatePasswordByUser from "./pages/UpdatePasswordByUser.vue";
-import UpdatePasswordByAdmin from "./pages/UpdatePasswordByAdmin.vue";
 const routes = [
   // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
   {
@@ -24,12 +23,6 @@ const routes = [
     name: "Login",
     component: Login,
     path: "/login",
-  },
-  // Chemin vers la page d'inscription
-  {
-    name: "Signup",
-    component: Signup,
-    path: "/signup",
   },
 
   // Chemin vers la page actualités(journal)
@@ -46,38 +39,44 @@ const routes = [
     path: "/profil",
   },
 
-  // Chemin vers la page profile utilisateur
+  // Chemin vers la page Affiche tous les profiles utilisateurs
   {
     name: "AllProfiles",
     component: AllProfiles,
     path: "/profiles",
   },
+
+  // Chemin vers la page Tableau de bord
   {
     name: "DashBord",
     component: DashBord,
     path: "/dashbord",
   },
+
+  // Chemin de l'admin vers la page modification mot de passe des utilisateurs
   {
-    name: "UpdateProfilByUser",
-    component: UpdateProfilByUser,
-    path: "/UpdateProfilByUser",
+    name: " UpdatePasswordByAdmin",
+    component: UpdatePasswordByAdmin,
+    path: "/ UpdatePasswordByAdmin",
   },
-  // Chemin de l'admin vers la page modification profil
+  // Chemin vers la page modification profil par Administrateur
   {
     name: "UpdateProfilUserByAdmin",
     component: UpdateProfilUserByAdmin,
     path: "/UpdateProfilUserByAdmin",
   },
-  // Chemin de l'admin vers la page modification profil
+
+  // Chemin  vers la page modification de son mot de passe
   {
     name: "UpdatePasswordByUser",
     component: UpdatePasswordByUser,
     path: "/UpdatePasswordByUser",
-  }, // Chemin de l'admin vers la page modification profil
+  },
+  // Chemin vers la page modification du profil d'utilisateur par l'utilisateur
   {
-    name: " UpdatePasswordByAdmin",
-    component: UpdatePasswordByAdmin,
-    path: "/ UpdatePasswordByAdmin",
+    name: "UpdateProfilByUser",
+    component: UpdateProfilByUser,
+    path: "/UpdateProfilByUser",
   },
 ];
 

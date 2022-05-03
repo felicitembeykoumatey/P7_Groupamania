@@ -20,9 +20,9 @@ export default {
   color: #2c3e50;
   height: 100%;
 }
-* {
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  min-width: 375px;
+  font-family: "Roboto", sans-serif;
 }
 </style>
