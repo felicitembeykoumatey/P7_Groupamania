@@ -1,38 +1,58 @@
 <template>
-  <nav class="navbar navbar-light" style="background-color: #4781ed">
-    <div class="container-fluid header-global">
-      <img
-        src="../assets/icon-left-font-monochrome-black.svg"
-        alt=" logo groupomania"
-        class="d-inline-block align-text-top"
-      />
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img
+          src="../assets/icon-left-font-monochrome-black.svg"
+          alt=" logo groupomania"
+          style="width: 250px"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="ml-2 navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+          </li>
+
+          <li class="nav-item">
+            <router-link class="redirection-profil nav-link" to="/profil">
+              Mon profil
+            </router-link>
+          </li>
+
+          <button @click="disconect" class="btn btn-outline-success">
+            <i class="fas fa-power-off"></i> Déconnexion
+          </button>
+        </ul>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
+import router from "../router";
+
+// eslint-disable-next-line vue/multi-word-component-names
+
 export default {
+  name: "NavBar",
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Home",
-  data() {},
+
+  methods: {
+    disconect() {
+      localStorage.clear();
+      router.push({ path: "login" });
+    },
+  },
 };
 </script>
-<!--Css-->
-<style scoped>
-.link-signup,
-.link-login {
-  margin: 6px;
-}
-.title-white {
-  color: rgb(255, 255, 255);
-}
-
-.header-global {
-  position: relative;
-  box-shadow: 2px 3px 7px;
-  z-index: auto;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-</style>

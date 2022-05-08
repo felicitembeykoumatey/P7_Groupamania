@@ -18,7 +18,6 @@ exports.createPost = (req, res) => {
     images: req.body.files,
     userId: userId,
   };
-
   if (req.file != undefined) {
     post.images = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
@@ -45,7 +44,6 @@ exports.createPost = (req, res) => {
 //Afficher toutes les publications
 
 exports.getAllPosts = (req, res) => {
- 
   Post.findAll({
     include: [
       {
@@ -61,7 +59,7 @@ exports.getAllPosts = (req, res) => {
     ],
   })
     .then((posts) => {
-     // console.log("posts.length : ", posts.length);
+      // console.log("posts.length : ", posts.length);
       if (posts.length > 0) {
         res.status(200).json(posts); // mon gros erreur qui bloque l'affichage des posts .Ne jamains mettre res.status(200).json({pots})
       } else {
@@ -129,14 +127,12 @@ exports.likePost = (req, res) => {
           res.status(201).json(newLike);
         });
       } else {
-        like.destroy()
+        like.destroy();
         res.status(200).json();
-
       }
     })
     .catch((error) => res.status(400).json({ error: error.message }));
 };
-
 
 exports.getAllLikesPost = (req, res) => {
   try {

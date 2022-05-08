@@ -1,118 +1,136 @@
 <template>
-  <div class="container-fluid vh-10" style="margin-top: 300px">
-    <div class="" style="margin-top: 200px">
-      <div class="rounded d-flex justify-content-center">
-        <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
-          <div class="text-center">
-            <h3 class="text-primary">Création compte</h3>
+  <div class="mx-auto">
+    <div class="text-center">
+      <img
+        src="../assets/icon-left-font-monochrome-black.svg"
+        alt=" logo groupomania"
+        class="d-inline-block align-text-top my-5"
+      />
+    </div>
+    <div>
+      <div class="row py-4 px-3 rounded">
+        <div class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
+          <div class="text-center py-3">
+            <h3 class="text-primary">Inscription</h3>
           </div>
 
-          <div class="p-5">
-            <form @submit.prevent="dataSignup">
-              <div class="mb-3">
-                <label for="password" class="form-label"
-                  >Nom d'utilisateur</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nom d'utilisateur"
-                  v-model="dataForm.username"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="firstname" class="form-label">Prénom</label>
-                <input
-                  type="text"
-                  id="firstname"
-                  class="form-control"
-                  placeholder="Prénom"
-                  v-model="dataForm.firstname"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="lastname" class="form-label">Nom</label>
-                <input
-                  type="text"
-                  id="lastname"
-                  class="form-control"
-                  placeholder="Nom"
-                  v-model="dataForm.lastname"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label"> Email </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Email"
-                  v-model="dataForm.email"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label"> Mot de passe</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Mot de passe"
-                  v-model="dataForm.password"
-                />
-              </div>
-
-              <div class="form-check">
-                <input
-                  type="radio"
-                  id="sex"
-                  name="genre"
-                  value="homme"
-                  v-model="dataForm.sex"
-                  required
-                  @click="user_is_a_man"
-                  class="form-check-input"
-                />
-                <label class="form-check-label" for="sex"> Homme </label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  id="sex"
-                  name="genre"
-                  value="femme"
-                  v-model="dataForm.sex"
-                  required
-                  @click="user_is_a_woman"
-                  class="form-check-input"
-                  checked
-                />
-                <label class="form-check-label" for="sex"> Femme </label>
-              </div>
-              <div class="d-grid col-12 mx-auto">
-                <router-link id="redirection-Home" to="/login"
-                  ><button
-                    class="btn btn-primary"
-                    id="btn-signup"
-                    type="submit"
-                  >
-                    S'inscrire
-                  </button>
-                </router-link>
-              </div>
-
-              <h2>{{ errMsg }}</h2>
-              <p class="text-center mt-3" id="link-signup">
-                Vous avez déjà un compte?
-                <router-link
-                  class="text-primary"
-                  id="redirection-login"
-                  to="/login"
-                  >connecter-vous</router-link
-                >
-              </p>
-            </form>
+          <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
+            {{ msg }}
           </div>
+
+          <form @submit.prevent="dataSignup">
+            <div class="mb-3">
+              <label for="lastname" class="form-label"> Nom </label>
+              <input
+                type="lastname"
+                name="lastname"
+                id="lastname"
+                placeholder="Nom"
+                v-model="dataUser.lastname"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="firstname" class="form-label">Prénom</label>
+              <input
+                type="firstname"
+                name="firstname"
+                id="firstname"
+                placeholder="Prénom"
+                v-model="dataUser.firstname"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="Username" class="form-label">Nom d'utilisateur</label>
+              <input
+                type="Username"
+                name="Username"
+                id="Username"
+                placeholder="Nom d'utilisateur"
+                v-model="dataUser.username"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="grade" class="form-label">Fonction</label>
+              <input
+                type="grade"
+                name="grade"
+                id="grade"
+                placeholder="Fonction"
+                v-model="dataUser.grade"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                v-model="dataUser.email"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Mot de passe"
+                name="password"
+                v-model="dataUser.password"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-check">
+              <input
+                type="radio"
+                id="sex"
+                name="genre"
+                value="homme"
+                v-model="dataUser.sex"
+                required
+                @click="user_is_a_man"
+                class="form-check-input"
+              />
+              <label class="form-check-label" for="sex"> Homme </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                type="radio"
+                id="sex"
+                name="genre"
+                value="femme"
+                v-model="dataUser.sex"
+                required
+                @click="user_is_a_woman"
+                class="form-check-input"
+                checked
+              />
+              <label class="form-check-label" for="sex"> Femme </label>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">S'inscrire</button>
+            </div>
+          </form>
+
+          <p class="py-3">
+            <small>
+              Vous avez déjà un compte?
+              <router-link class="redirection-Home" to="/login"
+                >Se connecter</router-link
+              >
+            </small>
+          </p>
         </div>
       </div>
     </div>
@@ -128,14 +146,14 @@ export default {
   name: "Signup",
   data() {
     return {
-      dataForm: {
-        firstname: null,
-        lastname: null,
-        username: null,
-        grade: null,
-        sex: null,
-        email: null,
-        password: null,
+      dataUser: {
+        firstname: "",
+        lastname: "",
+        username: "",
+        grade: "",
+        sex: "",
+        email: "",
+        password: "",
       },
       errMsg: null,
     };
@@ -144,43 +162,43 @@ export default {
     dataSignup() {
       const formData = new FormData();
 
-      formData.append("firstname", this.dataForm.firstname);
-      formData.append("lastname", this.dataForm.lastname);
-      formData.append("username", this.dataForm.username);
-      formData.append("grade", this.dataForm.grade);
-      formData.append("sex", this.dataForm.sex);
-      formData.append("email", this.dataForm.email);
-      formData.append("password", this.dataForm.password);
-      console.log("firstname", this.dataForm.firstname);
-      console.log("lastname", this.dataForm.lastname);
-      console.log("username", this.dataForm.username);
-      console.log("grade", this.dataForm.grade);
-      console.log("email", this.dataForm.email);
-      console.log("password", this.dataForm.password);
-      console.log("sex", this.dataForm.sex);
+      formData.append("firstname", this.dataUser.firstname);
+      formData.append("lastname", this.dataUser.lastname);
+      formData.append("username", this.dataUser.username);
+      formData.append("grade", this.dataUser.grade);
+      formData.append("sex", this.dataUser.sex);
+      formData.append("email", this.dataUser.email);
+      formData.append("password", this.dataUser.password);
+      /* console.log("firstname", this.dataUser.firstname);
+      console.log("lastname", this.dataUser.lastname);
+      console.log("username", this.dataUser.username);
+      console.log("grade", this.dataUser.grade);
+      console.log("email", this.dataUser.email);
+      console.log("password", this.dataUser.password);
+      console.log("sex", this.dataUser.sex);*/
       console.log("formData", formData);
 
       if (
-        !this.dataForm.firstname ||
-        !this.dataForm.lastname ||
-        !this.dataForm.username ||
-        !this.dataForm.grade ||
-        !this.dataForm.sex ||
-        !this.dataForm.email ||
-        !this.dataForm.password
+        !this.firstname ||
+        !this.lastname ||
+        !this.username ||
+        !this.grade ||
+        !this.sex ||
+        !this.email ||
+        !this.password
       ) {
         this.errMsg = "Svp, remplissez tous les champs du formulaire !";
       }
       console.log("formData12 :", formData);
       axios
-        .post("http://localhost:3000/signup", formData)
+        .post("http://localhost:3000/signup", this.dataUser)
 
         .then(() => {
           // localStorage.setItem("token", response.data.token);
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
           //Réinitialisation
-          this.dataForm.email = null;
-          this.dataForm.username = null;
+          // this.dataUser.email = null;
+          //this.dataUser.username = null;
           router.push({ path: "login" });
           //document.location.href = "http://localhost:8080/login";
         })

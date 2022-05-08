@@ -1,30 +1,21 @@
 <template>
-  <router-link class="redirection-home" to="/home">
-    <p>
-      <button @click="disconect" type="submit" class="btn-disconect">
-        <span class="hide">aaaa</span><i class="fas fa-power-off"></i>
-      </button>
-    </p>
-  </router-link>
+  <button @click="disconect" class="btn btn-outline-success">
+    <i class="fas fa-power-off"></i> Déconnexion
+  </button>
 </template>
 
 <script>
+import router from "../router";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Disconect",
   methods: {
     disconect() {
       localStorage.clear();
-      document.location.href = "http://localhost:8080";
+      router.push({ path: "login" });
     },
   },
 };
 </script>
 
 <!--Css-->
-
-<style>
-.hide {
-  display: none;
-}
-</style>

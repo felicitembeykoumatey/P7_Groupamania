@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "./pages/Home.vue";
+//import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
-import EditPost from "./pages/EditPost.vue";
+import Signup from "./components/Signup.vue";
+import Home from "./pages/Home.vue";
 import UserProfile from "./pages/UserProfile.vue";
 
 import AllProfiles from "./pages/AllProfiles.vue";
@@ -13,22 +14,26 @@ import UpdatePasswordByUser from "./pages/UpdatePasswordByUser.vue";
 const routes = [
   // Chemin vers le portail pour s'inscrire ou se connecter, avant d'entrer dans Home
   {
-    name: "Home",
-    component: Home,
+    name: "Login",
+    component: Login,
     path: "/",
   },
-
-  // Chemin vers la page connexion
   {
     name: "Login",
     component: Login,
     path: "/login",
   },
 
+  {
+    name: "Signup",
+    component: Signup,
+    path: "/Signup",
+  },
+
   // Chemin vers la page actualités(journal)
   {
-    name: "EditPost",
-    component: EditPost,
+    name: "Home",
+    component: Home,
     path: "/posts",
   },
 

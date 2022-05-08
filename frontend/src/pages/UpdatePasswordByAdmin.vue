@@ -58,9 +58,7 @@ export default {
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
           //Réinitialisation
           this.member.username = null;
-
           this.member.password = null;
-
           router.push({ path: "dashbord" });
           //document.location.href = "http://localhost:8080/login";
         })

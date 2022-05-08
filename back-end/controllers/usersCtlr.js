@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
-//Importation maskData
-const maskData = require("maskdata");
 const { NULL } = require("node-sass");
 const db = require("../models/database");
 const User = db.users;
@@ -16,12 +14,11 @@ exports.signup = (req, res) => {
         lastname: req.body.lastname,
         username: req.body.username,
         grade: req.body.grade,
-        email: maskData.maskEmail2(req.body.email),
+        email: req.body.email,
         password: hash,
         sex: req.body.sex,
         isAdmin: 0,
       };
-
       // Création d'utlisateur
       User.create(user)
         .then(res.status(201).json({ message: " Bravo compte crée  !" }))
@@ -52,8 +49,6 @@ exports.login = (req, res) => {
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
       });
-
-      console.log("je suis perdu : ");
       res.status(200).json({
         userId: user.id,
         isAdmin: user.isAdmin,
@@ -67,7 +62,6 @@ exports.login = (req, res) => {
 };
 
 // Profil d'un utilisateur connecté!
-
 exports.profilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
@@ -94,10 +88,7 @@ exports.allProfilUser = (req, res) => {
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
-
 // Afficher un utilisateur
-//Tous les profils
-
 exports.oneProfilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");

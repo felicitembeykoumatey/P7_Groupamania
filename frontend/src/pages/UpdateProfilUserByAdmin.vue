@@ -45,7 +45,7 @@
       />
       <label for="genre">Utilisateur simple</label>
       <!-- Button -->
-      <router-link class="redirection-Home" to="/dashbord"
+      <router-link class="redirection-Home" to="/UpdateProfilUserByAdmin"
         ><input class="btn-signup" type="submit" value="Valider" />
       </router-link>
     </form>
