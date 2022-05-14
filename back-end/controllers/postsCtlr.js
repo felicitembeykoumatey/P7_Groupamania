@@ -40,7 +40,6 @@ exports.createPost = (req, res) => {
       })
     );
 };
-
 //Afficher toutes les publications
 
 exports.getAllPosts = (req, res) => {

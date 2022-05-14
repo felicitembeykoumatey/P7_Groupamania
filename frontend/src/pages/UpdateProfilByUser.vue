@@ -1,47 +1,60 @@
 <template>
-  <main class="modifier">
-    <form @submit.prevent="updateData">
-      <label for="username"> Username </label>
-      <input
-        type="text"
-        class="form-control"
-        id="username"
-        placeholder=" username "
-        v-model="member.username"
+  <div class="mx-auto">
+    <div class="text-center">
+      <img
+        src="../assets/icon-left-font-monochrome-black.svg"
+        alt=" logo groupomania"
+        class="d-inline-block align-text-top my-5"
       />
+    </div>
 
-      <label for="grade"> Fonction </label>
-      <input
-        type="text"
-        placeholder="Fonction"
-        id="grade"
-        v-model="member.grade"
-      />
+    <router-link class="redirection-posts" to="/posts">
+      <i class="fas fa-arrow-left fa-2x"></i>
+    </router-link>
+    <div
+      class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+    >
+      <form @submit.prevent="updateData">
+        <div class="mb-3">
+          <label for="username"> Username </label>
+          <input
+            type="text"
+            id="username"
+            placeholder=" username "
+            v-model="member.username"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="grade"> Fonction </label>
+          <input
+            type="text"
+            placeholder="Fonction"
+            id="grade"
+            v-model="member.grade"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="grade"> Email </label>
+          <input
+            type="text"
+            placeholder="Email"
+            id="email"
+            v-model="member.email"
+            class="form-control"
+          />
+        </div>
 
-      <label for="grade"> Email </label>
-      <input
-        type="text"
-        placeholder="Email"
-        id="email"
-        v-model="member.email"
-      />
-
-      <!-- <label for="password"> Password </label>
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        id="password"
-        v-model="member.password"
-      />
- -->
-      <br />
-      <input class="btn-signup" type="submit" value="Valider" />
-      <!-- Button 
+        <br />
+        <input class="btn-update" type="submit" value="Modifier" />
+        <!-- Button 
       <router-link class="redirection-Home" to="/dashbord"
         >
       </router-link>-->
-    </form>
-  </main>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -12,10 +12,10 @@ router.post("/signup", userCtrl.signup); // Inscription//
 router.post("/login", multer, userCtrl.login); // Connexion//
 router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 router.get("/all", multer, userCtrl.allProfilUser); // Afficher tous les profils
-router.get("/updateUser/:id", multer, userCtrl.ProfilUserById); // Récuperer par id
+router.get("/updateUser/:id", multer, userCtrl.profilUserById); // Récuperer par id
 router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
 router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile
 router.put("/update", multer, userCtrl.updateUserRole); //modification profile par l'administrateur
-router.put("/updateByUser/:id", multer, userCtrl.updateUser); //modification profile par l'utilisateur courant
+router.put("/updateByUser", multer, userCtrl.modifyUser); //modification profile par l'utilisateur courant
 //**EXPORT**/
 module.exports = router;

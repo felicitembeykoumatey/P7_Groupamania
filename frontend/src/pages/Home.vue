@@ -1,18 +1,117 @@
 <template>
-  <main>
+  <main class="justify-content-center">
     <fragment>
       <NavBar />
     </fragment>
+    <h1 class="b-5 px-10 pt-3">
+      Bienvenu(e) sur le social network de Groupomania !
+    </h1>
+    <div class="row py-4 mt-2">
+      <div class="col-md-4">
+        <form @submit.prevent="sendPost">
+          <div class="mb-3">
+            <textarea
+              id="floatingTextarea"
+              class="form-control"
+              placeholder=" Quoi de neuf?"
+              v-model="dataPost.content"
+            ></textarea>
+          </div>
 
-    <div class="shadow-sm shadow-lg p-3 mb-5 bg-white rounded">
-      <h1 class="b-5 px-10 pt-3">
-        Bienvenu(e) sur le social network de Groupomania !
-      </h1>
+          <div class="mb-3">
+            <input
+              id="files"
+              ref="file"
+              name="file"
+              type="file"
+              @change="selectFile"
+              accept=".jpg, .jpeg, .png"
+              class="form-control"
+            />
+          </div>
+
+          <div id="preview" class="mb-3" v-if="preview">
+            <img
+              :src="preview"
+              :alt="preview"
+              class="image"
+              style=" width=
+            100%; height=200px"
+            />
+          </div>
+
+          <div class="mb-3 d-grid gap-2">
+            <input type="submit" value="Publier" class="btn btn-primary" />
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-6 mx-auto">
+        <section
+          id="profil_admin"
+          class="shadow-sm shadow-lg p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+        >
+          <br />
+          <h2>Bonjour {{ member.username }}!</h2>
+          <img src="../assets/avatar.webp" alt=" avatar" style="width: 150px" />
+
+          <section v-if="member.isAdmin == true">
+            <h3>Admistrateur</h3>
+            <router-link class="redirection-profil" to="/dashbord">
+              <h4>Tableau de bord</h4>
+              <i class="fa fa-users m" aria-hidden="true"></i
+            ></router-link>
+          </section>
+        </section>
+        <div
+          class="card"
+          v-for="item in posts"
+          :key="item.id"
+          style="width: 38rem; margin-bottom: 20px"
+        >
+          <img
+            :src="item.images"
+            v-if="item.images"
+            style="width: 100%; height: 100px"
+            class="card-img-top"
+            alt=""
+          />
+          <div class="card-body">
+            <p class="card-text">{{ item.content }}</p>
+            <p>
+              Publié par <strong>{{ item.user.username }}</strong> le
+              {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16) }}
+            </p>
+            <div class="d-grid gap-2 d-md-block">
+              <p v-if="member.id == item.userId || item.user.isAdmin == true">
+                <button class="btn btn-primary pl-5 pr-5" type="button">
+                  <Likes :postId="item.id" :userId="member.id" />
+                </button>
+
+                <button
+                  class="btn btn-primary pl-5 pr-5"
+                  v-on:click.prevent="deletePost(item.id, item.userId)"
+                  type="button"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--
+    <h1 class="b-5 px-10 pt-3">
+      Bienvenu(e) sur le social network de Groupomania !
+    </h1>
+    <section
+      id="profil_admin"
+      class="shadow-sm shadow-lg p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+    >
       <br />
-      <h2>
-        <img src="../assets/avatar.webp" alt=" avatar" style="width: 180px" />
-        Bonjour {{ member.username }}!
-      </h2>
+      <h2>Bonjour {{ member.username }}!</h2>
+      <img src="../assets/avatar.webp" alt=" avatar" style="width: 150px" />
 
       <section v-if="member.isAdmin == true">
         <h3>Admistrateur</h3>
@@ -21,11 +120,11 @@
           <i class="fa fa-users m" aria-hidden="true"></i
         ></router-link>
       </section>
-    </div>
+    </section>
     <br />
 
     <form @submit.prevent="sendPost">
-      <div class="mb-3" id="content">
+      <div class="mb-3 col-12 col-md-6 col-lg-4" id="content">
         <label for="FormTextarea1" class="form-label">Exprimez-vous !</label>
         <textarea
           rows="3"
@@ -48,73 +147,74 @@
           @change="selectFile"
           accept=".jpg, .jpeg, .png"
         />
-
-        <a href="#" value="Enregistrer" class="btn btn-primary">Publier</a>
+        <input type="submit" value="Publier" class="btn btn-primary" />
       </div>
     </form>
-    <p>{{ errMsg }}</p>
+    <h2>{{ errMsg }}</h2>
 
-    <h2>{{ log("user courant ", userId) }}</h2>
-    <div class="container">
-      <div class="test">
-        <h3 class="actuality">Fil d'actualité</h3>
+    <section>
+      <h3 class="h3 text-center">Fil d'actualité</h3>
 
-        <div id="container_post" class="card-text">
-          <ul class="" v-for="item in posts" :key="item.id">
-            <div class="figure card" style="width: 18rem">
-              <p v-if="item.images">
-                <img
-                  :src="item.images"
-                  class="img-fluid card-img-top"
-                  alt="..."
-                />
-              </p>
+      <div
+        class="container d-flex justify-content-center"
+        v-for="item in posts"
+        :key="item.id"
+      >
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card" style="width: 38rem">
+              <img
+                :src="item.images"
+                v-if="item.images"
+                class="img-fluid card-img-top"
+                alt="..."
+              />
 
-              <figcaption class="card-body">
-                {{ item.content }} <br />
+              <figcaption class="mg-md text-center figure-caption">
+                <blockquote class="card-body bg-info text-center filter">
+                  <p class="card-text">{{ item.content }}</p>
 
-                <i
-                  >Publié par <strong>{{ item.user.username }}</strong> le
-                  {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16)
-                  }}<br /><br
-                /></i>
+                  <p>
+                    Publié le {{ item.date.split("T")[0] }} à
+                    {{ item.date.slice(11, 16) }} par
+                    <strong>{{ item.user.username }}</strong>
+                  </p>
+                </blockquote>
+
+                <div class="card-body">
+                
+                
+                  <Likes :postId="item.id" :userId="member.id" />
+                
+                  <p
+                    v-if="member.id == item.userId || item.user.isAdmin == true"
+                  >
+                    <button
+                      v-on:click.prevent="deletePost(item.id, item.userId)"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </p>
+                </div>
               </figcaption>
-
-              <div class="card-body">
-                <!-- <h2>{{ log("item.userId", item.userId) }}</h2>-->
-                <!--  <Likes v-bind:item="item" />-->
-                <Likes :postId="item.id" :userId="member.id" />
-                <!--suppresion publication-->
-                <p v-if="member.id == item.userId || item.user.isAdmin == true">
-                  <button v-on:click.prevent="deletePost(item.id, item.userId)">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </p>
-              </div>
-
               <form @submit.prevent="createComment(item.id)">
-                <textarea
-                  id="comment"
-                  class="list-group-item mt-5"
-                  placeholder="Insérer votre commentaire"
-                  v-model="dataComment.content"
-                ></textarea>
-
-                <input
-                  type="submit"
-                  value="Commenter"
-                  class="btn btn-primary"
-                />
+                <div class="form-floating">
+                  <textarea
+                    id="comment"
+                    class="form-control filter list-group-item mt-5"
+                    v-model="dataComment.content"
+                  ></textarea>
+                  <label for="text-center">Réagissez !</label>
+                </div>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-primary" type="button">Valider</button>
+                </div>
               </form>
-
-              <div id="containe2">
-                <div id="example-2">
-                  <h2>{{ log("item ", item) }}</h2>
-
+              <div>
+                <div>
                   <ul
                     v-for="commentaire in item.comments"
                     :key="commentaire.id"
-                    class="commentaire_conteneur"
                   >
                     <h2>{{ log("item.content ", commentaire.content) }}</h2>
                     <div class="contenu">{{ commentaire.content }} <br /></div>
@@ -134,6 +234,7 @@
                       class="poubelle"
                     >
                       <button
+                        class="deleteIcon"
                         v-on:click.prevent="DeleteComment(commentaire.id)"
                       >
                         <i class="fas fa-trash-alt"></i>
@@ -142,17 +243,16 @@
                   </ul>
                 </div>
               </div>
-            </div>
-          </ul>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
-    <router-view />
+    </section>
+    <router-view />-->
 
     <Footer />
   </main>
 </template>
-<!--Javascript-->
 
 <script>
 //import Disconect from "@/components/Disconect.vue"; //Importation de la fonction déconexion
@@ -228,12 +328,13 @@ export default {
         .catch((error) => console.log(error));
     },
     sendPost() {
-      // Objet formData pour notre image
+      // Objet formData pour notre image^
+      console.log("ffffffffffffff");
       const formData = new FormData();
       formData.append("content", this.dataPost.content);
       formData.append("files", this.$refs.file.files[0]);
       formData.append("userId", localStorage.getItem("userId"));
-
+      console.log("fdgfhfh");
       axios
         .post("http://localhost:3000/posts", formData, {
           headers: {
@@ -320,87 +421,19 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-form {
+.filter {
   display: flex;
-  flex-direction: column;
-}
-
-textarea {
-  height: 15px;
-  padding: 10px 2px 10px 2px;
-  width: calc(100% - 1rem);
-  border-radius: 15px;
-}
-img {
-  display: flex;
-  justify-content: center;
-  height: 40%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 15px;
-}
-textarea.form-control {
-  min-height: calc(8.5em + 0.75rem + 2px);
-}
-.actuality {
-  position: relative;
-  box-shadow: 2px 3px 7px;
-  z-index: auto;
-}
-.news {
-  font-weight: bold;
-  color: #c33906;
-}
-.fa-user {
-  font-weight: bold;
-  color: #c33906;
-}
-#preview {
-  overflow: hidden;
-  max-width: 20%;
-}
-#btns {
-  display: flex;
-  justify-content: space-between;
+  padding-right: 2.5%;
   align-items: center;
-  margin-top: 10px;
-  padding-top: 10px;
-  color: red;
+  height: 59px;
+  border: 2px #d9d9d9 solid;
+  border-radius: 10px;
+  font-size: 1.4em;
 }
 
-.container_post {
-  color: rgb(8, 8, 8);
-  background-color: rgb(100, 207, 240);
-  border-radius: 30px 30px 30px 30px;
-}
-.commentaire_conteneur {
-  color: rgb(8, 8, 8);
-  background-color: rgb(240, 154, 100);
-  border-radius: 30px 30px 30px 30px;
-}
-/*Média queries*/
-/*Mobile*/
-@media screen and (min-width: 375px) {
-  .img-logo {
-    width: 48%;
-  }
-  #sendPost {
-    max-width: 85%;
-    box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
-    margin: auto;
-    margin-top: 2rem;
-    padding: 1rem;
-    border-radius: 40px;
-  }
-}
-/*desktop*/
-@media screen and (min-width: 992px) {
-}
-@media screen and (min-width: 1440px) {
-  .img-logo {
-    width: 25%;
-  }
+.deleteIcon {
+  border: 2px #d9d9d9 solid;
+  border-radius: 10px;
 }
 </style>

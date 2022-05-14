@@ -3,13 +3,13 @@
     <router-link class="redirection-posts" to="/posts">
       <i class="arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
-    <h2>Tableau de bord</h2>
+    <h2 class="text-center">Tableau de bord</h2>
 
     <div class="dashboard-table">
       <table class="tableau-style" id="table">
         <thead id="thead">
           <tr class="color">
-            <th scope="col">Id</th>
+            <th scope="col">Changer mdp</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Rôle</th>
@@ -17,27 +17,28 @@
             <th scope="col">Supprimer</th>
           </tr>
         </thead>
+
         <tbody id="tbody" v-for="member in users" :key="member.id">
           <tr class="color">
-            <router-link
-              @click="getUser(member.id)"
-              class="redirection-Home"
-              to="/UpdatePasswordByAdmin"
-            >
-              <td class="idnum">{{ member.id }}</td></router-link
-            >
-            <router-link
-              @click="getUser(member.id)"
-              class="redirection-Home"
-              to="/UpdateProfilByAdmin"
-              ><td class="user">{{ member.username }}</td></router-link
-            >
+            <td class="idnum">
+              <button @click="getUser(member.id)">
+                {{ member.id }}
+              </button>
+            </td>
+
+            <td class="username">
+              <button @click="modifyprofiluser(member.id)">
+                {{ member.username }}
+              </button>
+            </td>
+
             <td class="email">{{ member.email }}</td>
             <td class="isAdmin">{{ member.isAdmin }}</td>
-            <td class="updateUser">
+
+            <td>
               <button
                 @click="updateUser(member.id, member.isAdmin)"
-                class="btn btn-danger"
+                class="btn btn-success"
               >
                 <i class="fa-solid fa-pencil"></i>
               </button>
@@ -83,21 +84,40 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
+    modifyprofiluser(id) {
+      //ajouter un couple clé/valeur en utilisant FormData.append
+
+      console.log("id : ", id);
+      axios
+        .get("http://localhost:3000/updateUser/" + id, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log("resdfh", res);
+          localStorage.setItem("token_modify", id);
+          router.push({ path: "UpdateProfilUserByAdmin" });
+          //window.location.reload();
+        })
+        .catch((error) => console.log("Erreur", error));
+    },
+
     getUser(id) {
       const formData = new FormData(); // Formulaire vide à cet instant
       //ajouter un couple clé/valeur en utilisant FormData.append
       formData.append("id", id);
 
       axios
-        .get("http://localhost:3000/me", formData, {
+        .get("http://localhost:3000/updateUser/" + id, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
         .then((res) => {
-          console.log("res", res);
-          router.push({ path: "dashbord" });
-          window.location.reload();
+          console.log("resdfh", res);
+          router.push({ path: "UpdatePasswordByAdmin" });
+          //window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -162,11 +182,5 @@ th {
 .dashboard-table {
   display: flex;
   justify-content: center;
-}
-.fas {
-  color: orangered;
-}
-.fa-solid {
-  color: green;
 }
 </style>

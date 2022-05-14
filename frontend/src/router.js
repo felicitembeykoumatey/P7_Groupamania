@@ -60,9 +60,9 @@ const routes = [
 
   // Chemin de l'admin vers la page modification mot de passe des utilisateurs
   {
-    name: " UpdatePasswordByAdmin",
+    name: "UpdatePasswordByAdmin",
     component: UpdatePasswordByAdmin,
-    path: "/ UpdatePasswordByAdmin",
+    path: "/UpdatePasswordByAdmin",
   },
   // Chemin vers la page modification profil par Administrateur
   {
