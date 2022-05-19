@@ -8,7 +8,7 @@ const User = db.users; // Chargé fichier models user
 const Comment = db.comments; // Chargé fichier models comments
 const Like = db.likes;
 
-// Création Post d'actualité
+// Création Post
 exports.createPost = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
@@ -40,6 +40,7 @@ exports.createPost = (req, res) => {
       })
     );
 };
+
 //Afficher toutes les publications
 
 exports.getAllPosts = (req, res) => {
@@ -69,38 +70,6 @@ exports.getAllPosts = (req, res) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.getAllPostFromOneUser = (req, res) => {
-  const id = req.params.userId;
-
-  User.findByPk(id, {
-    include: [
-      {
-        model: Post,
-        as: "posts",
-        include: [
-          {
-            model: Comment,
-            as: "comments",
-            include: ["user"],
-          },
-        ],
-      },
-    ],
-    order: [
-      ["posts", "date", "DESC"],
-      ["posts", "comments", "date", "ASC"],
-    ],
-  })
-    .then((postS) => {
-      res.status(200).json(postS);
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
-
 // Supprimer une publication
 
 exports.deletePost = (req, res) => {
@@ -112,6 +81,7 @@ exports.deletePost = (req, res) => {
 
 //Implementation like et unlike
 exports.likePost = (req, res) => {
+  console.log("zserghjhgfdzefrghreq.body.userId : ", req.body.userId);
   const postId = req.body.postId;
   const userId = req.body.userId;
   console.log("req.body.userId : ", req.body.userId);
@@ -120,9 +90,7 @@ exports.likePost = (req, res) => {
   })
     .then((like) => {
       if (!like) {
-        // console.log("je suis dans !like");
         Like.create({ postId, userId }).then((newLike) => {
-          // console.log("nouveau like créé");
           res.status(201).json(newLike);
         });
       } else {

@@ -6,7 +6,7 @@ import Home from "./pages/Home.vue";
 import UserProfile from "./pages/UserProfile.vue";
 
 import AllProfiles from "./pages/AllProfiles.vue";
-import DashBord from "./pages/DashBord.vue";
+import DashBord from "./pages/DashBoard.vue";
 import UpdateProfilUserByAdmin from "./pages/UpdateProfilUserByAdmin.vue";
 import UpdatePasswordByAdmin from "./pages/UpdatePasswordByAdmin.vue";
 import UpdateProfilByUser from "./pages/UpdateProfilByUser.vue";
@@ -53,9 +53,9 @@ const routes = [
 
   // Chemin vers la page Tableau de bord
   {
-    name: "DashBord",
+    name: "DashBoard",
     component: DashBord,
-    path: "/dashbord",
+    path: "/dashboard",
   },
 
   // Chemin de l'admin vers la page modification mot de passe des utilisateurs

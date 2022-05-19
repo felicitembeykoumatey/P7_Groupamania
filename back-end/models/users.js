@@ -40,9 +40,8 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       defaultValue: 0,
     },
-  
+
     date: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
-  
   });
   return User;
 };

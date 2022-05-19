@@ -1,7 +1,9 @@
 <template>
   <div>
+    <h2>{{ log("aaaaaaaaaaaaaaaaaa ", postId) }}</h2>
     <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
       <i class="far fa-thumbs-up likeBtn like"></i>
+      <h2>{{ log("qaxzcevrbhtnjyki ", likes.length) }}</h2>
       {{ likes.length }}
     </button>
     <!-- <button v-else @click.prevent="unlikePost(postId)" class="btn">
@@ -29,27 +31,34 @@ export default {
   },
 
   methods: {
+    log(commmentaire, variable) {
+      console.log(commmentaire, variable);
+    },
     likePost(postId) {
+      console.log("fffffffffffffffff : ");
+      console.log("ddddddddddddddddddd : ");
       const formData = new FormData();
       formData.append("likes", true);
       formData.append("userId", this.userId);
       formData.append("postId", postId);
-      console.log("formData : ", formData.get("userId"));
-      axios.post("http://localhost:3000/posts/like", formData, {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      });
-
-     window.location.reload();
+      axios
+        .post("http://localhost:3000/posts/like", formData, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log("likes : ", response.data);
+          this.likes = response.data;
+          // window.location.reload();
+        })
+        .catch((error) => console.log(error));
     },
   },
-
   mounted() {
     const formData = new FormData();
     formData.append("postId", this.postId);
-    //  axios
-    //   .get("http://localhost:3000/likes", formData, {
+
     axios
       .get("http://localhost:3000/likes/" + this.postId, {
         headers: {
@@ -58,6 +67,7 @@ export default {
       })
       .then((response) => {
         console.log("likes : ", response.data);
+
         this.likes = response.data;
       })
       .catch((error) => console.log(error));
@@ -81,15 +91,5 @@ p {
   border: 1px solid #3174e4;
   border-radius: 50%;
   padding: 0.5rem;
-}
-.islike {
-  color: #b0b3b8;
-  background-color: white;
-  border: 1px solid #eff1f5;
-  border-radius: 50%;
-  padding: 0.5rem;
-}
-i {
-  margin-right: 4px;
 }
 </style>

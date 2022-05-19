@@ -1,16 +1,15 @@
 <template>
-  <body class="container">
-    <router-link class="redirection-posts" to="/posts">
-      <i class="fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <div class="row">
-      <!--Informations d'utilisateur-->
+  <body class="justify-content-center">
+    <fragment>
+      <NavBar />
+    </fragment>
 
-      <div class="pt-2 d-flex justify-content-end"><Disconect /></div>
+    <div class="row justify-content-center">
+      <!--Informations d'utilisateur-->
 
       <section
         id="profil_user"
-        class="shadow-sm shadow-lg p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+        class="justify-content-center shadow-sm shadow-lg p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
       >
         <img class="img-fluid" src="../assets/avatar.webp" alt=" avatar" />
 
@@ -31,6 +30,17 @@
         </div>
 
         <div class="container">
+          <router-link class="redirection-Home" to="/UpdatePasswordByUser">
+            <button type="button" class="btn btn-warning">
+              <i class="fa fa-key"></i><b>Changer Mot de passe</b>
+            </button>
+          </router-link>
+
+          <router-link class="redirection-Home" to="/UpdateProfilByUser">
+            <button type="button" class="btn btn-success">
+              <i class="fa-solid fa-pencil"></i><b>Modifier profil</b>
+            </button>
+          </router-link>
           <button
             v-on:click="deleteProfil(member.id)"
             type="button"
@@ -38,18 +48,6 @@
           >
             <i class="fa-solid fa-trash-can"> </i>
           </button>
-
-          <router-link class="redirection-Home" to="/UpdateProfilByUser">
-            <button type="button" class="btn btn-success">
-              <i class="fa-solid fa-pencil"></i><b>Modifier profil</b>
-            </button>
-          </router-link>
-
-          <router-link class="redirection-Home" to="/UpdatePasswordByUser">
-            <button type="button" class="btn btn-warning">
-              <i class="fa fa-key"></i><b>Changer Mot de passe</b>
-            </button>
-          </router-link>
         </div>
       </section>
 
@@ -61,12 +59,13 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue"; // barre de navigateur
 import axios from "axios";
-import Disconect from "@/components/Disconect";
+
 import Footer from "@/components/Footer.vue";
 export default {
   name: "userProfile",
-  components: { Disconect, Footer },
+  components: { NavBar, Footer },
   data() {
     return {
       user: [],

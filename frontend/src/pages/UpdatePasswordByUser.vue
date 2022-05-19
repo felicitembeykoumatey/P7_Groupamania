@@ -1,5 +1,12 @@
 <template>
-  <main class="modifier">
+  <body class="modifier mx-auto">
+    <fragment>
+      <NavBar />
+    </fragment>
+
+    <router-link class="redirection-posts" to="/profil">
+      <i class="arrow fas fa-arrow-left fa-2x"></i>
+    </router-link>
     <form @submit.prevent="dataUpdate">
       <input
         type="password"
@@ -13,16 +20,21 @@
         ><input class="btn-signup" type="submit" value="Valider" />
       </router-link>
     </form>
-  </main>
+    <Footer />
+  </body>
 </template>
 
 <script>
 import axios from "axios";
 import router from "../router";
+
+import NavBar from "@/components/NavBar.vue"; // barre de navigateur
+import Footer from "@/components/Footer.vue"; //Footer
 //import store from '../store/index.js';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "UpdatePasswordByAdmin",
+  components: { NavBar, Footer },
   data() {
     return {
       member: {
@@ -39,7 +51,7 @@ export default {
       formData.append("username", this.member.username);
 
       formData.append("password", this.member.password);
-      console.log("formData", formData);
+
       if (!this.member.username || !this.member.password)
         axios.get("http://localhost:3000/one/" + id, {
           headers: {

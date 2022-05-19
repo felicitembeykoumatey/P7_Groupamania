@@ -111,6 +111,8 @@ export default {
           })
           .catch((error) => {
             console.log(error);
+            //commit("SET_ERROR", error);
+            this.msg = "Compte non existant";
             alert(
               `Le mot de passe ou l'utilisateur n'est pas valide. ${error}`
             );

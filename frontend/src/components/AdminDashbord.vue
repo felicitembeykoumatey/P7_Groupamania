@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <body class="justify-content-center">
+    <fragment>
+      <NavBar />
+    </fragment>
     <router-link class="redirection-posts" to="/posts">
       <i class="arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
@@ -9,10 +12,10 @@
       <table class="tableau-style" id="table">
         <thead id="thead">
           <tr class="color">
-            <th scope="col">Changer mdp</th>
+            <th scope="col">Changer mot de passe</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
-            <th scope="col">Rôle</th>
+            <th scope="col">Administrateur</th>
             <th scope="col">Modifier Rôle</th>
             <th scope="col">Supprimer</th>
           </tr>
@@ -21,23 +24,26 @@
         <tbody id="tbody" v-for="member in users" :key="member.id">
           <tr class="color">
             <td class="idnum">
+              Identifiant d'utilisateur {{ member.id }}
               <button @click="getUser(member.id)">
-                {{ member.id }}
+                <i class="fa-solid fa-pencil"></i><span> Mdp</span>
               </button>
             </td>
 
             <td class="username">
+              {{ member.username }}
               <button @click="modifyprofiluser(member.id)">
-                {{ member.username }}
+                <i class="fa-solid fa-pencil"></i
+                ><span> Nom d'utilisateur</span>
               </button>
             </td>
 
             <td class="email">{{ member.email }}</td>
-            <td class="isAdmin">{{ member.isAdmin }}</td>
+            <td class="isAdmin text-center">{{ member.isAdmin }}</td>
 
             <td>
               <button
-                @click="updateUser(member.id, member.isAdmin)"
+                @click="updateUserRole(member.id, member.isAdmin)"
                 class="btn btn-success"
               >
                 <i class="fa-solid fa-pencil"></i>
@@ -53,18 +59,23 @@
         </tbody>
       </table>
     </div>
-  </div>
+    <Footer />
+  </body>
 </template>
 
 <script>
 import axios from "axios"; // importation dépendance axios pour envoyer et recupérer les données.
-import router from "../router";
+import router from "../router"; // router
+import NavBar from "@/components/NavBar.vue"; // barre de navigateur
+import Footer from "@/components/Footer.vue"; //Footer
+
 export default {
+  components: { NavBar, Footer },
   name: "AdminDashbord",
   data() {
     return {
-      member: [], //je récupère les infos de la personnes connectée
-      users: [],
+      member: [], //Récupèrer les infos de la personne connectée.
+      users: [], //Récupèrer les infosdes utilisateurs.
     };
   },
   mounted() {
@@ -76,29 +87,25 @@ export default {
         },
       })
       .then((res) => {
-        console.log("res : ", res);
+        //console.log("res : ", res);
         this.users = res.data;
-        console.log("this.users : ", this.users);
+        // console.log("this.users : ", this.users);
         //console.log("this.users:", this.users);
       })
       .catch((error) => console.log(error));
   },
   methods: {
     modifyprofiluser(id) {
-      //ajouter un couple clé/valeur en utilisant FormData.append
-
-      console.log("id : ", id);
+      // Récuperer des informations d'un utilisateur grâce à son id.
       axios
         .get("http://localhost:3000/updateUser/" + id, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
-        .then((res) => {
-          console.log("resdfh", res);
+        .then(() => {
           localStorage.setItem("token_modify", id);
           router.push({ path: "UpdateProfilUserByAdmin" });
-          //window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -114,8 +121,9 @@ export default {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
-        .then((res) => {
-          console.log("resdfh", res);
+        .then(() => {
+          //console.log("resdfh", res);
+          localStorage.setItem("token_modify_password", id);
           router.push({ path: "UpdatePasswordByAdmin" });
           //window.location.reload();
         })
@@ -130,13 +138,10 @@ export default {
             },
           })
           .then(() => {
-            //localStorage.clear();
-            // router.push({ path: "dashbord" });
-            //  window.location.reload();
-            document.location.href = "http://localhost:8080/dashbord";
+            document.location.href = "http://localhost:8080/dashboard";
           });
     },
-    updateUser(userId, isAdmin) {
+    updateUserRole(userId, isAdmin) {
       const formData = new FormData(); // Formulaire vide à cet instant
       //ajouter un couple clé/valeur en utilisant FormData.append
       formData.append("isAdmin", isAdmin);

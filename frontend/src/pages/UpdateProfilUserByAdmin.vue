@@ -1,12 +1,8 @@
 <template>
-  <div class="mx-auto">
-    <div class="text-center">
-      <img
-        src="../assets/icon-left-font-monochrome-black.svg"
-        alt=" logo groupomania"
-        class="d-inline-block align-text-top my-5"
-      />
-    </div>
+  <body class="modifier mx-auto">
+    <fragment>
+      <NavBar />
+    </fragment>
 
     <router-link class="redirection-posts" to="/posts">
       <i class="fas fa-arrow-left fa-2x"></i>
@@ -21,7 +17,7 @@
             type="text"
             id="username"
             placeholder=" username "
-            v-model="member.username"
+            v-model="dataForm.username"
             class="form-control"
           />
         </div>
@@ -31,7 +27,7 @@
             type="text"
             placeholder="Fonction"
             id="grade"
-            v-model="member.grade"
+            v-model="dataForm.grade"
             class="form-control"
           />
         </div>
@@ -41,29 +37,29 @@
             type="text"
             placeholder="Email"
             id="email"
-            v-model="member.email"
+            v-model="dataForm.email"
             class="form-control"
           />
         </div>
 
         <br />
         <input class="btn-update" type="submit" value="Modifier" />
-        <!-- Button 
-      <router-link class="redirection-Home" to="/dashbord"
-        >
-      </router-link>-->
       </form>
     </div>
-  </div>
+    <Footer />
+  </body>
 </template>
 
 <script>
 import axios from "axios";
 import router from "../router";
+import NavBar from "@/components/NavBar.vue"; //Navigateur
+import Footer from "@/components/Footer.vue"; // Pieds de page
 //import store from '../store/index.js';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "UpdateProfilByUser",
+  components: { NavBar, Footer },
   data() {
     return {
       dataForm: {
@@ -86,19 +82,19 @@ export default {
       })
       .then((res) => {
         console.log("resdfh", res);
-        this.username = res.data.username;
-        this.grade = res.data.grade;
-        this.email = res.data.email;
-        this.id = res.data.id;
-        console.log(" this.username", this.username);
-        console.log("grade", this.grade);
-        console.log("this.email", this.email);
-        console.log("this.id", this.id);
+        this.dataForm.username = res.data.username;
+        this.dataForm.grade = res.data.grade;
+        this.dataForm.email = res.data.email;
+        this.dataForm.id = res.data.id;
       })
       .catch((error) => console.log("Erreur", error));
   },
 
   methods: {
+    log(commmentaire, variable) {
+      console.log(commmentaire, variable);
+    },
+
     updateData() {
       const formData = new FormData();
       //console.log("this.dataForm", this.dataForm);

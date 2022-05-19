@@ -169,14 +169,8 @@ export default {
       formData.append("sex", this.dataUser.sex);
       formData.append("email", this.dataUser.email);
       formData.append("password", this.dataUser.password);
-      /* console.log("firstname", this.dataUser.firstname);
-      console.log("lastname", this.dataUser.lastname);
-      console.log("username", this.dataUser.username);
-      console.log("grade", this.dataUser.grade);
-      console.log("email", this.dataUser.email);
-      console.log("password", this.dataUser.password);
-      console.log("sex", this.dataUser.sex);*/
-      console.log("formData", formData);
+
+      // console.log("formData", formData);
 
       if (
         !this.firstname ||
@@ -189,18 +183,12 @@ export default {
       ) {
         this.errMsg = "Svp, remplissez tous les champs du formulaire !";
       }
-      console.log("formData12 :", formData);
+      //console.log("formData12 :", formData);
       axios
         .post("http://localhost:3000/signup", this.dataUser)
 
         .then(() => {
-          // localStorage.setItem("token", response.data.token);
-          // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
-          //Réinitialisation
-          // this.dataUser.email = null;
-          //this.dataUser.username = null;
           router.push({ path: "login" });
-          //document.location.href = "http://localhost:8080/login";
         })
         .catch((error) => console.log(error));
     },

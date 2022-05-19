@@ -82,7 +82,6 @@ exports.allProfilUser = (req, res) => {
   User.findAll({
     attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
   })
-
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
@@ -92,8 +91,8 @@ exports.oneProfilUser = (req, res) => {
   //console.log("userId :", userId);
   User.findOne({
     attributes: ["id", "email", "username", "isAdmin"],
+    where: { id: req.params.id },
   })
-
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
@@ -107,7 +106,6 @@ exports.profilUserById = (req, res) => {
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
-
 // Supprimer utilisateur
 exports.deleteProfil = (req, res) => {
   console.log("req.params.id", req.params.id);
@@ -115,18 +113,30 @@ exports.deleteProfil = (req, res) => {
     .then(() => res.status(200).json({ message: "Compte supprimé !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
 };
+
+//Modification de mot de passe
+exports.modifyPassword = (req, res) => {
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const updatePassword = {
+      password: hash,
+    };
+
+    //User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
+    User.update(updatePassword, { where: { id: req.body.id } }).then(
+      function () {
+        console.log("j'ai reussi :");
+      }
+    );
+  });
+};
 //Utilisateur Modifie ses données
 exports.modifyUser = (req, res) => {
-  console.log("dsghfjfd : ", req.body);
   const updateUserData = {
     username: req.body.username,
     email: req.body.email,
     grade: req.body.grade,
   };
 
-  console.log("identifiant : ", req.body.id);
-  console.log("updateUserData : ", updateUserData);
-  //User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
   User.update(updateUserData, { where: { id: req.body.id } }).then(function () {
     //res.status(200).json();
   });
@@ -134,22 +144,19 @@ exports.modifyUser = (req, res) => {
 
 //Administrateur Modifie les données d'utilisateur
 exports.updateUserRole = (req, res) => {
+  console.log("req.body");
+
   const id = req.body.userId;
   const isAdmin = req.body.isAdmin;
-  //console.log(req.body)
-  //console.log("isAdmin",isAdmin)
-  if (isAdmin == "Administrateur") {
-    User.update({ isAdmin: "Utilisateur courant" }, { where: { id: id } }).then(
-      function () {
-        // res.status(200).json();
-      }
+
+  if (isAdmin == "true") {
+    User.update({ isAdmin: "false" }, { where: { id: id } }).then(
+      function () {}
     );
   } else {
-    User.update({ isAdmin: "Administrateur" }, { where: { id: id } }).then(
-      function () {
-        // console.log("new isAdmin isAdmin", isAdmin);
-        console.log("je suis ici 2");
-      }
-    );
+    User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
+      // console.log("new isAdmin isAdmin", isAdmin);
+      console.log("je suis ici 2");
+    });
   }
 };

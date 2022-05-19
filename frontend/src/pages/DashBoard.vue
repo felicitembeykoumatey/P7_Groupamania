@@ -10,7 +10,7 @@
 import AdminDashbord from "../components/AdminDashbord.vue";
 
 export default {
-  name: "DashBord",
+  name: "DashBoard",
   components: { AdminDashbord },
 };
 </script>
