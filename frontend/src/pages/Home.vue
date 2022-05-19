@@ -59,8 +59,6 @@
           Fil d'actualité
         </h3>
 
-        <h3 class="h3 text-center">Fil d'actualité</h3>
-
         <div class="card" v-for="item in posts" :key="item.id">
           <img
             :src="item.images"
@@ -78,7 +76,8 @@
               <button class="btn postlike bg-light pl-5 pr-5" type="button">
                 <Likes :postId="item.id" :userId="member.id" />
               </button>
-              <p v-if="member.id == item.userId || item.user.isAdmin == true">
+              
+              <p v-if="member.id == item.userId || member.isAdmin == true">
                 <button
                   class="btn postdelete bg-light pl-5 pr-5"
                   v-on:click.prevent="deletePost(item.id, item.userId)"
@@ -183,9 +182,9 @@ export default {
     };
   },
   methods: {
-    /* log(commmentaire, variable) {
+     log(commmentaire, variable) {
       console.log(commmentaire, variable);
-    },*/
+    },
     selectFile(event) {
       this.files = this.$refs.file.files[0];
       //

@@ -8,8 +8,8 @@
     </router-link>
     <h2 class="text-center">Tableau de bord</h2>
 
-    <div class="dashboard-table">
-      <table class="tableau-style" id="table">
+    <div class=" table-responsive-sm table-responsive-md table-responsive-lg ">
+      <table class="tableau-style table-secondary" id="table">
         <thead id="thead">
           <tr class="color">
             <th scope="col">Changer mot de passe</th>

@@ -3,8 +3,9 @@
     <h2>{{ log("aaaaaaaaaaaaaaaaaa ", postId) }}</h2>
     <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
       <i class="far fa-thumbs-up likeBtn like"></i>
-      <h2>{{ log("qaxzcevrbhtnjyki ", likes.length) }}</h2>
-      {{ likes.length }}
+      <h2>{{ log("Nombre de like template : ", likes.length) }}</h2>
+      {{ likes }}
+    <!--  {{ likes.length }}-->
     </button>
     <!-- <button v-else @click.prevent="unlikePost(postId)" class="btn">
       <i class="far fa-thumbs-o-up likeBtn liked"></i>
@@ -35,8 +36,6 @@ export default {
       console.log(commmentaire, variable);
     },
     likePost(postId) {
-      console.log("fffffffffffffffff : ");
-      console.log("ddddddddddddddddddd : ");
       const formData = new FormData();
       formData.append("likes", true);
       formData.append("userId", this.userId);
@@ -50,6 +49,7 @@ export default {
         .then((response) => {
           console.log("likes : ", response.data);
           this.likes = response.data;
+          console.log("nombre de like methode : ",   this.likes );
           // window.location.reload();
         })
         .catch((error) => console.log(error));

@@ -85,25 +85,39 @@ exports.likePost = (req, res) => {
   const postId = req.body.postId;
   const userId = req.body.userId;
   console.log("req.body.userId : ", req.body.userId);
+
+  Like.count({
+    where: { postId: postId },
+  })
+    .then((nblike) => {
   Like.findOne({
     where: { postId: postId, userId: userId },
   })
+
     .then((like) => {
       if (!like) {
+        console.log("je ne suis pas dans caca  : ")
         Like.create({ postId, userId }).then((newLike) => {
-          res.status(201).json(newLike);
+        const total = nblike + 1
+        console.log("total : ",total)
+          res.status(201).json(total);
+          
         });
       } else {
+        console.log("je suis dans caca  : ")
         like.destroy();
-        res.status(200).json();
+        const total = nblike - 1
+        console.log("total : ",total)
+        res.status(200).json(total);
       }
     })
     .catch((error) => res.status(400).json({ error: error.message }));
+  });
 };
 
 exports.getAllLikesPost = (req, res) => {
   try {
-    Like.findAll({
+    Like.count({
       where: { postId: req.params.postId },
     })
       .then((like) => {
