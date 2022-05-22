@@ -4,14 +4,14 @@
       <NavBar />
     </fragment>
 
-    <router-link class="redirection-posts" to="/dashbord">
+    <router-link class="redirection-posts" to="/dashboard">
       <i class="arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
     <form @submit.prevent="dataUpdate">
       <input
         type="password"
         placeholder="Entrez votre  nouveau mot de passe"
-        id="password"
+        id="newPassword"
         v-model="member.password"
         class="form-control"
       />
@@ -65,7 +65,7 @@ export default {
       formData.append("id", this.id);
 
       axios
-        .put("http://localhost:3000/updatePassword", formData)
+        .put("http://localhost:3000/updatePasswordByAdmin", formData)
 
         .then(() => {
           this.member.password = null;

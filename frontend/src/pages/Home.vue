@@ -1,5 +1,5 @@
 <template>
-  <body class="justify-content-center">
+  <div class="justify-content-center">
     <fragment>
       <NavBar />
     </fragment>
@@ -145,7 +145,7 @@
     </div>
 
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>

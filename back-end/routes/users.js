@@ -6,7 +6,6 @@ const multer = require("../middleware/multer-config"); // Charger package multer
 
 //Chargé le fichier controllers
 const userCtrl = require("../controllers/usersCtlr"); // Réécupérer le controleur pour "user"
-
 //Création des routes  inscription et connexion //
 router.post("/signup", userCtrl.signup); // Inscription//
 router.post("/login", multer, userCtrl.login); // Connexion//
@@ -17,9 +16,9 @@ router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
 router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile
 router.put("/updateRole", multer, userCtrl.updateUserRole); //modification role  par l'administrateur
 router.put("/updateByUser", multer, userCtrl.modifyUser); //modification profile par l'utilisateur courant
-router.put("/updatePassword", multer, userCtrl.modifyPassword); // Modification mot de passe
+router.put("/updatePasswordByAdmin", multer, userCtrl.modifyPassword); // Modification mot de passe
 
-router.put("/updatePassword", multer, userCtrl.modifyPassword);
+router.put("/editPassword", multer, userCtrl.editPassword);
 //**EXPORT**/
 
 module.exports = router;

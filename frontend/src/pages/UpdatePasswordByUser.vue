@@ -1,39 +1,75 @@
 <template>
-  <body class="modifier mx-auto">
-    <fragment>
-      <NavBar />
-    </fragment>
+  <div>
+    <div class="row mx-auto">
+      <div class="col-md-6">
+        <fragment>
+          <NavBar />
+        </fragment>
 
-    <router-link class="redirection-posts" to="/profil">
-      <i class="arrow fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <form @submit.prevent="dataUpdate">
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        id="password"
-        v-model="member.password"
-      />
+        <div
+          v-if="alert"
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          <strong>Erreur</strong> {{ alert }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
 
-      <!-- Button -->
-      <router-link class="redirection-Home" to="/dashbord"
-        ><input class="btn-signup" type="submit" value="Valider" />
-      </router-link>
-    </form>
+        <router-link class="redirection-posts" to="/profil">
+          <i class="arrow fas fa-arrow-left fa-2x"></i>
+        </router-link>
+        <form class="row" @submit.prevent="editPassword">
+          <div class="col-12">
+            <input
+              type="text"
+              placeholder="votre nom d'utilisateur"
+              id="username"
+              v-model="member.username"
+            />
+          </div>
+          <div class="col-12">
+            <input
+              type="password"
+              placeholder="Ancien Mot de passe"
+              id="oldPassword"
+              v-model="member.oldPassword"
+            />
+          </div>
+          <div class="col-12">
+            <input
+              type="password"
+              placeholder="Nouveau Mot de passe"
+              id="password"
+              v-model="member.password"
+            />
+          </div>
+
+          <!-- Button -->
+
+          <input class="btn-signup" type="submit" value="Valider" />
+        </form>
+      </div>
+    </div>
+
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-import router from "../router";
+//import router from "../router";
 
 import NavBar from "@/components/NavBar.vue"; // barre de navigateur
 import Footer from "@/components/Footer.vue"; //Footer
 //import store from '../store/index.js';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "UpdatePasswordByAdmin",
+  name: "UpdatePasswordByUser",
   components: { NavBar, Footer },
   data() {
     return {
@@ -41,16 +77,50 @@ export default {
         username: null,
 
         password: null,
+        oldPassword: null,
       },
+      alert: null,
     };
   },
   methods: {
+    editPassword() {
+      if (
+        !this.member.username ||
+        !this.member.password ||
+        !this.member.oldPassword
+      ) {
+        this.alert = "Veillez remplir tous les champs !";
+      } else {
+        const formData = new FormData();
+        formData.append("password", this.member.password);
+        formData.append("oldPassword", this.member.oldPassword);
+        console.log(this.member.password);
+        console.log(this.member.oldPassword);
+
+        axios
+          .put("http://localhost:3000/editPassword", formData, {
+            headers: {
+              Authorization: "Bearer " + window.localStorage.getItem("token"),
+            },
+          })
+
+          .then((res) => {
+            console.log(res);
+
+            //router.push({ path: "dashbord" });
+            //document.location.href = "http://localhost:8080/login";
+          })
+          .catch((error) => console.log(error));
+      }
+    },
+
     dataUpdate(id) {
       const formData = new FormData();
 
       formData.append("username", this.member.username);
 
       formData.append("password", this.member.password);
+      formData.append("oldPassword", this.member.oldPassword);
 
       if (!this.member.username || !this.member.password)
         axios.get("http://localhost:3000/one/" + id, {
@@ -60,7 +130,7 @@ export default {
         }),
           console.log("formData12 :", formData);
       axios
-        .post("http://localhost:3000/update", formData)
+        .put("http://localhost:3000/updatePassword", formData)
 
         .then(() => {
           // localStorage.setItem("token", response.data.token);
@@ -69,8 +139,9 @@ export default {
           this.member.username = null;
 
           this.member.password = null;
+          this.member.oldPassword = null;
 
-          router.push({ path: "dashbord" });
+          //router.push({ path: "dashbord" });
           //document.location.href = "http://localhost:8080/login";
         })
         .catch((error) => console.log(error));

@@ -36,8 +36,8 @@ exports.login = (req, res) => {
   // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
-  console.log("loginEmail", loginEmail);
-  console.log("loginPassword", loginPassword);
+  // console.log("loginEmail", loginEmail);
+  //console.log("loginPassword", loginPassword);
   User.findOne({ where: { email: loginEmail } })
     .then((user) => {
       if (user == null) {
@@ -127,6 +127,48 @@ exports.modifyPassword = (req, res) => {
         console.log("j'ai reussi :");
       }
     );
+  });
+};
+
+//Changer de mot de passe par l'utilisateur courant
+exports.editPassword = (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  console.log("decodedToken :", decodedToken);
+  const userId = decodedToken.userId;
+  console.log("userId :", userId);
+  const newPassword = req.body.password;
+  const oldPassword = req.body.oldPassword;
+  //const loginUsername = req.body.username;
+  //console.log(loginUsername)
+  User.findOne({ where: { id: userId } }).then((user) => {
+    if (user == null) {
+      return res.status(401).json({ error: "Utilisateur non trouvé !" });
+    }
+    console.log("newPassword : ", newPassword);
+    console.log("user.password : ", user.password);
+
+    bcrypt.compare(oldPassword, user.password).then((valid) => {
+      if (valid == false) {
+        console.log("j'ai echoué 123");
+        // Si le mot de passe n'est pas le bon
+        return res.status(401).json({ error: "Mot de passe incorrect !" });
+      } else {
+         bcrypt.hash(newPassword, 10).then((hash) => {
+    const updatePassword = {
+      password: hash,
+    };
+        console.log("Je vais faire le changement de mdp");
+        User.update(updatePassword, {
+          where: { id: userId },
+        }).then(function () {
+          console.log("j'ai reussi :");
+          console.log("User.password");
+            return res.status(200).json({ msg: "j'ai reussi" });
+          });
+        });
+      };
+    });
   });
 };
 //Utilisateur Modifie ses données
