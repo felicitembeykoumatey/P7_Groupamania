@@ -13,12 +13,15 @@ router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 router.get("/all", multer, userCtrl.allProfilUser); // Afficher tous les profils
 router.get("/updateUser/:id", multer, userCtrl.profilUserById); // Récuperer des informations d'un utilisateur par id
 router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
-router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile
+
 router.put("/updateRole", multer, userCtrl.updateUserRole); //modification role  par l'administrateur
-router.put("/updateByUser", multer, userCtrl.modifyUser); //modification profile par l'utilisateur courant
-router.put("/updatePasswordByAdmin", multer, userCtrl.modifyPassword); // Modification mot de passe
-
+//modification profile par l'utilisateur courant
+router.put("/updateByUser", multer, userCtrl.modifyUser); 
+// Rénitialiser le  mot de passe par l'administrateur
+router.put("/updatePasswordByAdmin", multer, userCtrl.modifyPassword); 
+//Modification du mot de passe par l'utilisateur courant
 router.put("/editPassword", multer, userCtrl.editPassword);
-//**EXPORT**/
-
+//Suppression profile
+router.delete("/delete/:id", multer, userCtrl.deleteProfil); 
+//**EXPORT//
 module.exports = router;

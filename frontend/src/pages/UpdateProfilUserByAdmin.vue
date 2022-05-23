@@ -81,7 +81,7 @@ export default {
         },
       })
       .then((res) => {
-        console.log("resdfh", res);
+        console.log("resdfh",  this.dataForm.email);
         this.dataForm.username = res.data.username;
         this.dataForm.grade = res.data.grade;
         this.dataForm.email = res.data.email;
@@ -98,7 +98,6 @@ export default {
     updateData() {
       const formData = new FormData();
       //console.log("this.dataForm", this.dataForm);
-
       console.log("this.member", this.member);
       formData.append("id", this.id);
       formData.append("username", this.member.username);
@@ -112,10 +111,10 @@ export default {
         .then(() => {
           // localStorage.setItem("token", response.data.token);
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
-          //Réinitialisation
+          /*Réinitialisation
           this.member.username = null;
           this.member.grade = null;
-          this.member.email = null;
+          this.member.email = null;*/
 
           router.push({ path: "profil" });
           //document.location.href = "http://localhost:8080/login";
