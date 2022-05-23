@@ -147,6 +147,7 @@ exports.editPassword = (req, res) => {
       return res.status(401).json({ error: "Utilisateur non trouvé !" });
     }
     console.log("newPassword : ", newPassword);
+    console.log("oldPassword : ", oldPassword);
     console.log("user.password : ", user.password);
 
     bcrypt.compare(oldPassword, user.password).then((valid) => {
@@ -194,12 +195,13 @@ exports.updateUserRole = (req, res) => {
 
   if (isAdmin == "true") {
     User.update({ isAdmin: "false" }, { where: { id: id } }).then(
-      function () {}
+      function () { res.status(201).json("false");}
     );
   } else {
     User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
       // console.log("new isAdmin isAdmin", isAdmin);
       console.log("je suis ici 2");
+      res.status(201).json("true");
     });
   }
 };

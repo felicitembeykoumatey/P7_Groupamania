@@ -13,7 +13,6 @@ router.get("/me", multer, userCtrl.profilUser); // profil d'utilisateur//
 router.get("/all", multer, userCtrl.allProfilUser); // Afficher tous les profils
 router.get("/updateUser/:id", multer, userCtrl.profilUserById); // Récuperer des informations d'un utilisateur par id
 router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
-
 router.put("/updateRole", multer, userCtrl.updateUserRole); //modification role  par l'administrateur
 //modification profile par l'utilisateur courant
 router.put("/updateByUser", multer, userCtrl.modifyUser); 

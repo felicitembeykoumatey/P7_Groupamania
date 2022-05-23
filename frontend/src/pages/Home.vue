@@ -127,12 +127,12 @@
                 <p
                   v-if="
                     member.id == commentaire.userId ||
-                    commentaire.user.isAdmin == true
+                    commentaire.user.isAdmin == false
                   "
                 >
                   <button
                     class="commentDelete"
-                    v-on:click.prevent="DeleteComment(commentaire.id)"
+                    v-on:click.prevent="DeleteComment(commentaire.id, commentaire.userId)"
                   >
                     <i class="fas fa-trash-alt"></i>
                   </button>

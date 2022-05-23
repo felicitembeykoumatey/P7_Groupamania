@@ -98,14 +98,14 @@ export default {
     updateData() {
       const formData = new FormData();
       //console.log("this.dataForm", this.dataForm);
-      console.log("this.member", this.member);
-      formData.append("id", this.id);
-      formData.append("username", this.member.username);
-      formData.append("email", this.member.email);
-      formData.append("grade", this.member.grade);
-      console.log("id", this.id);
-      console.log("username", this.member.username);
-      console.log("email", this.member.email);
+      console.log("this.member", this.dataForm);
+      formData.append("id", this.dataForm.id);
+      formData.append("username", this.dataForm.username);
+      formData.append("email", this.dataForm.email);
+      formData.append("grade", this.dataForm.grade);
+      console.log("id", this.dataForm.id);
+      console.log("username", this.dataForm.username);
+      console.log("email", this.dataForm.email);
       axios
         .put("http://localhost:3000/updateByUser", formData)
         .then(() => {

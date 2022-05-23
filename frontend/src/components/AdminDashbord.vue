@@ -154,7 +154,7 @@ export default {
         })
         .then((res) => {
           console.log("res", res);
-          router.push({ path: "dashbord" });
+         //router.push({ path: "dashbord" });
           window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
