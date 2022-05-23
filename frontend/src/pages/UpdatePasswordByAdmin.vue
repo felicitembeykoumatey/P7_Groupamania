@@ -52,8 +52,8 @@ export default {
           },
         })
         .then((res) => {
-          this.username = res.data.username;
-          this.password = res.data.password;
+          this.member.username = res.data.username;
+          this.member.password = res.data.password;
           this.id = res.data.id;
         })
         .catch((error) => console.log("Erreur", error));
@@ -63,7 +63,8 @@ export default {
       const formData = new FormData();
       formData.append("password", this.member.password);
       formData.append("id", this.id);
-
+console.log("password : ",this.member.password)
+console.log("id : ",this.id)
       axios
         .put("http://localhost:3000/updatePasswordByAdmin", formData)
 

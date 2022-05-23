@@ -129,6 +129,7 @@ exports.modifyPassword = (req, res) => {
       }
     );
   });
+
 };
 
 //Changer de mot de passe par l'utilisateur courant
