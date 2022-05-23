@@ -1,12 +1,31 @@
-// Déclarations des constances//
+// Déclarations des constances// 
 const express = require("express"); ///Importer express.
 const app = express(); // Création d'une application express.
 const path = require("path"); // Récupèrer l'élément de node.js permettant d'accéder au chemin de notre systeme de fichiers
 const helmet = require("helmet"); // Récupèrer Helmet (sécuriser les applis Express en définissant divers en-têtes HTTP)
 const multer = require("multer"); //Charger multer en utilisant la méthode require().
+const cors = require('cors');
+
+//Charger des routes
+const userRoutes = require("./routes/users"); //Récupèrer route user.
+const postRoutes = require("./routes/posts"); // Récupèrer route post.
+const commentRoutes = require("./routes/comments"); // Recupérer route comment.
+
+
+
+//Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING
+
+app.use('/', function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+
+// stockage fichier sur disk avec la methode diskStorage()
 
 const fileStorageEngine = multer.diskStorage({
-  // stockage fichier sur disk avec la methode diskStorage()
+  
   destination: (req, file, cb) => {
     cb(null, "./images");
   },
@@ -19,25 +38,8 @@ app.post("/single", upload.single("images"), (req, res) => {
   res.send("Téléchargement réussie ! ");
 });
 
-//Charger des routes
-const userRoutes = require("./routes/users"); //Récupèrer route user.
-const postRoutes = require("./routes/posts"); // Récupèrer route post.
-const commentRoutes = require("./routes/comments"); // Recupérer route comment.
 
-//Contrôle d'accès *CROSS ORIGIN RESOURCE SHARING
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); //droit d'accéder à notre api
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  ); // Autoriser les headers//
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  ); // Autoriser  certaines méthodes GET POST PUT DELETE PATH OPTIONS
-  next();
-});
-
+app.use(cors());
 //HELMET protége notre application de certaines vulnaribilités.
 app.use(helmet());
 

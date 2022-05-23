@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
-const { NULL } = require("node-sass");
+//const { NULL } = require("node-sass");
+// base des données
 const db = require("../models/database");
 const User = db.users;
 //Requête signup (s'inscrire)//
