@@ -24,12 +24,13 @@ const routes = [
     path: "/login",
   },
 
+
   {
     name: "Signup",
     component: Signup,
     path: "/Signup",
   },
-
+ 
   // Chemin vers la page actualités(journal)
   {
     name: "Home",

@@ -9,10 +9,8 @@
     </div>
     <div>
       <div class="row py-4 px-3 rounded">
-        <div class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
-          <div class="text-center py-3">
-            <h3 class="text-primary">Connexion</h3>
-          </div>
+        <section class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
+          <h3 class="text-center py-3 text-primary">Connexion</h3>
 
           <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
             {{ msg }}
@@ -68,7 +66,7 @@
               >
             </small>
           </p>
-        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -87,7 +85,7 @@ export default {
         email: "",
         password: "",
       },
-      msg: null,
+      msg: "",
     };
   },
 
@@ -104,10 +102,9 @@ export default {
         axios
           .post("http://localhost:3000/login", formData)
           .then((response) => {
-            console.log("response : ", response);
+            // console.log("response : ", response);
             localStorage.setItem("token", response.data.token);
             router.push({ path: "posts" });
-            //document.location.href = "http://localhost:8080/posts";
           })
           .catch((error) => {
             console.log(error);

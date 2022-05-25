@@ -9,11 +9,8 @@
     </div>
     <div>
       <div class="row py-4 px-3 rounded">
-        <div class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
-          <div class="text-center py-3">
-            <h3 class="text-primary">Inscription</h3>
-          </div>
-
+        <section class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
+          <h3 class="text-center py-3 text-primary">Inscription</h3>
           <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
             {{ msg }}
           </div>
@@ -131,7 +128,7 @@
               >
             </small>
           </p>
-        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -155,13 +152,12 @@ export default {
         email: "",
         password: "",
       },
-      errMsg: null,
+      errMsg: "",
     };
   },
   methods: {
     dataSignup() {
       const formData = new FormData();
-
       formData.append("firstname", this.dataUser.firstname);
       formData.append("lastname", this.dataUser.lastname);
       formData.append("username", this.dataUser.username);

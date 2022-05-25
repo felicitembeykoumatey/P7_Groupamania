@@ -1,16 +1,13 @@
 <template>
   <div>
-    <h2>{{ log("aaaaaaaaaaaaaaaaaa ", postId) }}</h2>
+ 
     <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
       <i class="far fa-thumbs-up likeBtn like"></i>
       <h2>{{ log("Nombre de like template : ", likes.length) }}</h2>
       {{ likes }}
-    <!--  {{ likes.length }}-->
+   
     </button>
-    <!-- <button v-else @click.prevent="unlikePost(postId)" class="btn">
-      <i class="far fa-thumbs-o-up likeBtn liked"></i>
-      {{ likes.length }}
-    </button>-->
+   
   </div>
 </template>
 
@@ -32,9 +29,6 @@ export default {
   },
 
   methods: {
-    log(commmentaire, variable) {
-      console.log(commmentaire, variable);
-    },
     likePost(postId) {
       const formData = new FormData();
       formData.append("likes", true);
@@ -47,10 +41,10 @@ export default {
           },
         })
         .then((response) => {
-          console.log("likes : ", response.data);
+         // console.log("likes : ", response.data);
           this.likes = response.data;
-          console.log("nombre de like methode : ",   this.likes );
-          // window.location.reload();
+         // console.log("nombre de like methode : ",   this.likes );
+        
         })
         .catch((error) => console.log(error));
     },
@@ -74,22 +68,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-button {
-  background: none;
-  border-style: none;
-  outline: none;
-  width: 40%;
-}
-p {
-  margin: 1rem 0 1rem 0;
-}
-.liked {
-  color: white;
-  background-color: #3174e4;
-  border: 1px solid #3174e4;
-  border-radius: 50%;
-  padding: 0.5rem;
-}
-</style>

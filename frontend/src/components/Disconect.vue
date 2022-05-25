@@ -3,7 +3,6 @@
     <i class="fas fa-power-off"></i> Déconnexion
   </button>
 </template>
-
 <script>
 import router from "../router";
 export default {

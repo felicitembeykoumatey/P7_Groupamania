@@ -14,22 +14,5 @@ import Footer from "@/components/Footer.vue";
 import Signup from "@/components/Signup.vue";
 export default {
   components: { NavBar, Signup, Footer },
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "SignupPage",
-  data() {},
 };
 </script>
-<!--Css-->
-<style scoped>
-.link-signup,
-.link-login {
-  margin: 6px;
-}
-.title-white {
-  color: rgb(255, 255, 255);
-}
-.container-row {
-  display: flex;
-  flex-direction: row;
-}
-</style>
