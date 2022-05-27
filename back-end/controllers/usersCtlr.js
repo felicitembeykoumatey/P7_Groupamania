@@ -1,36 +1,59 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Récupérer de JWT
+
+const validator = require("validator"); //validator
 //const { NULL } = require("node-sass");
 // base des données
 const db = require("../models/database");
 const User = db.users;
 //Requête signup (s'inscrire)//
 exports.signup = (req, res) => {
-  //Mot de passe haché et email masqué
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => {
-      const user = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
-        grade: req.body.grade,
-        email: req.body.email,
-        password: hash,
-        sex: req.body.sex,
-        isAdmin: 0,
-      };
-      // Création d'utlisateur
-      User.create(user)
-        .then(res.status(201).json({ message: " Bravo compte crée  !" }))
-        .catch((error) =>
-          res.status(400).json({
-            message: "Mauvaise requête",
-            error: error.message,
-          })
-        );
-    })
-    .catch((error) => res.status(500).json({ error: error.message }));
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const username = req.body.username;
+  const grade = req.body.grade;
+  const email = req.body.email;
+  const password = req.body.password;
+  const sex = req.body.sex;
+  if (
+    firstname == "" ||
+    lastname == "" ||
+    username == "" ||
+    grade == "" ||
+    email == "" ||
+    password == "" ||
+    sex == ""
+  ) {
+    res.status(401).json({ message: "Tous les champs sont obligatoires" });
+  } else if (!validator.isEmail(email)) {
+    res.status(401).json({ message: "l'adresse email invalide" });
+  } else {
+    //Mot de passe haché et email masqué
+    bcrypt
+      .hash(req.body.password, 10)
+      .then((hash) => {
+        const user = {
+          firstname: firstname,
+          lastname: lastname,
+          username: username,
+          grade: grade,
+          email: email,
+          password: hash,
+          sex: sex,
+          isAdmin: 0,
+        };
+        // Création d'utlisateur
+        User.create(user)
+          .then(res.status(201).json({ message: " Bravo compte crée  !" }))
+          .catch((error) =>
+            res.status(400).json({
+              message: "Mauvaise requête",
+              error: error.message,
+            })
+          );
+      })
+      .catch((error) => res.status(500).json({ error: error.message }));
+  }
 };
 //Requête login (se connecter)
 exports.login = (req, res) => {
@@ -129,7 +152,6 @@ exports.modifyPassword = (req, res) => {
       }
     );
   });
-
 };
 
 //Changer de mot de passe par l'utilisateur courant
@@ -157,20 +179,20 @@ exports.editPassword = (req, res) => {
         // Si le mot de passe n'est pas le bon
         return res.status(401).json({ error: "Mot de passe incorrect !" });
       } else {
-         bcrypt.hash(newPassword, 10).then((hash) => {
-    const updatePassword = {
-      password: hash,
-    };
-        console.log("Je vais faire le changement de mdp");
-        User.update(updatePassword, {
-          where: { id: userId },
-        }).then(function () {
-          console.log("j'ai reussi :");
-          console.log("User.password");
+        bcrypt.hash(newPassword, 10).then((hash) => {
+          const updatePassword = {
+            password: hash,
+          };
+          console.log("Je vais faire le changement de mdp");
+          User.update(updatePassword, {
+            where: { id: userId },
+          }).then(function () {
+            console.log("j'ai reussi :");
+            console.log("User.password");
             return res.status(200).json({ msg: "j'ai reussi" });
           });
         });
-      };
+      }
     });
   });
 };
@@ -195,9 +217,9 @@ exports.updateUserRole = (req, res) => {
   const isAdmin = req.body.isAdmin;
 
   if (isAdmin == "true") {
-    User.update({ isAdmin: "false" }, { where: { id: id } }).then(
-      function () { res.status(201).json("false");}
-    );
+    User.update({ isAdmin: "false" }, { where: { id: id } }).then(function () {
+      res.status(201).json("false");
+    });
   } else {
     User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
       // console.log("new isAdmin isAdmin", isAdmin);

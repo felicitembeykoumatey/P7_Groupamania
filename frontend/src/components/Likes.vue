@@ -1,13 +1,14 @@
 <template>
-  <div>
- 
-    <button v-if="!liked" @click.prevent="likePost(postId)" class="btn">
-      <i class="far fa-thumbs-up likeBtn like"></i>
-      <h2>{{ log("Nombre de like template : ", likes.length) }}</h2>
+  <div class="d-grid gab-2">
+    <button
+      v-if="!liked"
+      @click.prevent="likePost(postId)"
+      class="btn btn-primary btn-sm"
+    >
+      <i class="far fa-thumbs-up"></i>&nbsp;&nbsp;&nbsp;
+      <!--<h2>{{ log("Nombre de like template : ", likes.length) }}</h2>-->
       {{ likes }}
-   
     </button>
-   
   </div>
 </template>
 
@@ -41,10 +42,9 @@ export default {
           },
         })
         .then((response) => {
-         // console.log("likes : ", response.data);
+          // console.log("likes : ", response.data);
           this.likes = response.data;
-         // console.log("nombre de like methode : ",   this.likes );
-        
+          // console.log("nombre de like methode : ",   this.likes );
         })
         .catch((error) => console.log(error));
     },

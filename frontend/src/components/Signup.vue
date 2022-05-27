@@ -65,7 +65,7 @@
             <div class="mb-3">
               <label for="email" class="form-label">Email </label>
               <input
-                type="email"
+                type="text"
                 name="email"
                 id="email"
                 placeholder="Email"

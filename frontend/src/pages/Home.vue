@@ -42,8 +42,6 @@
 
       <div class="col-md-6 mx-auto">
         <section class="card">
-          <img src="../assets/avatar.webp" alt=" avatar" class="img-fluid" />
-
           <section v-if="member.isAdmin == true">
             <h2>Bonjour {{ member.username }}!</h2>
             <h3>Admistrateur</h3>
@@ -59,11 +57,11 @@
           Fil d'actualité
         </h3>
 
-        <div class="card" v-for="item in posts" :key="item.id">
+        <div class="card mb-5" v-for="item in posts" :key="item.id">
           <img
             :src="item.images"
             v-if="item.images"
-            class="card-img-top img-fluid"
+            class="card-img-top img"
             alt=""
           />
           <div class="card-body card text-dark bg-info">
@@ -72,74 +70,85 @@
               Publié par <strong>{{ item.user.username }}</strong> le
               {{ item.date.split("T")[0] }} à {{ item.date.slice(11, 16) }}
             </p>
-            <div class="d-grid gap-2 d-md-block">
-              <button class="btn postlike bg-light pl-5 pr-5" type="button">
+            <div class="row d-flex justify-content-between">
+              <div class="col-4">
                 <Likes :postId="item.id" :userId="member.id" />
-              </button>
-              
-              <p v-if="member.id == item.userId || member.isAdmin == true">
+              </div>
+
+              <div class="col-4 d-grid gab-2">
+                <button class="btn btn-secondary btn-sm">Commentez</button>
+              </div>
+              <div class="col-4 d-grid gab-2">
                 <button
-                  class="btn postdelete bg-light pl-5 pr-5"
+                  v-if="member.id == item.userId || member.isAdmin == true"
+                  class="btn btn-danger btn-sm"
                   v-on:click.prevent="deletePost(item.id, item.userId)"
                   type="button"
                 >
                   <i class="fas fa-trash-alt"></i>
                 </button>
-              </p>
+              </div>
             </div>
 
-            <form @submit.prevent="createComment(item.id)">
-              <div class="form-floating">
-                <textarea
-                  id="comment"
-                  class="form-control filter list-group-item mt-5"
-                  v-model="dataComment.content"
-                ></textarea>
-                <label for="text-center">Réagissez !</label>
+            <div class="row">
+              <div class="col-12 mb-3">
+                <form @submit.prevent="createComment(item.id)">
+                  <div class="form-floating">
+                    <textarea
+                      id="comment"
+                      class="form-control filter list-group-item mt-5"
+                      v-model="dataComment.content"
+                    ></textarea>
+                    <label for="text-center">Réagissez !</label>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <input
+                      type="submit"
+                      value="Commenter"
+                      class="btn btn-primary"
+                    />
+                  </div>
+                </form>
               </div>
+              <!--fin form-->
 
-              <div class="d-grid gap-2">
-                <input
-                  type="submit"
-                  value="Commenter"
-                  class="btn btn-primary"
-                />
-              </div>
-            </form>
-          </div>
-          <div>
-            <div>
-              <div
-                class="card-body text-dark bg-light list-group-item"
-                v-for="commentaire in item.comments"
-                :key="commentaire.id"
-              >
-                <!--<h2>{{ log("item.content ", commentaire.content) }}</h2>-->
-                <div class="contenu">{{ commentaire.content }} <br /></div>
-
-                <i>
-                  Commenté par
-                  <strong>{{ commentaire.user.username }}</strong> le
-
-                  {{ commentaire.myDate.split("T")[0] }} à
-                  {{ commentaire.myDate.slice(11, 16) }}<br /><br />
-                </i>
-                <p
-                  v-if="
-                    member.id == commentaire.userId ||
-                    commentaire.user.isAdmin == false
-                  "
+              <div class="col-12">
+                <div
+                  class="card-body text-dark bg-light list-group-item"
+                  v-for="commentaire in item.comments"
+                  :key="commentaire.id"
                 >
-                  <button
-                    class="commentDelete"
-                    v-on:click.prevent="DeleteComment(commentaire.id, commentaire.userId)"
+                  <!--<h2>{{ log("item.content ", commentaire.content) }}</h2>-->
+                  <div class="contenu">{{ commentaire.content }} <br /></div>
+
+                  <i>
+                    Commenté par
+                    <strong>{{ commentaire.user.username }}</strong> le
+
+                    {{ commentaire.myDate.split("T")[0] }} à
+                    {{ commentaire.myDate.slice(11, 16) }}<br /><br />
+                  </i>
+                  <p
+                    v-if="
+                      member.id == commentaire.userId ||
+                      commentaire.user.isAdmin == false
+                    "
                   >
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </p>
+                    <button
+                      class="btn btn-sm btn-danger"
+                      v-on:click.prevent="
+                        DeleteComment(commentaire.id, commentaire.userId)
+                      "
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <div></div>
         </div>
       </div>
     </div>
@@ -182,7 +191,7 @@ export default {
     };
   },
   methods: {
-     log(commmentaire, variable) {
+    log(commmentaire, variable) {
       console.log(commmentaire, variable);
     },
     selectFile(event) {
@@ -211,6 +220,7 @@ export default {
           }
         )
         .then((response) => {
+          console.log(response.data);
           this.posts = response.data;
         })
         .catch((error) => console.log(error));
@@ -299,17 +309,9 @@ export default {
 };
 </script>
 <style scoped>
-.postlike {
-  border-radius: 10px 10px 10px 10px;
-  margin: 0 30px 10px 0;
-  padding: 0 20px 0 0;
-  width: 230px;
-}
-.postdelete {
-  border-radius: 10px 10px 10px 10px;
-  margin: 0 10px 10px 0;
-  padding: 0 20px 0 0;
-  height: 41px;
-  width: 230px;
+.img {
+  width: 100%;
+  height: 250px;
+  object-fit: fill;
 }
 </style>
