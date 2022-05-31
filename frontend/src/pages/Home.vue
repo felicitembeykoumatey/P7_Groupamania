@@ -76,7 +76,12 @@
               </div>
 
               <div class="col-4 d-grid gab-2">
-                <button class="btn btn-secondary btn-sm">Commentez</button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  v-on:click.prevent="flagcommentaire()"
+                >
+                  Commentez
+                </button>
               </div>
               <div class="col-4 d-grid gab-2">
                 <button
@@ -90,7 +95,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row" v-show="flag == true">
               <div class="col-12 mb-3">
                 <form @submit.prevent="createComment(item.id)">
                   <div class="form-floating">
@@ -148,7 +153,6 @@
               </div>
             </div>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
@@ -188,12 +192,17 @@ export default {
       posts: [],
       comments: [],
       likes: [],
+      flag: false,
     };
   },
   methods: {
     log(commmentaire, variable) {
       console.log(commmentaire, variable);
     },
+    flagcommentaire() {
+      this.flag = true;
+    },
+
     selectFile(event) {
       this.files = this.$refs.file.files[0];
       //

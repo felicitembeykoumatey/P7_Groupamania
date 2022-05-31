@@ -88,30 +88,26 @@ exports.likePost = (req, res) => {
 
   Like.count({
     where: { postId: postId },
-  })
-    .then((nblike) => {
-  Like.findOne({
-    where: { postId: postId, userId: userId },
-  })
-
-    .then((like) => {
-      if (!like) {
-       
-        Like.create({ postId, userId }).then((newLike) => {
-        const total = nblike + 1
-       // console.log("total : ",total)
-          res.status(201).json(total);
-          
-        });
-      } else {
-        
-        like.destroy();
-        const total = nblike - 1
-        console.log("total : ",total)
-        res.status(200).json(total);
-      }
+  }).then((nblike) => {
+    Like.findOne({
+      where: { postId: postId, userId: userId },
     })
-    .catch((error) => res.status(400).json({ error: error.message }));
+
+      .then((like) => {
+        if (!like) {
+          Like.create({ postId, userId }).then((newLike) => {
+            const total = nblike + 1;
+            // console.log("total : ",total)
+            res.status(201).json(total);
+          });
+        } else {
+          like.destroy();
+          const total = nblike - 1;
+          console.log("total : ", total);
+          res.status(200).json(total);
+        }
+      })
+      .catch((error) => res.status(400).json({ error: error.message }));
   });
 };
 

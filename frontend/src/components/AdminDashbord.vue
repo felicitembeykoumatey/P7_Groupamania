@@ -1,5 +1,5 @@
 <template>
-  <body class="justify-content-center">
+  <div class="justify-content-center">
     <fragment>
       <NavBar />
     </fragment>
@@ -8,7 +8,7 @@
     </router-link>
     <h2 class="text-center">Tableau de bord</h2>
 
-    <div class=" table-responsive-sm table-responsive-md table-responsive-lg ">
+    <div class="table-responsive-sm table-responsive-md table-responsive-lg">
       <table class="tableau-style table-secondary" id="table">
         <thead id="thead">
           <tr class="color">
@@ -59,8 +59,8 @@
         </tbody>
       </table>
     </div>
-    <Footer />
-  </body>
+    <div><Footer /></div>
+  </div>
 </template>
 
 <script>
@@ -154,7 +154,7 @@ export default {
         })
         .then((res) => {
           console.log("res", res);
-         //router.push({ path: "dashbord" });
+          //router.push({ path: "dashbord" });
           window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));

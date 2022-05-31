@@ -71,15 +71,16 @@ exports.login = (req, res) => {
         if (valid == false) {
           // Si le mot de passe n'est pas le bon
           return res.status(401).json({ error: "Mot de passe incorrect !" });
+        } else {
+          res.status(200).json({
+            userId: user.id,
+            isAdmin: user.isAdmin,
+            sex: user.sex,
+            token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
+              expiresIn: "24h",
+            }),
+          });
         }
-      });
-      res.status(200).json({
-        userId: user.id,
-        isAdmin: user.isAdmin,
-        sex: user.sex,
-        token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
-          expiresIn: "24h",
-        }),
       });
     })
     .catch((error) => res.status(500).json({ error: error.message }));
