@@ -314,6 +314,22 @@ export default {
         this.member = response.data;
       })
       .catch((error) => console.log(error));
+
+    const formData = new FormData();
+    formData.append("postId", this.postId);
+
+    axios
+      .get("http://localhost:3000/countComments" + this.postId, {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log("comments : ", response.data);
+
+        this.comments = response.data;
+      })
+      .catch((error) => console.log(error));
   },
 };
 </script>

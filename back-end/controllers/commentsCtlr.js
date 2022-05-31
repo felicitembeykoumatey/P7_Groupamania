@@ -6,7 +6,6 @@ const Comments = db.comments;
 
 //Créer un commentaire
 exports.createComment = (req, res) => {
- 
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
@@ -21,7 +20,7 @@ exports.createComment = (req, res) => {
 
     .then(() => res.status(201).json({ message: "Commentaire ajouté !" }))
     .catch((error) => res.status(400).json({ error }));
- // console.log("Comments.create");
+  // console.log("Comments.create");
 };
 
 // Affichage d'un seul commentaire
@@ -43,8 +42,22 @@ exports.getAllComment = (req, res, next) => {
 
 // Supprimer un commentaire
 exports.delete = (req, res) => {
- // console.log("req.params.id", req.params.id);
+  // console.log("req.params.id", req.params.id);
   Comments.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
+};
+
+exports.getAllCountComment = (req, res) => {
+  try {
+    Comments.count({
+      where: { postId: req.params.postId },
+    })
+      .then((comment) => {
+        return res.status(200).json(comment);
+      })
+      .catch((error) => res.status(400).json(error));
+  } catch {
+    (error) => res.status(500).json(error);
+  }
 };
