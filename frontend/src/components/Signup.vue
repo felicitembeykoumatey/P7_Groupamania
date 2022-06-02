@@ -177,8 +177,7 @@ export default {
         !this.email ||
         !this.password
       ) {
-        this.errMsg = "Svp, remplissez tous les champs du formulaire !";
-      }
+        
       //console.log("formData12 :", formData);
       axios
         .post("http://localhost:3000/signup", this.dataUser)
@@ -186,8 +185,17 @@ export default {
         .then(() => {
           router.push({ path: "login" });
         })
-        .catch((error) => console.log(error));
-    },
+        .catch((error) => {
+           
+            //commit("SET_ERROR", error);
+            this.msg = "Remplissez tous les champs du formulaire !";
+            alert(
+              `L'un des champs n'est pas correctement renseigné : Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum. Email doit être valide.  ) ! ${error}`
+            );
+          });
+    }
+
+    }
   },
 };
 </script>

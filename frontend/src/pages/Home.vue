@@ -80,7 +80,7 @@
                   class="btn btn-secondary btn-sm"
                   v-on:click.prevent="flagcommentaire()"
                 >
-                  Commentez
+                  <i class="fa-solid fa-comment"></i>
                 </button>
               </div>
               <div class="col-4 d-grid gab-2">
