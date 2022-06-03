@@ -1,61 +1,79 @@
 <template>
-  <body class="justify-content-center">
+  <div class="justify-content-center">
     <fragment>
       <NavBar />
     </fragment>
 
-    <div class="row justify-content-center">
+    <div class="row py-4 mt-2 ">
       <!--Informations d'utilisateur-->
 
-      <section
-        id="profil_user"
-        class="justify-content-center shadow-sm shadow-lg p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
-      >
-        <img class="img-fluid" src="../assets/avatar.webp" alt=" avatar" />
+<div class="col-3"> 
+  <img v-if="member.sex == 'homme'" class="avatar" src="../assets/homme.png" alt=" avatar" /> 
+ <img v-else class="avatar" src="../assets/femme.jpg" alt=" avatar" />
+ <ul class="list-group">
 
-        <!--Symbole genre masculin/feminin-->
-        <div class="text-center">
-          <i v-if="member.sex === 'femme'" class="fas fa-venus">femme</i>
-
-          <i v-else class="fas fa-mars"> Homme </i>
-          <br />
-          <p>
-            Je m'appelle <b> {{ member.username }}</b
-            ><br />
-            J'occupe le poste <b>{{ member.grade }} chez Groupomania</b>. <br />
-            Mon email : <b>{{ member.email }}</b>
-            <br />
-            <b>Administrateur : {{ member.isAdmin }}</b>
-          </p>
-        </div>
-
-        <div class="container">
-          <router-link class="redirection-Home" to="/UpdatePasswordByUser">
-            <button type="button" class="btn btn-warning">
-              <i class="fa fa-key"></i><b>Changer Mot de passe</b>
+     <li v-if="member.isAdmin == true" class="list-group-item">  
+      <router-link class="redirection-profil" to="/dashboard">
+              <button type="button" class="btn btn-info">
+              <i class="fa fa-users m" aria-hidden="true"></i> <b> Gestion des utilisateurs</b>
             </button>
-          </router-link>
+            
+</router-link>    
+              
+</li>
 
-          <router-link class="redirection-Home" to="/UpdateProfilByUser">
+          
+  
+</ul>
+</div>
+
+
+<div class="col-9"> <div class="card">
+  <h5 class="card-header"> <b>Profil : <span v-if=" member.isAdmin == true">Administrateur</span>
+  <span v-else>utilisateur</span></b></h5>
+  <div class="card-body">
+    <h5 class="card-title">Mes informations personnelles</h5>
+    <p class="card-text">
+    <ul>
+       <li>Nom et Prenom : {{ member.lastname }}  {{ member.firstname }} </li>
+      </ul>
+    </p>
+
+      <div class="row d-flex justify-content-between">
+     <div class="col-4">
+ <router-link class="redirection-Home" to="/UpdateProfilByUser">
             <button type="button" class="btn btn-success">
-              <i class="fa-solid fa-pencil"></i><b>Modifier profil</b>
+              <i class="fa-solid fa-pencil"></i> <b>Modifier mon profil</b>
             </button>
-          </router-link>
+          </router-link></div>
+   <div class="col-4 d-grid gab-2">
+           <router-link class="redirection-Home" to="/UpdatePasswordByUser">
+            <button type="button" class="btn btn-warning">
+              <i class="fa fa-key"></i> <b>Changer mon mot de passe</b>
+            </button>
+          </router-link></div>
+ <div class="col-4 mb-3">
           <button
             v-on:click="deleteProfil(member.id)"
             type="button"
             class="btn btn-danger"
           >
-            <i class="fa-solid fa-trash-can"> </i>
-          </button>
-        </div>
-      </section>
+            <i class="fa-solid fa-trash-can"></i> <b>Supprimer mon profil</b>
+          </button></div>
+      </div>
+  </div>
+</div>
 
-      <h2>{{ log("member ", member.id) }}</h2>
-      <br />
+
+
+
+        
+        </div>
+      
+  
     </div>
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>
@@ -72,6 +90,8 @@ export default {
       member: [],
       username: "",
       email: "",
+      lastname: "",
+      firstname:"",
     };
   },
 
@@ -114,5 +134,9 @@ export default {
 <style scoped>
 #profil_user {
   margin: 10px;
+}
+.avatar{
+  width:100%;
+  height: 170px;
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
-  <div class="justify-content-center">
+  <div class="row mx-auto">
     <fragment>
       <NavBar />
     </fragment>
     <router-link class="redirection-posts" to="/posts">
       <i class="arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
-    <h2 class="text-center">Tableau de bord</h2>
+    <p class="welcome">Gestion des utilisateurs </p>
 
-    <div class="table-responsive-sm table-responsive-md table-responsive-lg">
+<div class="col-12 d-flex justify-content">
+    <div class="table-responsive">
       <table class="tableau-style table-secondary" id="table">
         <thead id="thead">
           <tr class="color">
@@ -58,8 +59,9 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
-    <div><Footer /></div>
+    <div class="mt-4"><Footer /></div>
   </div>
 </template>
 

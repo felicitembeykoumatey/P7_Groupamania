@@ -20,4 +20,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+.welcome, .bienvenu{
+  font-size: 1.5rem;
+  font-weight: 800;
+  color:darkcyan;
+text-align: center;
+}
 </style>

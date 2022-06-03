@@ -1,13 +1,16 @@
 <template>
-  <div class="justify-content-center">
+  <div class="justify-content-center ">
     <fragment>
       <NavBar />
     </fragment>
-    <h1 class="b-5 px-10 pt-3">
-      Bienvenu(e) sur le social network de Groupomania !
-    </h1>
+    
     <div class="row py-4 mt-2">
-      <div class="col-md-4">
+
+      <div class="col-md-4 ">
+        <div class="sticky-top ">
+          <p class="welcome">
+      Bienvenu(e) sur le social network de Groupomania !
+    </p>
         <form @submit.prevent="sendPost">
           <div class="mb-3">
             <textarea
@@ -31,25 +34,22 @@
           </div>
 
           <div id="preview" class="mb-3" v-if="preview">
-            <img :src="preview" :alt="preview" class="img-fluid" />
+            <img :src="preview" :alt="preview" class="preview" />
           </div>
 
           <div class="mb-3 d-grid gap-2">
             <input type="submit" value="Publier" class="btn btn-primary" />
           </div>
         </form>
+        </div>
+
       </div>
 
       <div class="col-md-6 mx-auto">
         <section class="card">
-          <section v-if="member.isAdmin == true">
-            <h2>Bonjour {{ member.username }}!</h2>
-            <h3>Admistrateur</h3>
-            <router-link class="redirection-profil" to="/dashboard">
-              <h4>Tableau de bord</h4>
-              <i class="fa fa-users m" aria-hidden="true"></i
-            ></router-link>
-          </section>
+            <p class="bienvenu">Bonjour <span v-if="member.sex == 'homme'">Monsieur</span>
+            <span v-else>Madame</span> {{ member.username }}!</p>
+         
         </section>
         <h2>{{ errMsg }}</h2>
 
@@ -283,6 +283,7 @@ export default {
           },
         })
         .then(() => {
+          this.dataComment.content = null;
           this.getAllPost();
         })
         .catch((error) => console.log("Erreur", error));
@@ -334,9 +335,13 @@ export default {
 };
 </script>
 <style scoped>
+
 .img {
   width: 100%;
   height: 250px;
   object-fit: fill;
+}
+.preview{
+  width:100px;
 }
 </style>

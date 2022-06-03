@@ -114,7 +114,7 @@ exports.profilUser = (req, res) => {
   const userId = decodedToken.userId;
   console.log("userId :", userId);
   User.findOne({
-    attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
+    attributes: ["id", "email", "lastname", "firstname", "username", "isAdmin", "sex", "grade"],
     where: { id: userId },
   })
 
