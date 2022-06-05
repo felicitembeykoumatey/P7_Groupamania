@@ -24,7 +24,7 @@ export default {
 .welcome, .bienvenu{
   font-size: 1.5rem;
   font-weight: 800;
-  color:darkcyan;
+  color:rgb(13, 75, 146);
 text-align: center;
 }
 </style>

@@ -3,10 +3,8 @@
     <fragment>
       <NavBar />
     </fragment>
-
     <div class="row py-4 mt-2 ">
       <!--Informations d'utilisateur-->
-
 <div class="col-3"> 
   <img v-if="member.sex == 'homme'" class="avatar" src="../assets/homme.png" alt=" avatar" /> 
  <img v-else class="avatar" src="../assets/femme.jpg" alt=" avatar" />
@@ -17,17 +15,10 @@
               <button type="button" class="btn btn-info">
               <i class="fa fa-users m" aria-hidden="true"></i> <b> Gestion des utilisateurs</b>
             </button>
-            
-</router-link>    
-              
+        </router-link>          
 </li>
-
-          
-  
 </ul>
 </div>
-
-
 <div class="col-9"> <div class="card">
   <h5 class="card-header"> <b>Profil : <span v-if=" member.isAdmin == true">Administrateur</span>
   <span v-else>utilisateur</span></b></h5>
@@ -35,7 +26,10 @@
     <h5 class="card-title">Mes informations personnelles</h5>
     <p class="card-text">
     <ul>
+           <li>username : {{ member.username }}  </li>
        <li>Nom et Prenom : {{ member.lastname }}  {{ member.firstname }} </li>
+        <li>Fonction: {{ member.grade }} </li>
+         <li>Sexe: {{ member.sex }} </li>
       </ul>
     </p>
 

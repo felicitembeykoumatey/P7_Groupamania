@@ -3,7 +3,6 @@
     <fragment>
       <NavBar />
     </fragment>
-    
     <div class="row py-4 mt-2">
 
       <div class="col-md-4 ">
@@ -81,6 +80,7 @@
                   v-on:click.prevent="flagcommentaire()"
                 >
                   <i class="fa-solid fa-comment"></i>
+                  {{ nbcomments }}
                 </button>
               </div>
               <div class="col-4 d-grid gab-2">
@@ -191,14 +191,15 @@ export default {
       member: [], //je récupère les infos de la personnes connectée
       posts: [],
       comments: [],
+      nbcomments: [],
       likes: [],
       flag: false,
     };
   },
   methods: {
-    log(commmentaire, variable) {
-      console.log(commmentaire, variable);
-    },
+  //  log(commmentaire, variable) {
+     // console.log(commmentaire, variable);
+   // },
     flagcommentaire() {
       this.flag = true;
     },
@@ -316,9 +317,6 @@ export default {
       })
       .catch((error) => console.log(error));
 
-    const formData = new FormData();
-    formData.append("postId", this.postId);
-
     axios
       .get("http://localhost:3000/countComments" + this.postId, {
         headers: {
@@ -328,7 +326,7 @@ export default {
       .then((response) => {
         console.log("comments : ", response.data);
 
-        this.comments = response.data;
+        this.nbcomments = response.data;
       })
       .catch((error) => console.log(error));
   },
@@ -340,8 +338,10 @@ export default {
   width: 100%;
   height: 250px;
   object-fit: fill;
+ 
 }
 .preview{
   width:100px;
 }
+
 </style>
