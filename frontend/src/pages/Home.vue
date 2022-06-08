@@ -1,54 +1,53 @@
 <template>
-  <div class="justify-content-center ">
+  <div class="justify-content-center">
     <fragment>
       <NavBar />
     </fragment>
     <div class="row py-4 mt-2">
-
-      <div class="col-md-4 ">
-        <div class="sticky-top ">
+      <div class="col-md-4">
+        <div class="sticky-top">
           <p class="welcome">
-      Bienvenu(e) sur le social network de Groupomania !
-    </p>
-        <form @submit.prevent="sendPost">
-          <div class="mb-3">
-            <textarea
-              id="floatingTextarea"
-              class="form-control"
-              placeholder=" Quoi de neuf?"
-              v-model="dataPost.content"
-            ></textarea>
-          </div>
+            Bienvenu(e) sur le social network de Groupomania !
+          </p>
+          <form @submit.prevent="sendPost">
+            <div class="mb-3">
+              <textarea
+                id="floatingTextarea"
+                class="form-control"
+                placeholder=" Quoi de neuf?"
+                v-model="dataPost.content"
+              ></textarea>
+            </div>
 
-          <div class="mb-3">
-            <input
-              id="files"
-              ref="file"
-              name="file"
-              type="file"
-              @change="selectFile"
-              accept=".jpg, .jpeg, .png"
-              class="form-control"
-            />
-          </div>
+            <div class="mb-3">
+              <input
+                id="files"
+                ref="file"
+                name="file"
+                type="file"
+                @change="selectFile"
+                accept=".jpg, .jpeg, .png"
+                class="form-control"
+              />
+            </div>
 
-          <div id="preview" class="mb-3" v-if="preview">
-            <img :src="preview" :alt="preview" class="preview" />
-          </div>
+            <div id="preview" class="mb-3" v-if="preview">
+              <img :src="preview" :alt="preview" class="preview" />
+            </div>
 
-          <div class="mb-3 d-grid gap-2">
-            <input type="submit" value="Publier" class="btn btn-primary" />
-          </div>
-        </form>
+            <div class="mb-3 d-grid gap-2">
+              <input type="submit" value="Publier" class="btn btn-primary" />
+            </div>
+          </form>
         </div>
-
       </div>
 
       <div class="col-md-6 mx-auto">
         <section class="card">
-            <p class="bienvenu">Bonjour <span v-if="member.sex == 'homme'">Monsieur</span>
-            <span v-else>Madame</span> {{ member.username }}!</p>
-         
+          <p class="bienvenu">
+            Bonjour <span v-if="member.sex == 'homme'">Monsieur</span>
+            <span v-else>Madame</span> {{ member.username }}!
+          </p>
         </section>
         <h2>{{ errMsg }}</h2>
 
@@ -79,8 +78,8 @@
                   class="btn btn-secondary btn-sm"
                   v-on:click.prevent="flagcommentaire()"
                 >
-                  <i class="fa-solid fa-comment"></i>
-                  {{ nbcomments }}
+                  <i class="fa-solid fa-comment"></i> &nbsp;&nbsp;&nbsp;
+                  {{ item.comments.length }}
                 </button>
               </div>
               <div class="col-4 d-grid gab-2">
@@ -170,6 +169,9 @@ import axios from "axios"; // importation dépendance axios pour envoyer et recu
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
+  props: {
+    postId: Number,
+  },
   components: { NavBar, Footer, Likes },
   data() {
     return {
@@ -177,7 +179,6 @@ export default {
       username: localStorage.getItem("username"),
       isAdmin: localStorage.getItem("isAdmin"),
       like: false,
-
       dataPost: {
         content: "",
         preview: "",
@@ -197,13 +198,12 @@ export default {
     };
   },
   methods: {
-  //  log(commmentaire, variable) {
-     // console.log(commmentaire, variable);
-   // },
+    log(commmentaire, variable) {
+      console.log(commmentaire, variable);
+    },
     flagcommentaire() {
       this.flag = true;
     },
-
     selectFile(event) {
       this.files = this.$refs.file.files[0];
       //
@@ -230,7 +230,7 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response.data);
+          console.log("tttt", response.data);
           this.posts = response.data;
         })
         .catch((error) => console.log(error));
@@ -240,7 +240,6 @@ export default {
       formData.append("content", this.dataPost.content);
       formData.append("files", this.$refs.file.files[0]);
       formData.append("userId", localStorage.getItem("userId"));
-
       axios
         .post("http://localhost:3000/posts", formData, {
           headers: {
@@ -257,7 +256,6 @@ export default {
       this.files = "";
       this.preview = "";
     },
-
     //supprimer publication//
     deletePost(id) {
       axios
@@ -289,7 +287,6 @@ export default {
         })
         .catch((error) => console.log("Erreur", error));
     },
-
     // Permet de supprimer un commentaire
     DeleteComment(commentId) {
       axios
@@ -316,8 +313,7 @@ export default {
         this.member = response.data;
       })
       .catch((error) => console.log(error));
-
-    axios
+    /* axios
       .get("http://localhost:3000/countComments" + this.postId, {
         headers: {
           Authorization: "Bearer " + window.localStorage.getItem("token"),
@@ -325,23 +321,19 @@ export default {
       })
       .then((response) => {
         console.log("comments : ", response.data);
-
-        this.nbcomments = response.data;
+        this.nbcomments.length = response.data;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error));*/
   },
 };
 </script>
 <style scoped>
-
 .img {
   width: 100%;
   height: 250px;
   object-fit: fill;
- 
 }
-.preview{
-  width:100px;
+.preview {
+  width: 100px;
 }
-
 </style>

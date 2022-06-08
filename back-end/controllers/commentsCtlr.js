@@ -51,7 +51,7 @@ exports.delete = (req, res) => {
 exports.getAllCountComment = (req, res) => {
   try {
     Comments.count({
-      where: { postId: req.params.postId },
+      where: { commentId: req.params.commentId },
     })
       .then((comment) => {
         return res.status(200).json(comment);

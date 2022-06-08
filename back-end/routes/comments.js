@@ -7,7 +7,7 @@ const multer = require("../middleware/multer-config"); // Charger package multer
 const commentCtrollers = require("../controllers/commentsCtlr"); //Chargé le fichier controllers.
 //Mes routes
 router.post("/comments", multer, commentCtrollers.createComment); //  créer un commentaire.
-router.get("/comments", auth, commentCtrollers.getAllComment); // obtenir un commentaire.
+//router.get("/comments", auth, commentCtrollers.getAllComment); // obtenir un commentaire.
 router.delete("/comments/:id", multer, commentCtrollers.delete); // supprimer le commentaire.
 router.get("/countComments/:id", commentCtrollers.getAllCountComment); // Compter les commentaires
 
