@@ -3,48 +3,52 @@
     <fragment>
       <NavBar />
     </fragment>
+    <div class="row d-flex justify-content-center">
+      <router-link class="redirection-posts mt-4" to="/dashboard">
+        <i class="fas fa-arrow-left fa-2x"></i>
+      </router-link>
 
-    <router-link class="redirection-posts" to="/posts">
-      <i class="fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <div
-      class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
-    >
-      <form @submit.prevent="updateData">
-        <div class="mb-3">
-          <label for="username"> Username </label>
-          <input
-            type="text"
-            id="username"
-            placeholder=" username "
-            v-model="dataForm.username"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="grade"> Fonction </label>
-          <input
-            type="text"
-            placeholder="Fonction"
-            id="grade"
-            v-model="dataForm.grade"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="grade"> Email </label>
-          <input
-            type="text"
-            placeholder="Email"
-            id="email"
-            v-model="dataForm.email"
-            class="form-control"
-          />
-        </div>
+      <p class="welcome">Modification des informations de l'utilisateur</p>
 
-        <br />
-        <input class="btn-update" type="submit" value="Modifier" />
-      </form>
+      <div
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
+      >
+        <form @submit.prevent="updateData" class="justify-content-center">
+          <div class="mb-3">
+            <label for="username"> Nom d'utilisateur </label>
+            <input
+              type="text"
+              id="username"
+              placeholder=" username "
+              v-model="dataForm.username"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="grade"> Fonction </label>
+            <input
+              type="text"
+              placeholder="Fonction"
+              id="grade"
+              v-model="dataForm.grade"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="grade"> Email </label>
+            <input
+              type="text"
+              placeholder="Email"
+              id="email"
+              v-model="dataForm.email"
+              class="form-control"
+            />
+          </div>
+
+          <br />
+          <button class="btn btn-primary" type="submit">Modifier</button>
+        </form>
+      </div>
     </div>
     <Footer />
   </body>
@@ -81,7 +85,7 @@ export default {
         },
       })
       .then((res) => {
-        console.log("resdfh",  this.dataForm.email);
+        console.log("resdfh", this.dataForm.email);
         this.dataForm.username = res.data.username;
         this.dataForm.grade = res.data.grade;
         this.dataForm.email = res.data.email;

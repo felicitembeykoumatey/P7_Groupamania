@@ -3,62 +3,62 @@
     <fragment>
       <NavBar />
     </fragment>
-    <router-link class="redirection-posts" to="/posts">
+    <router-link class="redirection-posts" to="/profil">
       <i class="arrow fas fa-arrow-left fa-2x"></i>
     </router-link>
-    <p class="welcome">Gestion des utilisateurs </p>
+    <p class="welcome">Gestion des utilisateurs</p>
 
-<div class="col-12 d-flex justify-content">
-    <div class="table-responsive">
-      <table class="tableau-style table-secondary" id="table">
-        <thead id="thead">
-          <tr class="color">
-            <th scope="col">Changer mot de passe</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Administrateur</th>
-            <th scope="col">Modifier Rôle</th>
-            <th scope="col">Supprimer</th>
-          </tr>
-        </thead>
+    <div class="col-12 d-flex justify-content">
+      <div class="table-responsive">
+        <table class="tableau-style table-secondary" id="table">
+          <thead id="thead">
+            <tr class="color">
+              <th scope="col">Changer mot de passe</th>
+              <th scope="col">Username</th>
+              <th scope="col">Email</th>
+              <th scope="col">Administrateur</th>
+              <th scope="col">Modifier Rôle</th>
+              <th scope="col">Supprimer</th>
+            </tr>
+          </thead>
 
-        <tbody id="tbody" v-for="member in users" :key="member.id">
-          <tr class="color">
-            <td class="idnum">
-              Identifiant d'utilisateur {{ member.id }}
-              <button @click="getUser(member.id)">
-                <i class="fa-solid fa-pencil"></i><span> Mdp</span>
-              </button>
-            </td>
+          <tbody id="tbody" v-for="member in users" :key="member.id">
+            <tr class="color">
+              <td class="idnum">
+                <!-- Identifiant d'utilisateur {{ member.id }}-->
+                <button @click="getUser(member.id)" class="btn btn-info btn-sm">
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+              </td>
 
-            <td class="username">
-              {{ member.username }}
-              <button @click="modifyprofiluser(member.id)">
-                <i class="fa-solid fa-pencil"></i
-                ><span> Nom d'utilisateur</span>
-              </button>
-            </td>
+              <td class="username">
+                {{ member.username }}
+                <button @click="modifyprofiluser(member.id)">
+                  <i class="fa-solid fa-pencil"></i
+                  ><span> Nom d'utilisateur</span>
+                </button>
+              </td>
 
-            <td class="email">{{ member.email }}</td>
-            <td class="isAdmin text-center">{{ member.isAdmin }}</td>
+              <td class="email">{{ member.email }}</td>
+              <td class="isAdmin text-center">{{ member.isAdmin }}</td>
 
-            <td>
-              <button
-                @click="updateUserRole(member.id, member.isAdmin)"
-                class="btn btn-success"
-              >
-                <i class="fa-solid fa-pencil"></i>
-              </button>
-            </td>
+              <td>
+                <button
+                  @click="updateUserRole(member.id, member.isAdmin)"
+                  class="btn btn-success"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+              </td>
 
-            <td class="delete">
-              <button @click="deleteUsers(member.id)" class="btn btn-danger">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td class="delete">
+                <button @click="deleteUsers(member.id)" class="btn btn-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="mt-4"><Footer /></div>

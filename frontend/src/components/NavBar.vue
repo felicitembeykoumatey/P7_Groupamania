@@ -1,12 +1,13 @@
 <template>
-  <div class="navbar navbar-expand navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand"
-        ><img
+  <nav class="navbar navbar-expand-lg bg-primary text-white">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img
           src="../assets/icon-left-font-monochrome-black.svg"
           alt=" logo groupomania"
-          style="width: 250px"
-      /></a>
+          width="200"
+        />
+      </a>
 
       <button
         class="navbar-toggler"
@@ -17,32 +18,31 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon">
+          <i class="fas fa-bars" style="color: #fff; font-size: 28px"></i
+        ></span>
       </button>
-      <div
-        class="d-flex justify-content-evenly collapse navbar-collapse"
-        id="navbarNav"
-      >
+      <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item pl-5 pr-5">
-            <router-link class="nav-link" to="/posts">
-              <i class="fa fa-home"></i>&nbsp;&nbsp;ACCUEIL
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/posts">
+              <i class="fa fa-home"></i>&nbsp;&nbsp; Accueil
             </router-link>
           </li>
-          <li class="nav-item pl-5 pr-5">
+          <li class="nav-item">
             <router-link class="nav-link" to="/profil">
-              <i class="fa fa-user"></i>&nbsp;&nbsp;PROFIL
+              <i class="fa fa-user"></i>&nbsp;&nbsp;Profil
             </router-link>
+          </li>
+          <li class="nav-item">
+            <a @click="disconect" class="nav-link" href="#">
+              <i class="fas fa-power-off"></i> Se déconnecter
+            </a>
           </li>
         </ul>
       </div>
-      <div class="d-flex">
-        <button @click="disconect" class="btn btn-outline-success">
-          <i class="fas fa-power-off"></i> Déconnexion
-        </button>
-      </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script>
@@ -57,3 +57,39 @@ export default {
   },
 };
 </script>
+
+<style>
+/*
+.navbar-toggler {
+  background-color: white;
+  color: black;
+}*/
+
+.navbar-toggler {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 0.25rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+  color: white;
+}
+.active {
+  color: black;
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+    justify-content: flex-end;
+  }
+}
+</style>

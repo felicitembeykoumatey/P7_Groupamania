@@ -13,7 +13,7 @@ const User = db.users;
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  //Mot-de-passe (cf regexlib.com)
+//Mot-de-passe (cf regexlib.com)
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Au moins une majuscule, un chiffre. Minimum 8 caractères.
 
 //Requête signup (s'inscrire)//
@@ -34,20 +34,25 @@ exports.signup = (req, res) => {
     password == "" ||
     sex == ""
   ) {
-    res.status(401).json({ message: "Vous n'avez pas rempli tous les champs obligatoires." });
-  } 
+    res
+      .status(401)
+      .json({
+        message: "Vous n'avez pas rempli tous les champs obligatoires.",
+      });
+  }
   if (!emailRegex.test(email)) {
-    res.status(400).json({ 'message': 'email invalide' })
-}
-if (!passwordRegex.test(password)) {
-    res.status(400).json({ 'message': 'Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)' })
-} 
-  
-  else if (!validator.isEmail(email)) {
+    res.status(400).json({ message: "email invalide" });
+  }
+  if (!passwordRegex.test(password)) {
+    res
+      .status(400)
+      .json({
+        message:
+          "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)",
+      });
+  } else if (!validator.isEmail(email)) {
     res.status(401).json({ message: "l'adresse email invalide" });
-  } 
-  
-  else {
+  } else {
     //Mot de passe haché et email masqué
     bcrypt
       .hash(req.body.password, 10)
@@ -114,7 +119,16 @@ exports.profilUser = (req, res) => {
   const userId = decodedToken.userId;
   console.log("userId :", userId);
   User.findOne({
-    attributes: ["id", "email", "lastname", "firstname", "username", "isAdmin", "sex", "grade"],
+    attributes: [
+      "id",
+      "email",
+      "lastname",
+      "firstname",
+      "username",
+      "isAdmin",
+      "sex",
+      "grade",
+    ],
     where: { id: userId },
   })
 
@@ -135,7 +149,7 @@ exports.allProfilUser = (req, res) => {
 exports.oneProfilUser = (req, res) => {
   //console.log("userId :", userId);
   User.findOne({
-    attributes: ["id", "email", "username", "isAdmin"],
+    attributes: ["id", "email", "username", "lastname", "firstname", "isAdmin"],
     where: { id: req.params.id },
   })
     .then((user) => res.status(200).json(user))
@@ -145,7 +159,16 @@ exports.oneProfilUser = (req, res) => {
 // Recuperer un utilisateur par son id
 exports.profilUserById = (req, res) => {
   User.findOne({
-    attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
+    attributes: [
+      "id",
+      "email",
+      "lastname",
+      "firstname",
+      "username",
+      "isAdmin",
+      "sex",
+      "grade",
+    ],
     where: { id: req.params.id },
   })
     .then((user) => res.status(200).json(user))
