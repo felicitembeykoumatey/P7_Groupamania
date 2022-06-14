@@ -13,18 +13,19 @@
         <table class="tableau-style table-secondary" id="table">
           <thead id="thead">
             <tr class="color">
-              <th scope="col">Changer mot de passe</th>
-              <th scope="col">Username</th>
+              <th scope="col">Mot de passe</th>
+              <th scope="col">Modifier les informations</th>
               <th scope="col">Email</th>
-              <th scope="col">Administrateur</th>
-              <th scope="col">Modifier Rôle</th>
-              <th scope="col">Supprimer</th>
+              <th scope="col">Rôle</th>
+              <th scope="col">Modifier rôle</th>
+              <th scope="col">Supprimer le compte</th>
+              <th scope="col">ID</th>
             </tr>
           </thead>
 
           <tbody id="tbody" v-for="member in users" :key="member.id">
             <tr class="color">
-              <td class="idnum">
+              <td class="mot de passe">
                 <!-- Identifiant d'utilisateur {{ member.id }}-->
                 <button @click="getUser(member.id)" class="btn btn-info btn-sm">
                   <i class="fa-solid fa-pencil"></i>
@@ -33,14 +34,22 @@
 
               <td class="username">
                 {{ member.username }}
-                <button @click="modifyprofiluser(member.id)">
-                  <i class="fa-solid fa-pencil"></i
-                  ><span> Nom d'utilisateur</span>
+                <button
+                  @click="modifyprofiluser(member.id)"
+                  class="btn btn-info btn-sm"
+                >
+                  <i class="fa-solid fa-pencil"></i>
                 </button>
               </td>
 
               <td class="email">{{ member.email }}</td>
-              <td class="isAdmin text-center">{{ member.isAdmin }}</td>
+
+              <td class="card">
+                <p>
+                  <span v-if="member.isAdmin == '1'">Administrateur</span>
+                  <span v-else>Utilisateur</span>
+                </p>
+              </td>
 
               <td>
                 <button
@@ -55,6 +64,14 @@
                 <button @click="deleteUsers(member.id)" class="btn btn-danger">
                   <i class="fas fa-trash-alt"></i>
                 </button>
+              </td>
+
+              <td class="idnum">
+                <!-- Identifiant d'utilisateur {{ member.id }}-->
+                {{ member.id }}
+                <!--  <button @click="getUser(member.id)" class="btn btn-info btn-sm">
+                  <i class="fa-solid fa-pencil"></i>
+                </button>-->
               </td>
             </tr>
           </tbody>

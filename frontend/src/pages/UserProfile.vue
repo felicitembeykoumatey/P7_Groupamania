@@ -21,8 +21,7 @@
 </div>
 <div class="col-9">
    <div class="card">
-  <h5 class="card-header"> <b>Profil : <span v-if=" member.isAdmin == true">Administrateur</span>
-  <span v-else>utilisateur</span></b></h5>
+ 
   <div class="card-body">
     <h5 class="card-title">Mes informations personnelles</h5>
     <p class="card-text">

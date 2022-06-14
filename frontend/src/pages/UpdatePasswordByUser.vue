@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="modifier mx-auto">
     <div class="row mx-auto">
       <div class="col-md-6">
         <fragment>
@@ -20,39 +20,46 @@
           ></button>
         </div>
 
-        <router-link class="redirection-posts" to="/profil">
-          <i class="arrow fas fa-arrow-left fa-2x"></i>
-        </router-link>
-        <form class="row" @submit.prevent="editPassword">
-          <div class="col-12">
-            <input
-              type="text"
-              placeholder="votre nom d'utilisateur"
-              id="username"
-              v-model="member.username"
-            />
-          </div>
-          <div class="col-12">
-            <input
-              type="password"
-              placeholder="Ancien Mot de passe"
-              id="oldPassword"
-              v-model="member.oldPassword"
-            />
-          </div>
-          <div class="col-12">
-            <input
-              type="password"
-              placeholder="Nouveau Mot de passe"
-              id="password"
-              v-model="member.password"
-            />
-          </div>
+        <div class="row d-flex justify-content-center">
+          <router-link class="redirection-posts" to="/profil">
+            <i class="arrow fas fa-arrow-left fa-2x"></i>
+          </router-link>
+          <p class="welcome">Modifier mon mot-de-passe</p>
+          <div
+            class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
+          >
+            <form class="row" @submit.prevent="editPassword">
+              <div class="col-12">
+                <input
+                  type="text"
+                  placeholder="votre nom d'utilisateur"
+                  id="username"
+                  v-model="member.username"
+                />
+              </div>
+              <div class="col-12">
+                <input
+                  type="password"
+                  placeholder="Ancien Mot de passe"
+                  id="oldPassword"
+                  v-model="member.oldPassword"
+                />
+              </div>
+              <div class="col-12">
+                <input
+                  type="password"
+                  placeholder="Nouveau Mot de passe"
+                  id="password"
+                  v-model="member.password"
+                />
+              </div>
 
-          <!-- Button -->
+              <!-- Button -->
 
-          <input class="btn-signup" type="submit" value="Valider" />
-        </form>
+              <input class="btn-signup" type="submit" value="Valider" />
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 

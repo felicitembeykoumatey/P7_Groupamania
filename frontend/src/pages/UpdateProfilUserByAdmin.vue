@@ -1,5 +1,5 @@
 <template>
-  <body class="modifier mx-auto">
+  <div class="modifier mx-auto">
     <fragment>
       <NavBar />
     </fragment>
@@ -51,7 +51,7 @@
       </div>
     </div>
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>

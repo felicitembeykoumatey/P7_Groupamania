@@ -1,26 +1,45 @@
 <template>
-  <body class="modifier mx-auto">
+  <div class="modifier mx-auto">
     <fragment>
       <NavBar />
     </fragment>
+    <div class="row d-flex justify-content-center">
+      <router-link class="redirection-posts mt-4" to="/dashboard">
+        <i class="arrow fas fa-arrow-left fa-2x"></i>
+      </router-link>
 
-    <router-link class="redirection-posts" to="/dashboard">
-      <i class="arrow fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <form @submit.prevent="dataUpdate">
-      <input
-        type="password"
-        placeholder="Entrez votre  nouveau mot de passe"
-        id="newPassword"
-        v-model="member.password"
-        class="form-control"
-      />
+      <p class="welcome">Modification Mot-de-passe de l'utilisateur</p>
+      <div
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
+      >
+        <form @submit.prevent="dataUpdate" class="justify-content-center">
+          <div class="mb-3">
+            <label for="username"> Nom d'utilisateur </label>
+            <input
+              type="text"
+              id="username"
+              placeholder=" username "
+              v-model="member.username"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="password"
+              placeholder="Entrez votre  nouveau mot de passe"
+              id="newPassword"
+              v-model="member.password"
+              class="form-control"
+            />
+          </div>
 
-      <!-- Button -->
-      <input class="btn-success" type="submit" value="Valider" />
-    </form>
+          <!-- Button -->
+          <input class="btn-success" type="submit" value="Valider" />
+        </form>
+      </div>
+    </div>
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>
@@ -38,7 +57,6 @@ export default {
       username: "",
       password: "",
       id: "",
-
       member: [],
     };
   },
@@ -63,8 +81,8 @@ export default {
       const formData = new FormData();
       formData.append("password", this.member.password);
       formData.append("id", this.id);
-console.log("password : ",this.member.password)
-console.log("id : ",this.id)
+      console.log("password : ", this.member.password);
+      console.log("id : ", this.id);
       axios
         .put("http://localhost:3000/updatePasswordByAdmin", formData)
 

@@ -34,22 +34,18 @@ exports.signup = (req, res) => {
     password == "" ||
     sex == ""
   ) {
-    res
-      .status(401)
-      .json({
-        message: "Vous n'avez pas rempli tous les champs obligatoires.",
-      });
+    res.status(401).json({
+      message: "Vous n'avez pas rempli tous les champs obligatoires.",
+    });
   }
   if (!emailRegex.test(email)) {
     res.status(400).json({ message: "email invalide" });
   }
   if (!passwordRegex.test(password)) {
-    res
-      .status(400)
-      .json({
-        message:
-          "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)",
-      });
+    res.status(400).json({
+      message:
+        "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)",
+    });
   } else if (!validator.isEmail(email)) {
     res.status(401).json({ message: "l'adresse email invalide" });
   } else {
@@ -259,16 +255,19 @@ exports.updateUserRole = (req, res) => {
 
   const id = req.body.userId;
   const isAdmin = req.body.isAdmin;
-
+  console.log("isAdmin : ", isAdmin);
+  console.log("req.dsgerherhetqrhqeth");
   if (isAdmin == "true") {
-    User.update({ isAdmin: "false" }, { where: { id: id } }).then(function () {
-      res.status(201).json("false");
+    console.log("cas 1 : admin = utile");
+    User.update({ isAdmin: "0" }, { where: { id: id } }).then(function () {
+      res.status(201).json(0);
     });
   } else {
-    User.update({ isAdmin: "true" }, { where: { id: id } }).then(function () {
+    console.log("cas 2 : utile = admin");
+    User.update({ isAdmin: "1" }, { where: { id: id } }).then(function () {
       // console.log("new isAdmin isAdmin", isAdmin);
       console.log("je suis ici 2");
-      res.status(201).json("true");
+      res.status(201).json(1);
     });
   }
 };
