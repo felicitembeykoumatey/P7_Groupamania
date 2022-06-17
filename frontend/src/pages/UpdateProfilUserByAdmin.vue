@@ -11,7 +11,7 @@
       <p class="welcome">Modification des informations de l'utilisateur</p>
 
       <div
-        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
       >
         <form @submit.prevent="updateData" class="justify-content-center">
           <div class="mb-3">

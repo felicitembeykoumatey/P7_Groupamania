@@ -1,5 +1,5 @@
 <template>
-  <div class="modifier mx-auto">
+  <div class="mx-auto">
     <fragment>
       <NavBar />
     </fragment>
