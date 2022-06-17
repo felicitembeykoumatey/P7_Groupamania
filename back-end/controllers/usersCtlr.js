@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
-const jwt = require("jsonwebtoken"); // Récupérer de JWT
+const jwt = require("jsonwebtoken"); // Token
 
 const validator = require("validator"); //validator
 //const { NULL } = require("node-sass");

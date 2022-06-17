@@ -9,6 +9,9 @@
           <p class="welcome">
             Bienvenu(e) sur le social network de Groupomania !
           </p>
+          <div v-if="errMsg" class="alert alert-danger mtb-2" role="alert">
+            {{ errMsg }}
+          </div>
           <form @submit.prevent="sendPost">
             <div class="mb-3">
               <textarea
@@ -182,9 +185,10 @@ export default {
       dataPost: {
         content: "",
         preview: "",
-        errMsg: "",
+
         images: "",
       },
+      errMsg: "",
       files: "",
       dataComment: {
         content: "",
@@ -240,22 +244,28 @@ export default {
       formData.append("content", this.dataPost.content);
       formData.append("files", this.$refs.file.files[0]);
       formData.append("userId", localStorage.getItem("userId"));
-      axios
-        .post("http://localhost:3000/posts", formData, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        })
-        .then(() => {
-          this.getAllPost();
-        })
-        .catch((error) => console.log("Erreur", error));
-      /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
-      this.$emit("toggle-Create");
-      this.content = "";
-      this.files = "";
-      this.preview = "";
+      if (!this.dataPost.content || !this.$refs.file.files[0]) {
+        this.errMsg = "Les champs sont obligatoires";
+      } else {
+        axios
+          .post("http://localhost:3000/posts", formData, {
+            headers: {
+              Authorization: "Bearer " + window.localStorage.getItem("token"),
+            },
+          })
+          .then(() => {
+            this.getAllPost();
+            this.errMsg = null;
+            this.dataPost.content = null;
+            this.$refs.file.value = null;
+            this.preview = null;
+          })
+          .catch((error) => console.log("Erreur", error));
+        /* on emit le toggle-Create pour cacher ce composant tout en effaçant les inputs */
+        this.$emit("toggle-Create");
+      }
     },
+
     //supprimer publication//
     deletePost(id) {
       axios
@@ -330,8 +340,8 @@ export default {
 <style scoped>
 .img {
   width: 100%;
-  height: 250px;
-  object-fit: fill;
+  height: auto;
+  object-fit: cover;
 }
 .preview {
   width: 100px;

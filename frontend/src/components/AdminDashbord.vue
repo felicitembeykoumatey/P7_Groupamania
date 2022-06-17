@@ -1,84 +1,86 @@
 <template>
-  <div class="row mx-auto">
-    <fragment>
-      <NavBar />
-    </fragment>
-    <router-link class="redirection-posts" to="/profil">
-      <i class="arrow fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <p class="welcome">Gestion des utilisateurs</p>
-
-    <div class="col-12 d-flex justify-content">
-      <div class="table-responsive">
-        <table class="tableau-style table-secondary" id="table">
-          <thead id="thead">
-            <tr class="color">
-              <th scope="col">Mot de passe</th>
-              <th scope="col">Modifier les informations</th>
-              <th scope="col">Email</th>
-              <th scope="col">Rôle</th>
-              <th scope="col">Modifier rôle</th>
-              <th scope="col">Supprimer le compte</th>
-              <th scope="col">ID</th>
-            </tr>
-          </thead>
-
-          <tbody id="tbody" v-for="member in users" :key="member.id">
-            <tr class="color">
-              <td class="mot de passe">
-                <!-- Identifiant d'utilisateur {{ member.id }}-->
-                <button @click="getUser(member.id)" class="btn btn-info btn-sm">
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-              </td>
-
-              <td class="username">
-                {{ member.username }}
-                <button
-                  @click="modifyprofiluser(member.id)"
-                  class="btn btn-info btn-sm"
-                >
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-              </td>
-
-              <td class="email">{{ member.email }}</td>
-
-              <td class="card">
-                <p>
-                  <span v-if="member.isAdmin == '1'">Administrateur</span>
-                  <span v-else>Utilisateur</span>
-                </p>
-              </td>
-
-              <td>
-                <button
-                  @click="updateUserRole(member.id, member.isAdmin)"
-                  class="btn btn-success"
-                >
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-              </td>
-
-              <td class="delete">
-                <button @click="deleteUsers(member.id)" class="btn btn-danger">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </td>
-
-              <td class="idnum">
-                <!-- Identifiant d'utilisateur {{ member.id }}-->
-                {{ member.id }}
-                <!--  <button @click="getUser(member.id)" class="btn btn-info btn-sm">
-                  <i class="fa-solid fa-pencil"></i>
-                </button>-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div>
+    <div class="row">
+      <fragment>
+        <NavBar />
+      </fragment>
+      <router-link class="redirection-posts" to="/profil">
+        <i class="arrow fas fa-arrow-left fa-2x"></i>
+      </router-link>
+      <p class="welcome">Gestion des utilisateurs</p>
     </div>
-    <div class="mt-4"><Footer /></div>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Mot de passe</th>
+
+                <th scope="col" class="sm-col">Rôle de l'utilisateur</th>
+
+                <th scope="col" class="sm-col1">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody v-for="member in users" :key="member.id">
+              <tr>
+                <td>
+                  {{ member.id }}
+                </td>
+                <td>{{ member.email }}</td>
+
+                <td>
+                  {{ member.username }}
+                  <button
+                    @click="getUser(member.id)"
+                    class="btn mr-2 btn-info btn-sm"
+                  >
+                    <i class="fa-solid fa-pencil"></i>
+                  </button>
+                </td>
+
+                <td>
+                  <button
+                    @click="updateUserRole(member.id, member.isAdmin)"
+                    v-if="member.isAdmin == '1'"
+                    class="btn btn-outline-success"
+                  >
+                    Administrateur
+                  </button>
+                  <button
+                    @click="updateUserRole(member.id, member.isAdmin)"
+                    v-else
+                    class="btn btn-outline-warning"
+                  >
+                    Utilisateur
+                  </button>
+                </td>
+
+                <td>
+                  <button
+                    @click="modifyprofiluser(member.id)"
+                    class="btn btn-info btn-sm mrigth"
+                  >
+                    <i class="fa-solid fa-pencil"></i>
+                  </button>
+
+                  <button
+                    @click="deleteUsers(member.id)"
+                    class="btn btn-danger btn-sm"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="mt-4"><Footer /></div>
+    </div>
   </div>
 </template>
 
@@ -99,21 +101,25 @@ export default {
   },
   mounted() {
     //Appel à l'API pour l'affichage de tous les utilisateurs
-    axios
-      .get("http://localhost:3000/all", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        //console.log("res : ", res);
-        this.users = res.data;
-        // console.log("this.users : ", this.users);
-        //console.log("this.users:", this.users);
-      })
-      .catch((error) => console.log(error));
+    this.getAllUsers();
   },
   methods: {
+    getAllUsers() {
+      axios
+        .get("http://localhost:3000/all", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          //console.log("res : ", res);
+          this.users = res.data;
+          // console.log("this.users : ", this.users);
+          //console.log("this.users:", this.users);
+        })
+        .catch((error) => console.log(error));
+    },
+
     modifyprofiluser(id) {
       // Récuperer des informations d'un utilisateur grâce à son id.
       axios
@@ -174,7 +180,7 @@ export default {
         .then((res) => {
           console.log("res", res);
           //router.push({ path: "dashbord" });
-          window.location.reload();
+          this.getAllUsers();
         })
         .catch((error) => console.log("Erreur", error));
     },
@@ -183,28 +189,23 @@ export default {
 </script>
 
 <style scoped>
-.tableau-style {
-  border-collapse: collapse;
-  min-width: 400px;
-  width: auto;
-  box-shadow: 0 50px 50px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-}
 thead tr {
   background-color: rgb(48, 48, 139);
   color: white;
+  text-align: center;
 }
-th,
-td {
-  padding: 15px 20px;
+.sm-col {
+  width: 200px;
+  text-align: center;
 }
-tbody tr,
-td,
-th {
-  border: 1px solid #ddd;
+.sm-col1 {
+  width: 100px;
+  text-align: center;
 }
-.dashboard-table {
-  display: flex;
-  justify-content: center;
+tbody tr {
+  text-align: center;
+}
+.mrigth {
+  margin-right: 10px;
 }
 </style>
