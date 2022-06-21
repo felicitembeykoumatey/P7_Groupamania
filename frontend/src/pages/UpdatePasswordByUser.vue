@@ -1,68 +1,56 @@
 <template>
-  <div class="modifier mx-auto">
-    <div class="row mx-auto">
-      <div class="col-md-6">
-        <fragment>
-          <NavBar />
-        </fragment>
+  <div class="mx-auto">
+    <fragment>
+      <NavBar />
+    </fragment>
+    <div class="row d-flex justify-content-center">
+      <router-link class="redirection-posts" to="/profil">
+        <i class="arrow fas fa-arrow-left fa-2x"></i>
+      </router-link>
 
-        <div
-          v-if="alert"
-          class="alert alert-danger alert-dismissible fade show"
-          role="alert"
-        >
-          <strong>Erreur</strong> {{ alert }}
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <div class="row d-flex justify-content-center">
-          <router-link class="redirection-posts" to="/profil">
-            <i class="arrow fas fa-arrow-left fa-2x"></i>
-          </router-link>
-          <p class="welcome">Modifier mon mot-de-passe</p>
-          <div
-            class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
-          >
-            <form class="row" @submit.prevent="editPassword">
-              <div class="col-12">
-                <input
-                  type="text"
-                  placeholder="votre nom d'utilisateur"
-                  id="username"
-                  v-model="member.username"
-                />
-              </div>
-              <div class="col-12">
-                <input
-                  type="password"
-                  placeholder="Ancien Mot de passe"
-                  id="oldPassword"
-                  v-model="member.oldPassword"
-                />
-              </div>
-              <div class="col-12">
-                <input
-                  type="password"
-                  placeholder="Nouveau Mot de passe"
-                  id="password"
-                  v-model="member.password"
-                />
-              </div>
-
-              <!-- Button -->
-
-              <input class="btn-signup" type="submit" value="Valider" />
-            </form>
+      <p class="welcome">Modifier mon mot-de-passe</p>
+      <div
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
+      >
+        <form @submit.prevent="dataUpdate" class="justify-content-center">
+          <div class="mb-3">
+            <label for="username"> Nom d'utilisateur </label>
+            <input
+              type="text"
+              id="username"
+              placeholder="votre nom d'utilisateur"
+              v-model="member.username"
+              class="form-control"
+            />
           </div>
-        </div>
+
+          <div class="mb-3">
+            <label for="username"> Mon ancien mot de passe </label>
+            <input
+              type="password"
+              id="username"
+              placeholder="Entrer votre ancien mot de passe"
+              v-model="member.oldPassword"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="username"> Mon nouveau mot de passe </label>
+            <input
+              type="password"
+              id="username"
+              placeholder="Entrer votre nouveau mot de passe"
+              v-model="member.password"
+              class="form-control"
+            />
+          </div>
+
+          <!-- Button -->
+          <input class="btn-success" type="submit" value="Valider" />
+        </form>
       </div>
     </div>
-
     <Footer />
   </div>
 </template>

@@ -1,17 +1,15 @@
 <template>
-  <div class="modifier mx-auto">
+  <div class="mx-auto">
     <fragment>
       <NavBar />
     </fragment>
     <div class="row d-flex justify-content-center">
-      <router-link class="redirection-posts mt-4" to="/dashboard">
+      <router-link class="redirection-posts" to="/dashboard">
         <i class="fas fa-arrow-left fa-2x"></i>
       </router-link>
-
       <p class="welcome">Modification des informations de l'utilisateur</p>
-
       <div
-        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
         <form @submit.prevent="updateData" class="justify-content-center">
           <div class="mb-3">
@@ -44,12 +42,11 @@
               class="form-control"
             />
           </div>
-
-          <br />
-          <button class="btn btn-primary" type="submit">Modifier</button>
+          <input class="btn-success" type="submit" value="Valider" />
         </form>
       </div>
     </div>
+
     <Footer />
   </div>
 </template>
