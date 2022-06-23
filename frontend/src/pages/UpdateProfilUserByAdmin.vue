@@ -7,7 +7,7 @@
       <router-link class="redirection-posts" to="/dashboard">
         <i class="fas fa-arrow-left fa-2x"></i>
       </router-link>
-      <p class="welcome">Modification des informations de l'utilisateur</p>
+      <p class="welcome pt-3">Modification des informations de l'utilisateur</p>
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
@@ -16,7 +16,6 @@
             <label for="username"> Nom d'utilisateur </label>
             <input
               type="text"
-              id="username"
               placeholder=" username "
               v-model="dataForm.username"
               class="form-control"
@@ -27,7 +26,6 @@
             <input
               type="text"
               placeholder="Fonction"
-              id="grade"
               v-model="dataForm.grade"
               class="form-control"
             />
@@ -112,10 +110,10 @@ export default {
         .then(() => {
           // localStorage.setItem("token", response.data.token);
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
-          /*Réinitialisation
-          this.member.username = null;
-          this.member.grade = null;
-          this.member.email = null;*/
+
+          this.dataForm.username = null;
+          this.dataForm.grade = null;
+          this.dataForm.email = null;
 
           router.push({ path: "profil" });
           //document.location.href = "http://localhost:8080/login";

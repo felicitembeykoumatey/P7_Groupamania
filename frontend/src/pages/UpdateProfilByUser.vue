@@ -1,53 +1,54 @@
 <template>
-  <body class="mx-auto">
+  <div class="mx-auto">
     <fragment>
       <NavBar />
     </fragment>
+    <p class="welcome pt-3">Modification de mes informations</p>
+    <div class="row d-flex justify-content-center">
+      <router-link class="redirection-posts" to="/profil">
+        <i class="fas fa-arrow-left fa-2x"></i>
+      </router-link>
+      <div
+        class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
+      >
+        <form @submit.prevent="updateData">
+          <div class="mb-3">
+            <label for="username"> Nom d'utilisateur </label>
+            <input
+              type="text"
+              id="username"
+              placeholder=" username "
+              v-model="member.username"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="grade"> Fonction </label>
+            <input
+              type="text"
+              placeholder="Fonction"
+              id="grade"
+              v-model="member.grade"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="grade"> Email </label>
+            <input
+              type="text"
+              placeholder="Email"
+              id="email"
+              v-model="member.email"
+              class="form-control"
+            />
+          </div>
 
-    <router-link class="redirection-posts" to="/profil">
-      <i class="fas fa-arrow-left fa-2x"></i>
-    </router-link>
-    <div
-      class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
-    >
-      <form @submit.prevent="updateData">
-        <div class="mb-3">
-          <label for="username"> Username </label>
-          <input
-            type="text"
-            id="username"
-            placeholder=" username "
-            v-model="member.username"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="grade"> Fonction </label>
-          <input
-            type="text"
-            placeholder="Fonction"
-            id="grade"
-            v-model="member.grade"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="grade"> Email </label>
-          <input
-            type="text"
-            placeholder="Email"
-            id="email"
-            v-model="member.email"
-            class="form-control"
-          />
-        </div>
-
-        <br />
-        <input class="btn-update" type="submit" value="Modifier" />
-      </form>
+          <input class="btn-success" type="submit" value="Valider" />
+        </form>
+      </div>
     </div>
     <Footer />
-  </body>
+  </div>
 </template>
 
 <script>
@@ -62,6 +63,7 @@ export default {
   components: { NavBar, Footer },
   data() {
     return {
+      id: "",
       username: "",
       grade: "",
       email: "",
@@ -84,7 +86,7 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
-    updateData(id) {
+    updateData() {
       const formData = new FormData();
       //console.log("this.dataForm", this.dataForm);
 
@@ -92,10 +94,10 @@ export default {
       formData.append("username", this.member.username);
       formData.append("sex", this.member.grade);
       formData.append("email", this.member.email);
-      formData.append("password", this.member.password);
+      // formData.append("password", this.member.password);
 
       axios
-        .put("http://localhost:3000/updateByUser/" + id, formData)
+        .put("http://localhost:3000/updateByUser", formData)
         .then(() => {
           // localStorage.setItem("token", response.data.token);
           // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
@@ -105,7 +107,7 @@ export default {
           this.member.username = null;
           this.member.grade = null;
           this.member.email = null;
-          this.member.password = null;
+          // this.member.password = null;
 
           router.push({ path: "profil" });
           //document.location.href = "http://localhost:8080/login";

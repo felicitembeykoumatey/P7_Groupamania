@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Token
-
 const validator = require("validator"); //validator
-//const { NULL } = require("node-sass");
+
 // base des données
 const db = require("../models/database");
 const User = db.users;
@@ -16,7 +15,8 @@ const emailRegex =
 //Mot-de-passe (cf regexlib.com)
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Au moins une majuscule, un chiffre. Minimum 8 caractères.
 
-//Requête signup (s'inscrire)//
+//Requête s'inscrire //
+
 exports.signup = (req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
@@ -76,13 +76,12 @@ exports.signup = (req, res) => {
       .catch((error) => res.status(500).json({ error: error.message }));
   }
 };
-//Requête login (se connecter)
+
+//Requête se connecter
 exports.login = (req, res) => {
   // Récupération et validation email et password
   const loginEmail = req.body.email;
   const loginPassword = req.body.password;
-  // console.log("loginEmail", loginEmail);
-  //console.log("loginPassword", loginPassword);
   User.findOne({ where: { email: loginEmail } })
     .then((user) => {
       if (user == null) {
@@ -111,9 +110,8 @@ exports.login = (req, res) => {
 exports.profilUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-  console.log("decodedToken :", decodedToken);
   const userId = decodedToken.userId;
-  console.log("userId :", userId);
+
   User.findOne({
     attributes: [
       "id",
@@ -131,8 +129,8 @@ exports.profilUser = (req, res) => {
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
-//Tous les profils
 
+//Tous les profils
 exports.allProfilUser = (req, res) => {
   User.findAll({
     attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
@@ -143,7 +141,6 @@ exports.allProfilUser = (req, res) => {
 
 // Afficher un utilisateur
 exports.oneProfilUser = (req, res) => {
-  //console.log("userId :", userId);
   User.findOne({
     attributes: ["id", "email", "username", "lastname", "firstname", "isAdmin"],
     where: { id: req.params.id },
@@ -152,113 +149,110 @@ exports.oneProfilUser = (req, res) => {
     .catch((error) => res.status(500).json(error));
 };
 
-// Recuperer un utilisateur par son id
+// Recupérer un utilisateur par son id
 exports.profilUserById = (req, res) => {
   User.findOne({
     attributes: [
       "id",
-      "email",
-      "lastname",
       "firstname",
+      "lastname",
       "username",
-      "isAdmin",
-      "sex",
       "grade",
+      "sex",
+      "email",
+      "isAdmin",
     ],
     where: { id: req.params.id },
   })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
 };
-// Supprimer utilisateur
+
+// Supprimer le compte
 exports.deleteProfil = (req, res) => {
-  console.log("req.params.id", req.params.id);
   User.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Compte supprimé !" }))
     .catch((error) => res.status(400).json({ error: error.message }));
 };
 
-//Modification de mot de passe
+//Modification de mot de passe par l'administrateur
 exports.modifyPassword = (req, res) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const updatePassword = {
       password: hash,
     };
-
-    //User.update( {username:username, grade:grade, email:email, password:password},{where: { id:id }}).then(function () {
-    User.update(updatePassword, { where: { id: req.body.id } }).then(
-      function () {
-        console.log("j'ai reussi :");
-      }
-    );
+    console.log("updatePassword : ", updatePassword);
+    if (!passwordRegex.test(req.body.password)) {
+      res.status(400).json({
+        message:
+          "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.",
+      });
+    } else
+      User.update(updatePassword, { where: { id: req.body.id } }).then(
+        function () {
+          console.log("j'ai reussi :");
+        }
+      );
   });
 };
 
-//Changer de mot de passe par l'utilisateur courant
+//L'utilisateur change lui même son mot de passe
 exports.editPassword = (req, res) => {
+  console.log("defgrhtjyukikujhgf");
+  console.log("req : ", req.headers.Authorization);
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-  console.log("decodedToken :", decodedToken);
   const userId = decodedToken.userId;
-  console.log("userId :", userId);
   const newPassword = req.body.password;
+  console.log("azertuyio");
   const oldPassword = req.body.oldPassword;
-  //const loginUsername = req.body.username;
-  //console.log(loginUsername)
-  User.findOne({ where: { id: userId } }).then((user) => {
-    if (user == null) {
-      return res.status(401).json({ error: "Utilisateur non trouvé !" });
-    }
-    console.log("newPassword : ", newPassword);
-    console.log("oldPassword : ", oldPassword);
-    console.log("user.password : ", user.password);
-
-    bcrypt.compare(oldPassword, user.password).then((valid) => {
-      if (valid == false) {
-        console.log("j'ai echoué 123");
-        // Si le mot de passe n'est pas le bon
-        return res.status(401).json({ error: "Mot de passe incorrect !" });
-      } else {
-        bcrypt.hash(newPassword, 10).then((hash) => {
-          const updatePassword = {
-            password: hash,
-          };
-          console.log("Je vais faire le changement de mdp");
-          User.update(updatePassword, {
-            where: { id: userId },
-          }).then(function () {
-            console.log("j'ai reussi :");
-            console.log("User.password");
-            return res.status(200).json({ msg: "j'ai reussi" });
-          });
-        });
-      }
+  console.log("newPassword : ", newPassword);
+  if (!passwordRegex.test(newPassword)) {
+    res.status(400).json({
+      message:
+        "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)",
     });
-  });
+  } else
+    User.findOne({ where: { id: userId } }).then((user) => {
+      if (user == null) {
+        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+      }
+      bcrypt.compare(oldPassword, user.password).then((valid) => {
+        if (valid == false) {
+          // Si le mot de passe n'est pas le bon
+          return res.status(401).json({ error: "Mot de passe incorrect !" });
+        } else {
+          bcrypt.hash(newPassword, 10).then((hash) => {
+            const updatePassword = {
+              password: hash,
+            };
+            User.update(updatePassword, {
+              where: { id: userId },
+            }).then(function () {
+              return res.status(200).json({ msg: "j'ai reussi" });
+            });
+          });
+        }
+      });
+    });
 };
-//Utilisateur Modifie ses données
+//L'utilisateur modifie ses données
 exports.modifyUser = (req, res) => {
   const updateUserData = {
     username: req.body.username,
     email: req.body.email,
     grade: req.body.grade,
   };
-
-  User.update(updateUserData, { where: { id: req.body.id } }).then(function () {
-    //res.status(200).json();
-  });
+  User.update(updateUserData, { where: { id: req.body.id } }).then(
+    function () {}
+  );
 };
 
 //Administrateur Modifie les données d'utilisateur
 exports.updateUserRole = (req, res) => {
-  console.log("req.body");
-
   const id = req.body.userId;
   const isAdmin = req.body.isAdmin;
-  console.log("isAdmin : ", isAdmin);
-  console.log("req.dsgerherhetqrhqeth");
   if (isAdmin == "true") {
-    console.log("cas 1 : admin = utile");
     User.update({ isAdmin: "0" }, { where: { id: id } }).then(function () {
       res.status(201).json(0);
     });

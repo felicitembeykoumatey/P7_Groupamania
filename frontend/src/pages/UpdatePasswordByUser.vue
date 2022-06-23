@@ -8,11 +8,14 @@
         <i class="arrow fas fa-arrow-left fa-2x"></i>
       </router-link>
 
-      <p class="welcome">Modifier mon mot-de-passe</p>
+      <h3 class="welcome">Modifier mon mot-de-passe</h3>
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
-        <form @submit.prevent="dataUpdate" class="justify-content-center">
+        <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
+          {{ msg }}
+        </div>
+        <form @submit.prevent="editPassword" class="justify-content-center">
           <div class="mb-3">
             <label for="username"> Nom d'utilisateur </label>
             <input
@@ -57,7 +60,7 @@
 
 <script>
 import axios from "axios";
-//import router from "../router";
+import router from "../router";
 
 import NavBar from "@/components/NavBar.vue"; // barre de navigateur
 import Footer from "@/components/Footer.vue"; //Footer
@@ -86,34 +89,33 @@ export default {
       ) {
         this.alert = "Veillez remplir tous les champs !";
       } else {
+        console.log("this.member.password");
         const formData = new FormData();
         formData.append("password", this.member.password);
         formData.append("oldPassword", this.member.oldPassword);
         console.log(this.member.password);
         console.log(this.member.oldPassword);
-
+        console.log("yersy : ", localStorage.getItem("token"));
         axios
           .put("http://localhost:3000/editPassword", formData, {
             headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
+              Authorization: "Bearer " + localStorage.getItem("token"),
             },
           })
 
           .then((res) => {
             console.log(res);
 
-            //router.push({ path: "dashbord" });
-            //document.location.href = "http://localhost:8080/login";
+            router.push({ path: "profil" });
           })
           .catch((error) => console.log(error));
       }
     },
 
-    dataUpdate(id) {
+    /*   dataUpdate(id) {
       const formData = new FormData();
 
       formData.append("username", this.member.username);
-
       formData.append("password", this.member.password);
       formData.append("oldPassword", this.member.oldPassword);
 
@@ -125,7 +127,7 @@ export default {
         }),
           console.log("formData12 :", formData);
       axios
-        .put("http://localhost:3000/updatePassword", formData)
+        .put("http://localhost:3000/editPassword", formData)
 
         .then(() => {
           // localStorage.setItem("token", response.data.token);
@@ -140,7 +142,7 @@ export default {
           //document.location.href = "http://localhost:8080/login";
         })
         .catch((error) => console.log(error));
-    },
+    },*/
   },
 };
 </script>

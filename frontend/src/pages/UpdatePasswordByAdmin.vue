@@ -54,15 +54,14 @@ export default {
   components: { NavBar, Footer },
   data() {
     return {
+      id: "",
       username: "",
       password: "",
-      id: "",
       member: [],
     };
   },
   mounted(id) {
     (id = window.localStorage.getItem("token_modify_password")),
-      //   console.log("Je suis dans mounted : j'affiche id : ", id);
       axios
         .get("http://localhost:3000/updateUser/" + id, {
           headers: {
@@ -79,18 +78,15 @@ export default {
   methods: {
     dataUpdate() {
       const formData = new FormData();
-      formData.append("password", this.member.password);
       formData.append("id", this.id);
-      console.log("password : ", this.member.password);
-      console.log("id : ", this.id);
-      axios
-        .put("http://localhost:3000/updatePasswordByAdmin", formData)
+      formData.append("password", this.member.password);
 
+      axios
+        .put("http://localhost:3000/modifyPassword", formData)
         .then(() => {
+          this.member.username = null;
           this.member.password = null;
           router.push({ path: "dashboard" });
-
-          console.log("formData", formData);
         })
         .catch((error) => console.log(error));
     },

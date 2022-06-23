@@ -2,13 +2,11 @@ const http = require("http"); // récupérer le package http de node.js
 const app = require("./app"); // récupérer l'application express
 const cors = require("cors");
 
-
-
 var corsOptions = {
-    origin: 'http://localhost:8081'
-}
+  origin: "http://localhost:8080",
+};
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 // création du serveur (passage de l'application express au serveur)
 const server = http.createServer(app);

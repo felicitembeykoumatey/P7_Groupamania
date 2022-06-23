@@ -15,12 +15,12 @@ router.get("/updateUser/:id", multer, userCtrl.profilUserById); // Récuperer de
 router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
 router.put("/updateRole", multer, userCtrl.updateUserRole); //modification role  par l'administrateur
 //modification profile par l'utilisateur courant
-router.put("/updateByUser", multer, userCtrl.modifyUser); 
+router.put("/updateByUser", multer, userCtrl.modifyUser);
 // Rénitialiser le  mot de passe par l'administrateur
-router.put("/updatePasswordByAdmin", multer, userCtrl.modifyPassword); 
+router.put("/modifyPassword", multer, userCtrl.modifyPassword);
 //Modification du mot de passe par l'utilisateur courant
 router.put("/editPassword", multer, userCtrl.editPassword);
 //Suppression profile
-router.delete("/delete/:id", multer, userCtrl.deleteProfil); 
+router.delete("/delete/:id", multer, userCtrl.deleteProfil);
 //**EXPORT//
 module.exports = router;

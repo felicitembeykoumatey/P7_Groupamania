@@ -323,17 +323,6 @@ export default {
         this.member = response.data;
       })
       .catch((error) => console.log(error));
-    /* axios
-      .get("http://localhost:3000/countComments" + this.postId, {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        console.log("comments : ", response.data);
-        this.nbcomments.length = response.data;
-      })
-      .catch((error) => console.log(error));*/
   },
 };
 </script>
