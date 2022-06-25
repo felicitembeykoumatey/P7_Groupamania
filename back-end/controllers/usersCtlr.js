@@ -168,72 +168,43 @@ exports.profilUserById = (req, res) => {
     .catch((error) => res.status(500).json(error));
 };
 
-// Supprimer le compte
-exports.deleteProfil = (req, res) => {
-  User.destroy({ where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Compte supprimé !" }))
-    .catch((error) => res.status(400).json({ error: error.message }));
-};
-
-//Modification de mot de passe par l'administrateur
-exports.modifyPassword = (req, res) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const updatePassword = {
-      password: hash,
-    };
-    console.log("updatePassword : ", updatePassword);
-    if (!passwordRegex.test(req.body.password)) {
-      res.status(400).json({
-        message:
-          "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.",
-      });
-    } else
-      User.update(updatePassword, { where: { id: req.body.id } }).then(
-        function () {
-          console.log("j'ai reussi :");
-        }
-      );
-  });
-};
-
 //L'utilisateur change lui même son mot de passe
 exports.editPassword = (req, res) => {
-  console.log("defgrhtjyukikujhgf");
-  console.log("req : ", req.headers.Authorization);
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
   const newPassword = req.body.password;
-  console.log("azertuyio");
+  const username = req.body.username;
   const oldPassword = req.body.oldPassword;
-  console.log("newPassword : ", newPassword);
+
   if (!passwordRegex.test(newPassword)) {
     res.status(400).json({
       message:
         "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.)",
     });
   } else
-    User.findOne({ where: { id: userId } }).then((user) => {
-      if (user == null) {
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
-      }
-      bcrypt.compare(oldPassword, user.password).then((valid) => {
-        if (valid == false) {
-          // Si le mot de passe n'est pas le bon
-          return res.status(401).json({ error: "Mot de passe incorrect !" });
-        } else {
-          bcrypt.hash(newPassword, 10).then((hash) => {
-            const updatePassword = {
-              password: hash,
-            };
-            User.update(updatePassword, {
-              where: { id: userId },
-            }).then(function () {
-              return res.status(200).json({ msg: "j'ai reussi" });
+    User.findOne({ where: { id: userId, username: username } }).then((user) => {
+      if (user) {
+        bcrypt.compare(oldPassword, user.password).then((valid) => {
+          if (valid == false) {
+            // Si le mot de passe n'est pas le bon
+            res.status(401).json({ message: "Mot de passe incorrect !" });
+          } else {
+            bcrypt.hash(newPassword, 10).then((hash) => {
+              const updatePassword = {
+                password: hash,
+              };
+              user.update(updatePassword).then(() => {
+                res.status(200).json({
+                  message: "Votre mot de passe a été modifié avec succès !",
+                });
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      } else {
+        res.status(401).json({ message: "Utilisateur non trouvé !" });
+      }
     });
 };
 //L'utilisateur modifie ses données
@@ -243,9 +214,7 @@ exports.modifyUser = (req, res) => {
     email: req.body.email,
     grade: req.body.grade,
   };
-  User.update(updateUserData, { where: { id: req.body.id } }).then(
-    function () {}
-  );
+  User.update(updateUserData, { where: { id: req.body.id } }).then(() => {});
 };
 
 //Administrateur Modifie les données d'utilisateur
@@ -257,11 +226,37 @@ exports.updateUserRole = (req, res) => {
       res.status(201).json(0);
     });
   } else {
-    console.log("cas 2 : utile = admin");
     User.update({ isAdmin: "1" }, { where: { id: id } }).then(function () {
-      // console.log("new isAdmin isAdmin", isAdmin);
-      console.log("je suis ici 2");
       res.status(201).json(1);
     });
   }
+};
+
+// Administrateur modifie son propre mot de passe!
+exports.modifyPassword = (req, res) => {
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const updatePassword = {
+      password: hash,
+    };
+    if (!passwordRegex.test(req.body.password)) {
+      res.status(400).json({
+        message:
+          "Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum.",
+      });
+    } else
+      User.update(updatePassword, {
+        where: { id: req.body.id, username: req.body.username },
+      }).then(() => {
+        res.status(200).json({
+          message: "Votre mot de passe a été modifié avec succès !",
+        });
+      });
+  });
+};
+
+// Supprimer le compte
+exports.deleteProfil = (req, res) => {
+  User.destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: "Compte supprimé !" }))
+    .catch((error) => res.status(400).json({ error: error.message }));
 };

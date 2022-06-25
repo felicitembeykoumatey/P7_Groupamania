@@ -12,6 +12,9 @@
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
+        <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
+        </div>
         <form @submit.prevent="dataUpdate" class="justify-content-center">
           <div class="mb-3">
             <label for="username"> Nom d'utilisateur </label>
@@ -44,7 +47,7 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
+//import router from "../router";
 import NavBar from "@/components/NavBar.vue"; //Navigateur
 import Footer from "@/components/Footer.vue"; // Pieds de page
 
@@ -54,10 +57,13 @@ export default {
   components: { NavBar, Footer },
   data() {
     return {
-      id: "",
-      username: "",
-      password: "",
-      member: [],
+      member: {
+        id: "",
+        username: "",
+        password: "",
+      },
+      alert: null,
+      color: null,
     };
   },
   mounted(id) {
@@ -79,16 +85,22 @@ export default {
     dataUpdate() {
       const formData = new FormData();
       formData.append("id", this.id);
+      formData.append("username", this.member.username);
       formData.append("password", this.member.password);
 
       axios
         .put("http://localhost:3000/modifyPassword", formData)
-        .then(() => {
-          this.member.username = null;
-          this.member.password = null;
-          router.push({ path: "dashboard" });
+        .then((res) => {
+          this.alert = res.data.message;
+          this.color = "alert alert-success mtb-2";
+          //console.log(" res.data.message");
+          // router.push({ path: "dashboard" });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          this.alert = error.response.data.message;
+          this.color = "alert alert-danger mtb-2";
+          // console.log("message: " + error.response.data.message)
+        });
     },
   },
 };

@@ -12,8 +12,8 @@
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
-        <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
-          {{ msg }}
+        <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
         </div>
         <form @submit.prevent="editPassword" class="justify-content-center">
           <div class="mb-3">
@@ -48,8 +48,6 @@
               class="form-control"
             />
           </div>
-
-          <!-- Button -->
           <input class="btn-success" type="submit" value="Valider" />
         </form>
       </div>
@@ -60,7 +58,7 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
+//import router from "../router";
 
 import NavBar from "@/components/NavBar.vue"; // barre de navigateur
 import Footer from "@/components/Footer.vue"; //Footer
@@ -73,11 +71,11 @@ export default {
     return {
       member: {
         username: null,
-
         password: null,
         oldPassword: null,
       },
       alert: null,
+      color: null,
     };
   },
   methods: {
@@ -88,61 +86,29 @@ export default {
         !this.member.oldPassword
       ) {
         this.alert = "Veillez remplir tous les champs !";
+        this.color = "alert alert-danger mtb-2";
       } else {
-        console.log("this.member.password");
         const formData = new FormData();
+        formData.append("username", this.member.username);
         formData.append("password", this.member.password);
         formData.append("oldPassword", this.member.oldPassword);
-        console.log(this.member.password);
-        console.log(this.member.oldPassword);
-        console.log("yersy : ", localStorage.getItem("token"));
         axios
           .put("http://localhost:3000/editPassword", formData, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           })
-
           .then((res) => {
-            console.log(res);
-
-            router.push({ path: "profil" });
+            this.alert = res.data.message;
+            this.color = "alert alert-success mtb-2";
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            this.alert = error.response.data.message;
+            this.color = "alert alert-danger mtb-2";
+            // console.log("message: " + error.response.data.message)
+          });
       }
     },
-
-    /*   dataUpdate(id) {
-      const formData = new FormData();
-
-      formData.append("username", this.member.username);
-      formData.append("password", this.member.password);
-      formData.append("oldPassword", this.member.oldPassword);
-
-      if (!this.member.username || !this.member.password)
-        axios.get("http://localhost:3000/one/" + id, {
-          headers: {
-            Authorization: "Bearer " + localStorage.setItem("token"),
-          },
-        }),
-          console.log("formData12 :", formData);
-      axios
-        .put("http://localhost:3000/editPassword", formData)
-
-        .then(() => {
-          // localStorage.setItem("token", response.data.token);
-          // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
-          //Réinitialisation
-          this.member.username = null;
-
-          this.member.password = null;
-          this.member.oldPassword = null;
-
-          //router.push({ path: "dashbord" });
-          //document.location.href = "http://localhost:8080/login";
-        })
-        .catch((error) => console.log(error));
-    },*/
   },
 };
 </script>
