@@ -5,12 +5,15 @@
     </fragment>
     <div class="row d-flex justify-content-center">
       <router-link class="redirection-posts" to="/dashboard">
-        <i class="fas fa-arrow-left fa-2x"></i>
+        <i class="arrow fas fa-arrow-left fa-2x"></i>
       </router-link>
       <p class="welcome pt-3">Modification des informations de l'utilisateur</p>
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-md-6 col-sm-12"
       >
+        <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
+        </div>
         <form @submit.prevent="updateData" class="justify-content-center">
           <div class="mb-3">
             <label for="username"> Nom d'utilisateur </label>
@@ -51,7 +54,7 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
+//import router from "../router";
 import NavBar from "@/components/NavBar.vue"; //Navigateur
 import Footer from "@/components/Footer.vue"; // Pieds de page
 //import store from '../store/index.js';
@@ -62,63 +65,67 @@ export default {
   data() {
     return {
       dataForm: {
+        id: "",
         username: "",
         grade: "",
         email: "",
-        id: "",
       },
       member: [],
+      alert: null,
+      color: null,
     };
   },
   mounted(id) {
     (id = window.localStorage.getItem("token_modify")),
-      console.log("Idzsedfrh : ", id);
-    axios
-      .get("http://localhost:3000/updateUser/" + id, {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        console.log("resdfh", this.dataForm.email);
-        this.dataForm.username = res.data.username;
-        this.dataForm.grade = res.data.grade;
-        this.dataForm.email = res.data.email;
-        this.dataForm.id = res.data.id;
-      })
-      .catch((error) => console.log("Erreur", error));
+      axios
+        .get("http://localhost:3000/updateUser/" + id, {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+
+        .then((res) => {
+          this.alert = res.data.message;
+          this.color = "alert alert-success mtb-2";
+          //console.log(" res.data.message");
+          // router.push({ path: "dashboard" });
+        })
+        .catch((error) => {
+          this.alert = error.response.data.message;
+          this.color = "alert alert-danger mtb-2";
+          // console.log("message: " + error.response.data.message)
+        });
   },
 
   methods: {
-    log(commmentaire, variable) {
-      console.log(commmentaire, variable);
-    },
+    //log(commmentaire, variable) {
+    // console.log(commmentaire, variable);
+    //},
 
     updateData() {
       const formData = new FormData();
-      //console.log("this.dataForm", this.dataForm);
-      console.log("this.member", this.dataForm);
-      formData.append("id", this.dataForm.id);
+      formData.append("id", window.localStorage.getItem("token_modify"));
       formData.append("username", this.dataForm.username);
       formData.append("email", this.dataForm.email);
       formData.append("grade", this.dataForm.grade);
-      console.log("id", this.dataForm.id);
-      console.log("username", this.dataForm.username);
-      console.log("email", this.dataForm.email);
       axios
-        .put("http://localhost:3000/updateByUser", formData)
-        .then(() => {
-          // localStorage.setItem("token", response.data.token);
-          // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
+        .put("http://localhost:3000/updateDataByAdmin", formData)
 
+        .then((res) => {
           this.dataForm.username = null;
           this.dataForm.grade = null;
           this.dataForm.email = null;
-
-          router.push({ path: "profil" });
-          //document.location.href = "http://localhost:8080/login";
+          this.dataForm.id = null;
+          this.alert = res.data.message;
+          this.color = "alert alert-success mtb-2";
+          //console.log(" res.data.message");
+          // router.push({ path: "dashboard" });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          this.alert = error.response.data.message;
+          this.color = "alert alert-danger mtb-2";
+          // console.log("message: " + error.response.data.message)
+        });
     },
   },
 };

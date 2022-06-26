@@ -11,6 +11,10 @@
       <div
         class="shadow-sm shadow-lg pt-5 p-3 mb-5 bg-white rounded col-12 col-md-6 col-lg-4"
       >
+        <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
+        </div>
+
         <form @submit.prevent="updateData">
           <div class="mb-3">
             <label for="username"> Nom d'utilisateur </label>
@@ -42,7 +46,6 @@
               class="form-control"
             />
           </div>
-
           <input class="btn-success" type="submit" value="Valider" />
         </form>
       </div>
@@ -53,7 +56,7 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
+//import router from "../router";
 import NavBar from "@/components/NavBar.vue"; //Navigateur
 import Footer from "@/components/Footer.vue"; // Pieds de page
 //import store from '../store/index.js';
@@ -63,13 +66,15 @@ export default {
   components: { NavBar, Footer },
   data() {
     return {
-      id: "",
-      username: "",
-      grade: "",
-      email: "",
-      password: "",
-
-      member: [],
+      member: {
+        id: "",
+        username: "",
+        grade: "",
+        email: "",
+        password: "",
+      },
+      alert: null,
+      color: null,
     };
   },
   mounted() {
@@ -88,31 +93,27 @@ export default {
   methods: {
     updateData() {
       const formData = new FormData();
-      //console.log("this.dataForm", this.dataForm);
-
       formData.append("id", this.member.id);
       formData.append("username", this.member.username);
-      formData.append("sex", this.member.grade);
+      formData.append("grade", this.member.grade);
       formData.append("email", this.member.email);
-      // formData.append("password", this.member.password);
 
       axios
         .put("http://localhost:3000/updateByUser", formData)
-        .then(() => {
-          // localStorage.setItem("token", response.data.token);
-          // console.log(response); //une fois le compte enregistré on remet les inputs "à 0"
-          //Réinitialisation
 
+        .then((res) => {
           this.member.id = null;
           this.member.username = null;
           this.member.grade = null;
           this.member.email = null;
-          // this.member.password = null;
-
-          router.push({ path: "profil" });
-          //document.location.href = "http://localhost:8080/login";
+          this.alert = res.data.message;
+          this.color = "alert alert-success mtb-2";
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          this.alert = error.response.data.message;
+          this.color = "alert alert-danger mtb-2";
+          // console.log("message: " + error.response.data.message)
+        });
     },
   },
 };

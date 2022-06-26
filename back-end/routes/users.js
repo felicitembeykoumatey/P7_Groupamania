@@ -12,7 +12,8 @@ router.get("/all", multer, userCtrl.allProfilUser); // Afficher tous les profils
 router.get("/updateUser/:id", multer, userCtrl.profilUserById); // Récuperer des informations d'un utilisateur par id
 router.get("/one/:id", multer, userCtrl.oneProfilUser); // Afficher un profil
 router.put("/updateRole", multer, userCtrl.updateUserRole); //modification role  par l'administrateur
-router.put("/updateByUser", multer, userCtrl.modifyUser); //modification profile par l'utilisateur courant
+router.put("/updateByUser", multer, userCtrl.modifyUserData); //modification profile par l'utilisateur courant
+router.put("/updateDataByAdmin", multer, userCtrl.modifyUserDataByAdmin); //modification profile par l'utilisateur courant
 router.put("/modifyPassword", multer, userCtrl.modifyPassword); // Rénitialiser le  mot de passe par l'administrateur
 router.put("/editPassword", multer, userCtrl.editPassword); //Modification du mot de passe par l'utilisateur courant
 router.delete("/delete/:id", multer, userCtrl.deleteProfil); //Suppression profile

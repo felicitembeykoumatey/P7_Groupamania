@@ -208,13 +208,38 @@ exports.editPassword = (req, res) => {
     });
 };
 //L'utilisateur modifie ses données
-exports.modifyUser = (req, res) => {
+exports.modifyUserData = (req, res) => {
   const updateUserData = {
     username: req.body.username,
     email: req.body.email,
     grade: req.body.grade,
   };
-  User.update(updateUserData, { where: { id: req.body.id } }).then(() => {});
+  const id = req.body.userId;
+  User.update(updateUserData, { where: { id: id } }).then((user) => {
+    res.status(200).json({
+      message: "Vos données ont été modifiés avec succès!",
+    });
+  });
+};
+
+//Administrateur modifie les données des utilisateurs
+exports.modifyUserDataByAdmin = (req, res) => {
+  const updateData = {
+    username: req.body.username,
+    email: req.body.email,
+    grade: req.body.grade,
+  };
+  console.log("username", req.body.username);
+  console.log("email", req.body.email);
+  console.log("grade", req.body.grade);
+  console.log("id", req.body.id);
+
+  User.update(updateData, { where: { id: req.body.id } }).then((user) => {
+    res.status(200).json({
+      message: "Les informations ont  été modifiés avec succès!",
+    });
+    // res.status(401).json({ message: "erreur !" });
+  });
 };
 
 //Administrateur Modifie les données d'utilisateur

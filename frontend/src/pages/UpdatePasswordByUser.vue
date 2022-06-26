@@ -20,7 +20,6 @@
             <label for="username"> Nom d'utilisateur </label>
             <input
               type="text"
-              id="username"
               placeholder="votre nom d'utilisateur"
               v-model="member.username"
               class="form-control"
@@ -31,7 +30,6 @@
             <label for="username"> Mon ancien mot de passe </label>
             <input
               type="password"
-              id="username"
               placeholder="Entrer votre ancien mot de passe"
               v-model="member.oldPassword"
               class="form-control"
@@ -39,10 +37,9 @@
           </div>
 
           <div class="mb-3">
-            <label for="username"> Mon nouveau mot de passe </label>
+            <label for="password"> Mon nouveau mot de passe </label>
             <input
               type="password"
-              id="username"
               placeholder="Entrer votre nouveau mot de passe"
               v-model="member.password"
               class="form-control"

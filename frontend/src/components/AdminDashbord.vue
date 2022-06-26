@@ -17,7 +17,7 @@
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Email</th>
-                <th scope="col">Mot de passe</th>
+                <th scope="col">Changer mot de passe de :</th>
 
                 <th scope="col" class="sm-col">Rôle de l'utilisateur</th>
 
@@ -38,7 +38,7 @@
                     @click="getUser(member.id)"
                     class="btn mr-2 btn-info btn-sm"
                   >
-                    <i class="fa-solid fa-pencil"></i>
+                    <i class="fa fa-lock"></i>
                   </button>
                 </td>
 
