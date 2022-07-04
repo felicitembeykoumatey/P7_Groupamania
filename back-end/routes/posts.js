@@ -5,7 +5,7 @@ const multer = require("../middleware/multer-config"); // Charger package multer
 const postCtrollers = require("../controllers/postsCtlr"); //Charger fichier controllers
 // Les chemins
 router.post("/posts", multer, postCtrollers.createPost); // création post
-router.get("/allposts", multer, postCtrollers.getAllPosts); // obtenir Tous les posts
+router.get("/allposts",  multer, postCtrollers.getAllPosts); // obtenir Tous les posts
 router.post("/posts/like", multer, postCtrollers.likePost); // création like d'un post
 router.get("/likes/:postId", multer, postCtrollers.getAllLikesPost); // obtenir likes des posts
 router.delete("/posts/:id", multer, postCtrollers.deletePost); // supprimer publication

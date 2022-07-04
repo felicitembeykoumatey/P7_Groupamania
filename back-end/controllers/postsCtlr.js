@@ -81,11 +81,10 @@ exports.deletePost = (req, res) => {
 
 //Implementation like et unlike
 exports.likePost = (req, res) => {
-  //console.log("zserghjhgfdzefrghreq.body.userId : ", req.body.userId);
+ 
   const postId = req.body.postId;
   const userId = req.body.userId;
-  //console.log("req.body.userId : ", req.body.userId);
-
+ 
   Like.count({
     where: { postId: postId },
   }).then((nblike) => {
@@ -97,13 +96,11 @@ exports.likePost = (req, res) => {
         if (!like) {
           Like.create({ postId, userId }).then((newLike) => {
             const total = nblike + 1;
-            // console.log("total : ",total)
             res.status(201).json(total);
           });
         } else {
           like.destroy();
           const total = nblike - 1;
-          console.log("total : ", total);
           res.status(200).json(total);
         }
       })

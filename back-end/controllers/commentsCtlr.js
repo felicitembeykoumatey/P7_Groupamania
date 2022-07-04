@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 // Importation pour utilisation des variables d'environnements.
-
 const db = require("../models/database");
 const Comments = db.comments;
 
@@ -9,15 +8,12 @@ exports.createComment = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
-  //console.log("userId : ", userId);
   const comment = {
     userId: userId,
     postId: req.body.postId,
     content: req.body.content,
   };
-  //console.log("comment : ", comment);
   Comments.create(comment)
-
     .then(() => res.status(201).json({ message: "Commentaire ajouté !" }))
     .catch((error) => res.status(400).json({ error }));
   // console.log("Comments.create");

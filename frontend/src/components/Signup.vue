@@ -54,7 +54,7 @@
             <div class="mb-3">
               <label for="grade" class="form-label">Fonction</label>
               <input
-                type="grade"
+                type="text"
                 name="grade"
                 id="grade"
                 placeholder="Fonction"
@@ -166,7 +166,7 @@ export default {
       formData.append("email", this.dataUser.email);
       formData.append("password", this.dataUser.password);
 
-      // console.log("formData", formData);
+ 
 
       if (
         !this.firstname ||

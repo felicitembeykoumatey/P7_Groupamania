@@ -52,7 +52,7 @@
             <span v-else>Madame</span> {{ member.username }}!
           </p>
         </section>
-        <h2>{{ errMsg }}</h2>
+       
 
         <h3 class="h3 text-center shadow-sm p-3 mb-5 bg-body rounded">
           Fil d'actualité

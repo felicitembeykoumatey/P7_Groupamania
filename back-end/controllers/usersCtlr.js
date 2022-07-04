@@ -1,3 +1,4 @@
+//Utilisation des dépendances 
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Token
 const validator = require("validator"); //validator
@@ -49,7 +50,7 @@ exports.signup = (req, res) => {
   } else if (!validator.isEmail(email)) {
     res.status(401).json({ message: "l'adresse email invalide" });
   } else {
-    //Mot de passe haché et email masqué
+    //Mot de passe haché
     bcrypt
       .hash(req.body.password, 10)
       .then((hash) => {
@@ -77,7 +78,7 @@ exports.signup = (req, res) => {
   }
 };
 
-//Requête se connecter
+//Connexion
 exports.login = (req, res) => {
   // Récupération et validation email et password
   const loginEmail = req.body.email;
@@ -127,7 +128,7 @@ exports.profilUser = (req, res) => {
   })
 
     .then((user) => res.status(200).json(user))
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => res.status(500).json({ error: error.message }));
 };
 
 //Tous les profils
@@ -136,7 +137,7 @@ exports.allProfilUser = (req, res) => {
     attributes: ["id", "email", "username", "isAdmin", "sex", "grade"],
   })
     .then((user) => res.status(200).json(user))
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => res.status(500).json({ error: error.message }));
 };
 
 // Afficher un utilisateur
@@ -146,7 +147,7 @@ exports.oneProfilUser = (req, res) => {
     where: { id: req.params.id },
   })
     .then((user) => res.status(200).json(user))
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => res.status(500).json({ error: error.message }));
 };
 
 // Recupérer un utilisateur par son id
@@ -165,7 +166,7 @@ exports.profilUserById = (req, res) => {
     where: { id: req.params.id },
   })
     .then((user) => res.status(200).json(user))
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => res.status(500).json({ error: error.message }));
 };
 
 //L'utilisateur change lui même son mot de passe
@@ -214,8 +215,8 @@ exports.modifyUserData = (req, res) => {
     email: req.body.email,
     grade: req.body.grade,
   };
-  const id = req.body.userId;
-  User.update(updateUserData, { where: { id: id } }).then((user) => {
+  const id = req.body.id;
+  User.update(updateUserData, { where: { id: id } }).then(() => {
     res.status(200).json({
       message: "Vos données ont été modifiés avec succès!",
     });
@@ -229,16 +230,13 @@ exports.modifyUserDataByAdmin = (req, res) => {
     email: req.body.email,
     grade: req.body.grade,
   };
-  console.log("username", req.body.username);
-  console.log("email", req.body.email);
-  console.log("grade", req.body.grade);
-  console.log("id", req.body.id);
+
 
   User.update(updateData, { where: { id: req.body.id } }).then((user) => {
     res.status(200).json({
       message: "Les informations ont  été modifiés avec succès!",
-    });
-    // res.status(401).json({ message: "erreur !" });
+    })
+    .catch((error) => res.status(500).json({ error: error.message }));
   });
 };
 
@@ -257,7 +255,7 @@ exports.updateUserRole = (req, res) => {
   }
 };
 
-// Administrateur modifie son propre mot de passe!
+// l'utilisateur courant  modifie son propre mot de passe!
 exports.modifyPassword = (req, res) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const updatePassword = {

@@ -9,6 +9,7 @@
       </router-link>
       <p class="welcome">Gestion des utilisateurs</p>
     </div>
+       
     <div class="row">
       <div class="col-12">
         <div class="table-responsive">
@@ -66,7 +67,9 @@
                   >
                     <i class="fa-solid fa-pencil"></i>
                   </button>
-
+ <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
+        </div>
                   <button
                     @click="deleteUsers(member.id)"
                     class="btn btn-danger btn-sm"
@@ -97,7 +100,10 @@ export default {
     return {
       member: [], //Récupèrer les infos de la personne connectée.
       users: [], //Récupèrer les infosdes utilisateurs.
+       alert: null,
+      color: null,
     };
+    
   },
   mounted() {
     //Appel à l'API pour l'affichage de tous les utilisateurs
@@ -112,10 +118,7 @@ export default {
           },
         })
         .then((res) => {
-          //console.log("res : ", res);
           this.users = res.data;
-          // console.log("this.users : ", this.users);
-          //console.log("this.users:", this.users);
         })
         .catch((error) => console.log(error));
     },
@@ -147,23 +150,30 @@ export default {
           },
         })
         .then(() => {
-          //console.log("resdfh", res);
+         
           localStorage.setItem("token_modify_password", id);
+         //   this.getAllUsers();
+         // localStorage.setItem("token_modify_password", id);
           router.push({ path: "UpdatePasswordByAdmin" });
-          //window.location.reload();
         })
         .catch((error) => console.log("Erreur", error));
     },
+
+    //Suppression
     deleteUsers(id) {
-      if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))
+      if (window.confirm("Etes-vous sûre de vouloir supprimer ce compte?"))
         axios
           .delete("http://localhost:3000/delete/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           })
-          .then(() => {
-            document.location.href = "http://localhost:8080/dashboard";
+          .then((res) => {
+            this.getAllUsers();
+           this.alert = res.data.message;
+          this.color = "alert alert-success mtb-2";
+           
+        
           });
     },
     updateUserRole(userId, isAdmin) {
@@ -177,9 +187,8 @@ export default {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
         })
-        .then((res) => {
-          console.log("res", res);
-          //router.push({ path: "dashbord" });
+        .then(() => {
+        
           this.getAllUsers();
         })
         .catch((error) => console.log("Erreur", error));

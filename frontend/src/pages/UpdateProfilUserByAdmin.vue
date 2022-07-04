@@ -85,15 +85,16 @@ export default {
         })
 
         .then((res) => {
-          this.alert = res.data.message;
-          this.color = "alert alert-success mtb-2";
+          this.dataForm.username = res.data.username;
+        this.dataForm.grade = res.data.grade;
+          this.dataForm.email = res.data.email;
+         
           //console.log(" res.data.message");
           // router.push({ path: "dashboard" });
         })
         .catch((error) => {
-          this.alert = error.response.data.message;
-          this.color = "alert alert-danger mtb-2";
-          // console.log("message: " + error.response.data.message)
+       
+           console.log("message: " + error.response.data.message)
         });
   },
 

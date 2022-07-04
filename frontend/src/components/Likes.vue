@@ -6,7 +6,6 @@
       class="btn btn-primary btn-sm"
     >
       <i class="far fa-thumbs-up"></i>&nbsp;&nbsp;&nbsp;
-      <!--<h2>{{ log("Nombre de like template : ", likes.length) }}</h2>-->
       {{ likes }}
     </button>
   </div>

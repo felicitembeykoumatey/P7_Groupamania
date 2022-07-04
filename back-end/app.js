@@ -51,10 +51,7 @@ app.use("/", userRoutes); //CHEMIN ROUTE UTILISATEUR
 app.use("/", commentRoutes); // CHEMIN ROUTE COMMENT
 app.use("/", postRoutes); // CHEMIN ROUTE POST
 
-/*app.use(function (req, res, next) {
-  res.setTimeout(300000);
-  next();
-});*/
+
 
 // Exporter l'application express.
 module.exports = app; // export de l'application express (pour le serveur node.js).

@@ -1,6 +1,5 @@
 // Pour la sécurité
 const jwt = require("jsonwebtoken"); // récupérer jwt pour vérifier les tokens
-
 // pour gérer les problèmes, on utilise un bloc try, et catch
 module.exports = (req, res) => {
   try {

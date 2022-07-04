@@ -59,11 +59,6 @@ export default {
 </script>
 
 <style>
-/*
-.navbar-toggler {
-  background-color: white;
-  color: black;
-}*/
 
 .navbar-toggler {
   padding: 0.25rem 0.75rem;

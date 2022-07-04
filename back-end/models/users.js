@@ -1,8 +1,6 @@
 // Inclure Sequelize module.
 const Sequelize = require("sequelize");
-
 const sequelize = require("./database");
-
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("user", {
     firstname: {

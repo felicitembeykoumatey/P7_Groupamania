@@ -1,7 +1,4 @@
-/* Inclure Sequelize module.
-const Sequelize = require("sequelize");
-
-const sequelize = require("./database"); // ma base des données MySQL*/
+// Inclure Sequelize module.
 module.exports = (sequelize, Sequelize) => {
   const Post = sequelize.define(
     "post",
