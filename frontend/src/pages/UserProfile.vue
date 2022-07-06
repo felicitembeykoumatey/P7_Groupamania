@@ -19,6 +19,7 @@
 </li>
 </ul>
 </div>
+ 
 <div class="col-9">
    <div class="card">
  
@@ -73,6 +74,7 @@
 <script>
 import NavBar from "@/components/NavBar.vue"; // barre de navigateur
 import axios from "axios";
+import router from "../router"; // router
 
 import Footer from "@/components/Footer.vue";
 export default {
@@ -86,10 +88,17 @@ export default {
       email: "",
       lastname: "",
       firstname:"",
+    
     };
   },
 
   mounted() {
+ this.getUser();
+
+  },
+  methods: {
+
+    getUser() {
     axios
       .get("http://localhost:3000/me", {
         headers: {
@@ -103,11 +112,10 @@ export default {
         console.log("member :", this.member);
       })
       .catch((error) => console.log(error));
-  },
-  methods: {
-    log(commmentaire, variable) {
-      console.log(commmentaire, variable);
     },
+   /* log(commmentaire, variable) {
+      console.log(commmentaire, variable);
+    },*/
     deleteProfil(id) {
       if (window.confirm("Etes-vous sûre de vouloir supprimer votre compte?"))
         axios
@@ -116,10 +124,12 @@ export default {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           })
-
-          .then(() => {
+.then(() => {
+          
+        
             localStorage.clear();
-            document.location.href = "http://localhost:8080/signup";
+            router.push({ path: "login" });
+          
           });
     },
   },

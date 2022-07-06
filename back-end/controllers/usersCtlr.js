@@ -280,6 +280,6 @@ exports.modifyPassword = (req, res) => {
 // Supprimer le compte
 exports.deleteProfil = (req, res) => {
   User.destroy({ where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Compte supprimé !" }))
+    .then(() => res.status(200).json({ message: "Ce compte a bien été supprimé ! " }))
     .catch((error) => res.status(400).json({ error: error.message }));
 };

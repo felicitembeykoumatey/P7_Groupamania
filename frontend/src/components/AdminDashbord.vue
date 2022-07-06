@@ -9,7 +9,9 @@
       </router-link>
       <p class="welcome">Gestion des utilisateurs</p>
     </div>
-       
+       <div v-if="alert" :class="color" role="alert">
+          {{ alert }}
+        </div>
     <div class="row">
       <div class="col-12">
         <div class="table-responsive">
@@ -67,9 +69,7 @@
                   >
                     <i class="fa-solid fa-pencil"></i>
                   </button>
- <div v-if="alert" :class="color" role="alert">
-          {{ alert }}
-        </div>
+ 
                   <button
                     @click="deleteUsers(member.id)"
                     class="btn btn-danger btn-sm"
@@ -169,11 +169,13 @@ export default {
             },
           })
           .then((res) => {
-            this.getAllUsers();
-           this.alert = res.data.message;
+             this.alert = res.data.message;
+           console.log(res);
+                console.log( this.alert);
+     console.log(res.data.message);
           this.color = "alert alert-success mtb-2";
            
-        
+          this.getAllUsers();  
           });
     },
     updateUserRole(userId, isAdmin) {
