@@ -6,7 +6,7 @@ Environnements :
 back-end (API) : Installations Nodje.js, NPM , Express, Sequelize, 
  MysQL workbench ( création base donnée db_groupomania) => 
  
-    
+  Front-end (client) : Vue.js 3, Boostrap
 
 Démarrer le projet :
 
