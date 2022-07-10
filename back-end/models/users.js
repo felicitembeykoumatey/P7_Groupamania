@@ -4,7 +4,7 @@ const sequelize = require("./database");
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("user", {
     firstname: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING(50),
       allowNull: false,
     },
     lastname: {

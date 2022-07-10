@@ -1,4 +1,4 @@
-//Utilisation des dépendances 
+//Utilisation des dépendances
 const bcrypt = require("bcrypt"); // Récupérer bycrypt
 const jwt = require("jsonwebtoken"); // Token
 const validator = require("validator"); //validator
@@ -231,12 +231,13 @@ exports.modifyUserDataByAdmin = (req, res) => {
     grade: req.body.grade,
   };
 
-
   User.update(updateData, { where: { id: req.body.id } }).then((user) => {
-    res.status(200).json({
-      message: "Les informations ont  été modifiés avec succès!",
-    })
-    .catch((error) => res.status(500).json({ error: error.message }));
+    res
+      .status(200)
+      .json({
+        message: "Les informations ont  été modifiés avec succès!",
+      })
+      .catch((error) => res.status(500).json({ error: error.message }));
   });
 };
 
@@ -280,6 +281,8 @@ exports.modifyPassword = (req, res) => {
 // Supprimer le compte
 exports.deleteProfil = (req, res) => {
   User.destroy({ where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Ce compte a bien été supprimé ! " }))
+    .then(() =>
+      res.status(200).json({ message: "Ce compte a bien été supprimé !" })
+    )
     .catch((error) => res.status(400).json({ error: error.message }));
 };
