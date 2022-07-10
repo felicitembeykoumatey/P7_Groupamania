@@ -11,8 +11,8 @@
       <div class="row py-4 px-3 rounded">
         <section class="col-md-6 offset-md-3 col-sm-12 shadow-lg bg-light">
           <h3 class="text-center py-3 text-primary">Inscription</h3>
-          <div v-if="msg" class="alert alert-danger mtb-2" role="alert">
-            {{ msg }}
+          <div v-if="alert" :class="color" role="alert">
+            {{ alert }}
           </div>
 
           <form @submit.prevent="dataSignup">
@@ -152,7 +152,8 @@ export default {
         email: "",
         password: "",
       },
-      errMsg: "",
+      alert: null,
+      color: null,
     };
   },
   methods: {
@@ -166,8 +167,6 @@ export default {
       formData.append("email", this.dataUser.email);
       formData.append("password", this.dataUser.password);
 
- 
-
       if (
         !this.firstname ||
         !this.lastname ||
@@ -177,25 +176,27 @@ export default {
         !this.email ||
         !this.password
       ) {
-        
-      //console.log("formData12 :", formData);
-      axios
-        .post("http://localhost:3000/signup", this.dataUser)
+        //console.log("formData12 :", formData);
+        axios
+          .post("http://localhost:3000/signup", this.dataUser)
 
-        .then(() => {
-          router.push({ path: "login" });
-        })
-        .catch((error) => {
-           
+          .then((res) => {
+            this.alert = res.data.message;
+            this.color = "alert alert-success mtb-2";
+            router.push({ path: "login" });
+          })
+          .catch((error) => {
+            this.alert = error.response.data.message;
+            this.color = "alert alert-danger mtb-2";
+            //  .catch((error) => {
             //commit("SET_ERROR", error);
-            this.msg = "Remplissez tous les champs du formulaire !";
-            alert(
-              `L'un des champs n'est pas correctement renseigné : Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum. Email doit être valide.  ) ! ${error}`
-            );
+            // this.msg = "Remplissez tous les champs du formulaire !";
+            // alert(
+            //  `L'un des champs n'est pas correctement renseigné : Le mot de passe doit comprendre une majuscule et 1 chiffre et doit être de 8 caractères minimum. Email doit être valide.  ) ! ${error}`
+            //);
           });
-    }
-
-    }
+      }
+    },
   },
 };
 </script>

@@ -107,17 +107,12 @@ export default {
             router.push({ path: "posts" });
           })
           .catch((error) => {
-           
             //commit("SET_ERROR", error);
             this.msg = "Compte non existant";
-            alert(
-              `Les champs invalides. ${error}`
-            );
+            alert(`Les champs invalides. ${error}`);
           });
       }
     },
   },
 };
 </script>
-
-<style scoped lang="CSS"></style>
