@@ -94,8 +94,8 @@ export default {
       const formData = new FormData();
       formData.append("email", this.dataForm.email);
       formData.append("password", this.dataForm.password);
-      console.log("this.dataForm.email :", this.dataForm.email);
-      console.log("this.dataForm.password : ", this.dataForm.password);
+      //console.log("this.dataForm.email :", this.dataForm.email);
+      //console.log("this.dataForm.password : ", this.dataForm.password);
       if (!this.dataForm.email || !this.dataForm.password) {
         this.msg = "Erreur de saisie";
       } else {
