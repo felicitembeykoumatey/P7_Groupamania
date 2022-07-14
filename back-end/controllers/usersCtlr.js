@@ -35,7 +35,7 @@ exports.signup = (req, res) => {
     password == "" ||
     sex == ""
   ) {
-    res.status(401).json({
+    res.status(400).json({
       message: "Vous n'avez pas rempli tous les champs obligatoires.",
     });
   }
