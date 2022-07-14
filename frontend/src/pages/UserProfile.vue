@@ -107,7 +107,7 @@ export default {
       })
 
       .then((response) => {
-        console.log("response", response);
+        //console.log("response", response);
         this.member = response.data;
         //console.log("member :", this.member);
       })

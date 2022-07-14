@@ -59,7 +59,7 @@ export default {
         },
       })
       .then((response) => {
-        console.log("likes : ", response.data);
+        // console.log("likes : ", response.data);
 
         this.likes = response.data;
       })

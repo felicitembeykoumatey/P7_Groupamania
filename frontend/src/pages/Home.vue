@@ -52,7 +52,6 @@
             <span v-else>Madame</span> {{ member.username }}!
           </p>
         </section>
-       
 
         <h3 class="h3 text-center shadow-sm p-3 mb-5 bg-body rounded">
           Fil d'actualité
@@ -202,9 +201,9 @@ export default {
     };
   },
   methods: {
-    log(commmentaire, variable) {
-      console.log(commmentaire, variable);
-    },
+    // log(commmentaire, variable) {
+    // console.log(commmentaire, variable);
+    //},
     flagcommentaire() {
       this.flag = true;
     },
@@ -234,7 +233,6 @@ export default {
           }
         )
         .then((response) => {
-          console.log("tttt", response.data);
           this.posts = response.data;
         })
         .catch((error) => console.log(error));

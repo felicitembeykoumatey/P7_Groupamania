@@ -9,9 +9,9 @@
       </router-link>
       <p class="welcome">Gestion des utilisateurs</p>
     </div>
-       <div v-if="alert" :class="color" role="alert">
-          {{ alert }}
-        </div>
+    <div v-if="alert" :class="color" role="alert">
+      {{ alert }}
+    </div>
     <div class="row">
       <div class="col-12">
         <div class="table-responsive">
@@ -69,7 +69,7 @@
                   >
                     <i class="fa-solid fa-pencil"></i>
                   </button>
- 
+
                   <button
                     @click="deleteUsers(member.id)"
                     class="btn btn-danger btn-sm"
@@ -100,10 +100,9 @@ export default {
     return {
       member: [], //Récupèrer les infos de la personne connectée.
       users: [], //Récupèrer les infosdes utilisateurs.
-       alert: null,
+      alert: null,
       color: null,
     };
-    
   },
   mounted() {
     //Appel à l'API pour l'affichage de tous les utilisateurs
@@ -150,10 +149,9 @@ export default {
           },
         })
         .then(() => {
-         
           localStorage.setItem("token_modify_password", id);
-         //   this.getAllUsers();
-         // localStorage.setItem("token_modify_password", id);
+          //   this.getAllUsers();
+          // localStorage.setItem("token_modify_password", id);
           router.push({ path: "UpdatePasswordByAdmin" });
         })
         .catch((error) => console.log("Erreur", error));
@@ -169,13 +167,13 @@ export default {
             },
           })
           .then((res) => {
-             this.alert = res.data.message;
-           console.log(res);
-                console.log( this.alert);
-     console.log(res.data.message);
-          this.color = "alert alert-success mtb-2";
-           
-          this.getAllUsers();  
+            this.alert = res.data.message;
+            //console.log(res);
+            //  console.log( this.alert);
+            //console.log(res.data.message);
+            this.color = "alert alert-success mtb-2";
+
+            this.getAllUsers();
           });
     },
     updateUserRole(userId, isAdmin) {
@@ -190,7 +188,6 @@ export default {
           },
         })
         .then(() => {
-        
           this.getAllUsers();
         })
         .catch((error) => console.log("Erreur", error));
